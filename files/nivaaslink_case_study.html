@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NivaasLink · Case Study — Aditi Shelke</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root{
+    --bg:#faf9f6; --white:#fff; --ink:#1a1917; --muted:#7a7970; --line:#e8e4dc;
+    --lav:#ebe8fb; --lav-d:#5340a8; --sage:#e0f0e0; --sage-d:#3d6b4a;
+    --sky:#e0f0fb; --sky-d:#1a6fa8; --peach:#fbe8dc; --peach-d:#b8511e;
+    --blush:#fae4f2; --blush-d:#9e2060; --gold:#f5efd8; --gold-d:#7a6010;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;font-weight:300;line-height:1.65;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:920px;margin:0 auto;padding:2.4rem 1.6rem 4rem}
+  a.home{font-family:'JetBrains Mono',monospace;font-size:.66rem;color:var(--lav-d);text-decoration:none;letter-spacing:.06em}
+  a.home:hover{text-decoration:underline}
+
+  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin:1.1rem 0 .6rem}
+  h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.6rem,6vw,4rem);line-height:1;letter-spacing:-.01em}
+  .sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(1.1rem,2.2vw,1.5rem);color:#43413a;margin-top:.5rem;max-width:640px;line-height:1.4}
+
+  .glance{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin:2rem 0 0}
+  .glance div{background:var(--white);padding:.9rem 1rem}
+  .glance .k{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.35rem}
+  .glance .v{font-size:.82rem;color:var(--ink);line-height:1.4}
+
+  section{margin-top:2.6rem}
+  .lab{font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;color:var(--lav-d);margin-bottom:.5rem}
+  h2{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:1.7rem;line-height:1.15;margin-bottom:.7rem}
+  p{font-size:.95rem;color:#33322e;margin-bottom:.8rem}
+  p b{font-weight:600;color:var(--ink)}
+  .lede{font-size:1.05rem;color:var(--ink)}
+
+  .qlist{list-style:none;display:flex;flex-direction:column;gap:.6rem;margin-top:.4rem}
+  .qlist li{display:flex;gap:.7rem;font-size:.95rem;color:#33322e}
+  .qlist .n{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--lav-d);padding-top:.2rem;min-width:1.4rem}
+
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:.6rem}
+  .stat{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:1.2rem 1.3rem}
+  .stat .num{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:600;line-height:1}
+  .stat .cap{font-size:.78rem;color:var(--muted);margin-top:.4rem;line-height:1.45}
+  .s1 .num{color:var(--sage-d)} .s2 .num{color:var(--blush-d)} .s3 .num{color:var(--lav-d)}
+
+  .feat{display:flex;flex-direction:column;gap:.55rem;margin-top:.5rem}
+  .frow{display:grid;grid-template-columns:200px 1fr;gap:1rem;align-items:start;background:var(--white);border:1px solid var(--line);border-radius:10px;padding:.9rem 1.1rem}
+  .frow .f{font-weight:500;font-size:.9rem;color:var(--ink)}
+  .frow .b{font-size:.82rem;color:var(--muted)}
+  .frow .b em{font-style:normal;color:var(--peach-d);font-family:'JetBrains Mono',monospace;font-size:.68rem;text-transform:uppercase;letter-spacing:.06em}
+
+  .callout{background:var(--lav);border-left:3px solid var(--lav-d);border-radius:8px;padding:1rem 1.2rem;margin-top:.6rem}
+  .callout p{color:#38364a;margin:0;font-size:.92rem}
+
+  .recs{counter-reset:r;list-style:none;display:flex;flex-direction:column;gap:.9rem;margin-top:.5rem}
+  .recs li{position:relative;padding-left:2.4rem;font-size:.95rem;color:#33322e}
+  .recs li::before{counter-increment:r;content:counter(r);position:absolute;left:0;top:-2px;width:1.6rem;height:1.6rem;border-radius:50%;background:var(--ink);color:#fff;font-family:'JetBrains Mono',monospace;font-size:.72rem;display:flex;align-items:center;justify-content:center}
+  .recs li b{color:var(--ink)}
+
+  .deliv{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:.6rem}
+  .deliv a{font-size:.76rem;font-weight:500;letter-spacing:.05em;text-transform:uppercase;padding:.7rem 1.1rem;border-radius:99px;text-decoration:none;transition:opacity .2s,transform .2s}
+  .deliv a:hover{transform:translateY(-2px)}
+  .deliv .p{background:var(--lav-d);color:#fff} .deliv .g{border:1px solid var(--line);color:var(--ink)}
+
+  .note{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--muted);margin-top:2.4rem;padding-top:1rem;border-top:1px solid var(--line);letter-spacing:.03em;line-height:1.7}
+
+  @media(max-width:720px){.glance{grid-template-columns:1fr 1fr}.stats{grid-template-columns:1fr}.frow{grid-template-columns:1fr;gap:.3rem}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="home" href="../index.html">← Back to portfolio</a>
+
+  <div class="eyebrow">Case Study · Startup Product &amp; Market Research</div>
+  <h1>NivaasLink</h1>
+  <p class="sub">Turning bank auction properties into something a middle-income family can actually buy.</p>
+
+  <div class="glance">
+    <div><div class="k">Role</div><div class="v">Product &amp; market research</div></div>
+    <div><div class="k">Context</div><div class="v">Early-stage startup · pre-product</div></div>
+    <div><div class="k">Deliverables</div><div class="v">Research report + interactive MVP</div></div>
+    <div><div class="k">Tools</div><div class="v">Python · web scraping · Excel · market analysis</div></div>
+  </div>
+
+  <section>
+    <div class="lab">01 · The business problem</div>
+    <h2>A pool of below-market homes that everyday buyers can't reach.</h2>
+    <p class="lede">Every year Indian banks auction thousands of repossessed properties, often well below market price. The catch: those listings are scattered across dozens of bank websites in inconsistent formats, wrapped in legal complexity, and effectively invisible to an ordinary buyer.</p>
+    <p>The people who'd benefit most — <b>middle-income families looking for an affordable home</b> — are the least equipped to find, evaluate, and act on them. So the discount flows almost entirely to investors and insiders, and a real housing-affordability lever goes unused.</p>
+  </section>
+
+  <section>
+    <div class="lab">02 · Background</div>
+    <h2>No product yet — just a question worth answering.</h2>
+    <p>NivaasLink was an early-stage startup with nothing built. The founding question wasn't "can we ship an app," it was <b>"is the need real, and what would it actually take to serve it?"</b> My job was the research and analysis that answered that <em>before</em> engineering spent a rupee — the classic pre-build discovery a business analyst owns.</p>
+  </section>
+
+  <section>
+    <div class="lab">03 · Research questions</div>
+    <h2>What we needed to know first.</h2>
+    <ul class="qlist">
+      <li><span class="n">Q1</span><span>How large and how real is the discount on bank auction properties?</span></li>
+      <li><span class="n">Q2</span><span>Why don't middle-income buyers access these deals today?</span></li>
+      <li><span class="n">Q3</span><span>What would a buyer actually need to act with confidence?</span></li>
+      <li><span class="n">Q4</span><span>Is there a defensible gap that no existing platform fills?</span></li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="lab">04 · Stakeholders</div>
+    <h2>A two-sided market, four interests to balance.</h2>
+    <svg viewBox="0 0 640 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;margin-top:.4rem">
+      <line x1="320" y1="130" x2="130" y2="60" stroke="#e8e4dc" stroke-width="1.5"/>
+      <line x1="320" y1="130" x2="510" y2="60" stroke="#e8e4dc" stroke-width="1.5"/>
+      <line x1="320" y1="130" x2="130" y2="205" stroke="#e8e4dc" stroke-width="1.5"/>
+      <line x1="320" y1="130" x2="510" y2="205" stroke="#e8e4dc" stroke-width="1.5"/>
+      <g font-family="Inter" text-anchor="middle">
+        <circle cx="320" cy="130" r="46" fill="#5340a8"/>
+        <text x="320" y="126" fill="#fff" font-size="15" font-weight="600">Nivaas</text>
+        <text x="320" y="144" fill="#fff" font-size="15" font-weight="600">Link</text>
+        <g>
+          <rect x="40" y="34" width="180" height="52" rx="10" fill="#fff" stroke="#e8e4dc"/>
+          <text x="130" y="56" fill="#1a1917" font-size="12.5" font-weight="500">Middle-income buyers</text>
+          <text x="130" y="73" fill="#7a7970" font-size="10.5">need affordable, trusted homes</text>
+        </g>
+        <g>
+          <rect x="420" y="34" width="180" height="52" rx="10" fill="#fff" stroke="#e8e4dc"/>
+          <text x="510" y="56" fill="#1a1917" font-size="12.5" font-weight="500">Banks &amp; lenders</text>
+          <text x="510" y="73" fill="#7a7970" font-size="10.5">want to clear inventory</text>
+        </g>
+        <g>
+          <rect x="40" y="179" width="180" height="52" rx="10" fill="#fff" stroke="#e8e4dc"/>
+          <text x="130" y="201" fill="#1a1917" font-size="12.5" font-weight="500">Finance providers</text>
+          <text x="130" y="218" fill="#7a7970" font-size="10.5">mortgage &amp; loan matching</text>
+        </g>
+        <g>
+          <rect x="420" y="179" width="180" height="52" rx="10" fill="#fff" stroke="#e8e4dc"/>
+          <text x="510" y="201" fill="#1a1917" font-size="12.5" font-weight="500">The business</text>
+          <text x="510" y="218" fill="#7a7970" font-size="10.5">must create value both sides</text>
+        </g>
+      </g>
+    </svg>
+  </section>
+
+  <section>
+    <div class="lab">05 · Approach &amp; method</div>
+    <h2>Let real listings answer the question.</h2>
+    <p>Rather than assume, I built the evidence base. I <b>scraped and structured 50 live auction listings across 8 Indian cities</b> from bank sources, benchmarked each against market value to quantify the discount, then <b>audited existing platforms</b> for the buyer support they actually provide. Barriers became requirements; requirements became the product.</p>
+    <p style="font-size:.85rem;color:var(--muted)"><b style="color:var(--ink)">Frameworks:</b> competitive &amp; gap analysis · value proposition / jobs-to-be-done · market sizing · requirements definition.</p>
+  </section>
+
+  <section>
+    <div class="lab">06 · What the analysis found</div>
+    <h2>The barrier wasn't price. It was trust and guidance.</h2>
+    <div class="stats">
+      <div class="stat s1"><div class="num">41.8%</div><div class="cap">average discount below market across the 50-listing sample</div></div>
+      <div class="stat s2"><div class="num">95%</div><div class="cap">of retail buyers never access these deals</div></div>
+      <div class="stat s3"><div class="num">0 / 50</div><div class="cap">listings on existing platforms offered any buyer guidance</div></div>
+    </div>
+    <div class="callout"><p>The discount was real and large — but it wasn't the problem. Supply exists; the gap is that <b>no one helps an ordinary buyer navigate fragmentation, legal risk, and financing</b>. That reframed NivaasLink from "another listings site" into a guidance-and-trust product.</p></div>
+  </section>
+
+  <section>
+    <div class="lab">07 · The product</div>
+    <h2>Five features, each removing one barrier.</h2>
+    <div class="feat">
+      <div class="frow"><div class="f">Listing aggregation</div><div class="b"><em>fixes</em> &nbsp;fragmentation across dozens of bank sites</div></div>
+      <div class="frow"><div class="f">Price comparison</div><div class="b"><em>fixes</em> &nbsp;the discount is invisible without a market benchmark</div></div>
+      <div class="frow"><div class="f">AI risk indicators</div><div class="b"><em>fixes</em> &nbsp;legal &amp; title opacity that scares buyers off</div></div>
+      <div class="frow"><div class="f">Loan matching</div><div class="b"><em>fixes</em> &nbsp;financing uncertainty for first-time buyers</div></div>
+      <div class="frow"><div class="f">Step-by-step guidance</div><div class="b"><em>fixes</em> &nbsp;the missing hand-holding — the wedge no rival offers</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="lab">08 · Recommendations</div>
+    <h2>Build the guidance, not just the list.</h2>
+    <ol class="recs">
+      <li><b>Lead with an information product, not a listings feed.</b> Guidance is the differentiator competitors leave on the table.</li>
+      <li><b>Prioritise trust and risk features first.</b> The real barrier is confidence, not access — de-risking the purchase is the unlock.</li>
+      <li><b>Launch in the 8 cities with proven inventory, then scale nationally</b> once the guidance model is validated.</li>
+    </ol>
+  </section>
+
+  <section>
+    <div class="lab">09 · Potential impact</div>
+    <h2>A business case, and a fairer market.</h2>
+    <p><b>Projected</b> 3-year ARR growth from <b>₹24L</b> at MVP to <b>₹348L</b> at national scale — and, beyond the P&amp;L, below-market housing access opened up for a segment the current market quietly shuts out.</p>
+    <p style="font-size:.82rem;color:var(--muted)">Figures are forward projections from the research model, not realised revenue.</p>
+  </section>
+
+  <section>
+    <div class="lab">10 · What I took from it</div>
+    <h2>The data reframed the problem.</h2>
+    <p>I went in expecting the story to be about price. The listings said otherwise: the bottleneck was <b>trust and guidance</b>, not supply or discount. Letting real, scraped data challenge the founding assumption — instead of validating it — is the part I'm proudest of, and the habit I bring to every project since.</p>
+  </section>
+
+  <section>
+    <div class="lab">Deliverables</div>
+    <div class="deliv">
+      <a class="p" href="NivaasLink_Report.pdf" target="_blank">Full research report ↓</a>
+      <a class="g" href="nivaaslink_mvp.html" target="_blank">Interactive MVP ↗</a>
+    </div>
+  </section>
+
+  <div class="note">NivaasLink · early-stage startup product &amp; market research.<br/>Discount and access figures are from a 50-listing, 8-city sample; ARR is a forward projection.</div>
+</div>
+</body>
+</html>

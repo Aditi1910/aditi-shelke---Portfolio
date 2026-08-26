@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Retail Profitability Dashboard · Aditi Shelke</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{--bg:#faf9f6;--white:#fff;--ink:#1a1917;--muted:#7a7970;--line:#e8e4dc;
+    --lav-d:#5340a8;--sky-d:#1a6fa8;--sage-d:#3d6b4a;--peach-d:#b8511e;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;font-weight:300;
+    height:100vh;display:grid;grid-template-rows:auto auto 1fr auto;gap:.7rem;padding:.85rem 1.2rem;overflow:hidden}
+  .head{display:flex;justify-content:space-between;align-items:center;gap:1rem;border-bottom:1px solid var(--line);padding-bottom:.55rem}
+  .head .l{display:flex;align-items:baseline;gap:.9rem;flex-wrap:wrap}
+  a.home{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--lav-d);text-decoration:none}
+  a.home:hover{text-decoration:underline}
+  .title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.55rem;line-height:1}
+  .meta{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--muted);text-align:right;line-height:1.6}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem}
+  .kpi{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:.55rem .8rem}
+  .kpi .k{font-family:'JetBrains Mono',monospace;font-size:.54rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .kpi .v{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:600;line-height:1.05}
+  .kpi .d{font-size:.63rem;color:var(--muted)}
+  .k1 .v{color:var(--sky-d)}.k2 .v{color:var(--sage-d)}.k3 .v{color:var(--lav-d)}.k4 .v{color:var(--peach-d)}
+  .charts{display:grid;grid-template-columns:1.25fr 1fr;grid-template-rows:1fr 1fr;gap:.7rem;min-height:0}
+  .panel{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:.5rem .8rem;display:flex;flex-direction:column;min-height:0}
+  .panel h3{font-size:.74rem;font-weight:600}
+  .panel .s{font-size:.6rem;color:var(--muted);margin-bottom:.25rem}
+  .cwrap{position:relative;flex:1;min-height:0}
+  canvas{position:absolute;inset:0}
+  .insight{background:#ebe8fb;border-left:3px solid var(--lav-d);border-radius:8px;padding:.5rem .9rem;font-size:.75rem;color:#38364a;line-height:1.4}
+  .insight b{color:var(--lav-d)}
+</style>
+</head>
+<body>
+  <div class="head">
+    <div class="l"><a class="home" href="../index.html">&larr; Portfolio</a><span class="title">The Profit Leak &middot; Retail Profitability</span></div>
+    <div class="meta">Sample Superstore &middot; 9,994 orders<br/>2014-2017 &middot; 4 regions</div>
+  </div>
+  <div class="kpis">
+    <div class="kpi k1"><div class="k">Total Sales</div><div class="v">$2.30M</div><div class="d">3 categories</div></div>
+    <div class="kpi k2"><div class="k">Total Profit</div><div class="v">$286K</div><div class="d">net of discounts</div></div>
+    <div class="kpi k3"><div class="k">Profit Margin</div><div class="v">12.5%</div><div class="d">blended</div></div>
+    <div class="kpi k4"><div class="k">Loss-Making Lines</div><div class="v">3</div><div class="d">Tables&middot;Bookcases&middot;Supplies</div></div>
+  </div>
+  <div class="charts">
+    <div class="panel" style="grid-row:span 2">
+      <h3>Profit by Sub-Category</h3><div class="s">Orange = sold below cost</div>
+      <div class="cwrap"><canvas id="subcat"></canvas></div>
+    </div>
+    <div class="panel">
+      <h3>Profit by Region</h3><div class="s">Central lags on heavy discounting</div>
+      <div class="cwrap"><canvas id="region"></canvas></div>
+    </div>
+    <div class="panel">
+      <h3>Avg Profit / Order by Discount</h3><div class="s">Turns negative past ~20%</div>
+      <div class="cwrap"><canvas id="disc"></canvas></div>
+    </div>
+  </div>
+  <div class="insight"><b>Finding:</b> revenue is healthy but discounting destroys margin, 3 lines sell below cost and any order past 20% off loses money. <b>Cap discounts and re-price loss-makers for an estimated +20-30% profit on flat revenue.</b></div>
+<script>
+const MUT="#7a7970",LINE="#e8e4dc",LAVD="#5340a8",SAGED="#3d6b4a",PEACHD="#b8511e";
+Chart.defaults.font.family="Inter";Chart.defaults.font.size=10;Chart.defaults.color=MUT;Chart.defaults.maintainAspectRatio=false;
+const sub=[["Copiers",55618],["Phones",44516],["Accessories",41937],["Paper",34053],["Binders",30222],["Chairs",26590],["Storage",21279],["Appliances",18138],["Furnishings",13059],["Art",6528],["Labels",5546],["Machines",3385],["Fasteners",950],["Supplies",-1189],["Bookcases",-3473],["Tables",-17725]];
+new Chart(subcat,{type:"bar",data:{labels:sub.map(s=>s[0]),datasets:[{data:sub.map(s=>s[1]),backgroundColor:sub.map(s=>s[1]<0?PEACHD:SAGED),borderRadius:2}]},options:{indexAxis:"y",plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>"$"+c.raw.toLocaleString()}}},scales:{x:{grid:{color:LINE},ticks:{callback:v=>"$"+(v/1000)+"k",font:{size:9}}},y:{grid:{display:false},ticks:{font:{size:9}}}}}});
+new Chart(region,{type:"bar",data:{labels:["West","East","South","Central"],datasets:[{data:[108418,91523,46749,39706],backgroundColor:[SAGED,SAGED,SAGED,PEACHD],borderRadius:3}]},options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>"$"+c.raw.toLocaleString()}}},scales:{x:{grid:{display:false}},y:{grid:{color:LINE},ticks:{callback:v=>"$"+(v/1000)+"k",font:{size:9}}}}}});
+const dd=[68,42,9,-31,-58,-96];
+new Chart(disc,{type:"bar",data:{labels:["0%","10%","20%","30%","40%","50%+"],datasets:[{data:dd,backgroundColor:dd.map(v=>v<0?PEACHD:SAGED),borderRadius:3}]},options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>"$"+c.raw+" / order"}}},scales:{x:{grid:{display:false}},y:{grid:{color:LINE},ticks:{callback:v=>"$"+v,font:{size:9}}}}}});
+</script>
+</body>
+</html>

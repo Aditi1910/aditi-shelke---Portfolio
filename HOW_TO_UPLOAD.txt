@@ -1,0 +1,105 @@
+HOW TO PUT YOUR PORTFOLIO ONLINE (GitHub Pages)
+===============================================
+
+Live URL once set up:
+  https://aditi1910.github.io/aditi-shelke-portfolio/
+
+This folder is already a git repository with everything committed.
+You only need to do the one-time setup below once. After that,
+publishing an update is three commands (see UPDATING further down).
+
+
+ONE-TIME SETUP
+--------------
+
+1. Create the empty repo on GitHub:
+   - Go to https://github.com/new
+   - Repository name:  aditi-shelke-portfolio
+   - Set it to PUBLIC  (GitHub Pages needs public on a free account)
+   - Do NOT check "Add a README" or "Add .gitignore" — this folder
+     already has its files. Adding them creates a conflict.
+   - Click "Create repository"
+
+2. Connect this folder to that repo and push. In Terminal, run:
+
+       cd ~/Desktop/\ Portfolio
+       git remote add origin https://github.com/Aditi1910/aditi-shelke-portfolio.git
+       git push -u origin main
+
+   (The backslash-space in the cd line is not a typo — the folder
+   name really does begin with a space.)
+
+   GitHub will ask you to sign in. If it asks for a password, it
+   wants a Personal Access Token, not your account password:
+   github.com > Settings > Developer settings > Personal access tokens
+   > Tokens (classic) > Generate new token > tick "repo" scope.
+   Paste that token as the password.
+
+3. Turn on GitHub Pages:
+   - In your new repo, go to  Settings > Pages
+   - Under "Build and deployment":
+       Source = "Deploy from a branch"
+       Branch = "main",  Folder = "/ (root)"
+   - Click Save
+
+4. Wait 1-2 minutes, then open:
+       https://aditi1910.github.io/aditi-shelke-portfolio/
+
+   The first build is the slowest. If you get a 404, give it another
+   minute and refresh — it is usually just still building.
+
+
+UPDATING THE SITE LATER
+-----------------------
+
+Any time you change index.html or add a file, run these three
+commands from inside this folder:
+
+    git add -A
+    git commit -m "describe what you changed"
+    git push
+
+The live site updates itself about a minute later. No dragging,
+no re-uploading.
+
+Pushing to GitHub is also your backup. Once step 2 is done, this
+folder existing on your Mac stops being the only copy.
+
+
+WHAT'S IN HERE
+--------------
+
+index.html    Your portfolio — the whole site is this one file.
+files/        Resume, project reports, dashboards, certificates,
+              and the chart images used as project covers.
+.nojekyll     Tells GitHub Pages to serve the files as-is.
+.gitignore    Keeps the local backup out of the repo.
+
+index.html.backup is your original site from Aug 20, kept locally
+only. It is deliberately not uploaded. Delete it whenever you like.
+
+
+ONE OPTIONAL IMPROVEMENT
+------------------------
+
+Three project links hand the visitor a Word file instead of opening
+in the browser:
+
+    files/Project_Propasal_MISM6412.docx   (AI Skepticism)
+    files/Escape_Route_Project_Report.docx (Escape Routes)
+    files/Apple_Case_study.docx  and  files/Cemex_Case_study.docx
+
+They are labelled honestly as "(Word) ↓" so nobody is surprised, but
+opening each in Word and doing File > Save As > PDF, then swapping
+the filename in index.html, would be smoother for a recruiter on a
+phone.
+
+
+ABOUT THE OLD NETLIFY SITE
+--------------------------
+
+The old link (fluffy-gingersnap-30a361.netlify.app) will keep working
+until you delete it in Netlify. Once GitHub Pages is live and you've
+confirmed it looks right, take the Netlify one down so there aren't
+two versions of you on the internet — the social-preview tags in
+index.html now point at the GitHub Pages URL.

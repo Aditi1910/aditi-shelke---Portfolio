@@ -1,0 +1,412 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans); background: var(--color-background-tertiary); }
+
+  .nav {
+    background: #2C4A35;
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 52px;
+  }
+  .nav-brand { color: #C8B97A; font-size: 18px; font-weight: 500; letter-spacing: 1px; }
+  .nav-links { display: flex; gap: 1.5rem; }
+  .nav-links a { color: #A8C4A8; font-size: 13px; text-decoration: none; }
+  .nav-links a:hover { color: #C8B97A; }
+  .nav-cta {
+    background: #C8B97A; color: #1E3528; font-size: 13px; font-weight: 500;
+    padding: 6px 16px; border-radius: 6px; border: none; cursor: pointer;
+  }
+
+  .hero {
+    background: linear-gradient(135deg, #2C4A35 0%, #3D6349 60%, #2C4A35 100%);
+    padding: 3rem 2rem 2.5rem;
+    position: relative; overflow: hidden;
+  }
+  .hero-tag {
+    display: inline-block; background: rgba(200,185,122,0.18);
+    color: #C8B97A; font-size: 11px; font-weight: 500; letter-spacing: 2px;
+    padding: 4px 12px; border-radius: 4px; border: 1px solid rgba(200,185,122,0.35);
+    margin-bottom: 1rem;
+  }
+  .hero h1 { font-size: 32px; font-weight: 500; color: #fff; line-height: 1.25; margin-bottom: 0.75rem; }
+  .hero h1 span { color: #C8B97A; }
+  .hero p { font-size: 14px; color: #A8C4A8; line-height: 1.7; max-width: 520px; margin-bottom: 1.5rem; }
+
+  .search-box {
+    background: #fff; border-radius: 10px; padding: 1rem 1.25rem;
+    display: flex; gap: 10px; align-items: center; max-width: 640px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  }
+  .search-field {
+    flex: 1; display: flex; flex-direction: column; gap: 3px;
+  }
+  .search-field label { font-size: 10px; font-weight: 500; color: #5A6B5E; letter-spacing: 0.5px; text-transform: uppercase; }
+  .search-field select, .search-field input {
+    border: none; outline: none; font-size: 13px; color: #1E3528; background: transparent;
+    font-family: var(--font-sans);
+  }
+  .search-divider { width: 1px; height: 36px; background: #E5E0D5; }
+  .search-btn {
+    background: #2C4A35; color: #C8B97A; border: none; border-radius: 8px;
+    padding: 10px 20px; font-size: 13px; font-weight: 500; cursor: pointer; white-space: nowrap;
+  }
+
+  .hero-stats {
+    display: flex; gap: 2rem; margin-top: 1.5rem;
+  }
+  .hstat { }
+  .hstat-num { font-size: 20px; font-weight: 500; color: #C8B97A; }
+  .hstat-label { font-size: 11px; color: #7A9E7A; }
+
+  .section { padding: 2rem; }
+  .section-title { font-size: 18px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 0.25rem; }
+  .section-sub { font-size: 13px; color: var(--color-text-secondary); margin-bottom: 1.25rem; }
+
+  .listings-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; }
+  .listing-card {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: 10px; overflow: hidden;
+  }
+  .listing-img {
+    height: 100px; display: flex; align-items: center; justify-content: center;
+    font-size: 28px; position: relative;
+  }
+  .listing-badge {
+    position: absolute; top: 8px; left: 8px;
+    background: #2C4A35; color: #C8B97A; font-size: 10px; font-weight: 500;
+    padding: 3px 8px; border-radius: 4px;
+  }
+  .listing-body { padding: 10px 12px; }
+  .listing-price { font-size: 16px; font-weight: 500; color: var(--color-text-primary); }
+  .listing-market { font-size: 11px; color: var(--color-text-secondary); text-decoration: line-through; }
+  .listing-discount {
+    display: inline-block; background: #EAF3DE; color: #3B6D11;
+    font-size: 10px; font-weight: 500; padding: 2px 7px; border-radius: 4px; margin-left: 6px;
+  }
+  .listing-location { font-size: 12px; color: var(--color-text-secondary); margin-top: 4px; }
+  .listing-meta { display: flex; gap: 8px; margin-top: 8px; }
+  .listing-tag {
+    font-size: 10px; background: var(--color-background-secondary);
+    color: var(--color-text-secondary); padding: 2px 7px; border-radius: 4px;
+    border: 0.5px solid var(--color-border-tertiary);
+  }
+  .listing-footer {
+    border-top: 0.5px solid var(--color-border-tertiary);
+    padding: 8px 12px; display: flex; justify-content: space-between; align-items: center;
+  }
+  .listing-bank { font-size: 10px; color: var(--color-text-secondary); }
+  .listing-date { font-size: 10px; color: var(--color-text-tertiary); }
+  .btn-view {
+    font-size: 11px; color: #2C4A35; font-weight: 500; border: none;
+    background: none; cursor: pointer; text-decoration: underline;
+  }
+
+  .how-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; }
+  .how-card {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: 10px; padding: 1rem;
+    position: relative;
+  }
+  .how-num {
+    width: 28px; height: 28px; border-radius: 50%; background: #2C4A35;
+    color: #C8B97A; font-size: 13px; font-weight: 500;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 10px;
+  }
+  .how-card h4 { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 5px; }
+  .how-card p { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
+  .how-connector {
+    position: absolute; right: -7px; top: 50%; transform: translateY(-50%);
+    color: #C8B97A; font-size: 14px; z-index: 2;
+  }
+
+  .loan-section {
+    background: #2C4A35; margin: 0 2rem; border-radius: 12px;
+    padding: 1.5rem; display: flex; gap: 2rem; align-items: flex-start;
+  }
+  .loan-left { flex: 1; }
+  .loan-left h3 { font-size: 18px; font-weight: 500; color: #fff; margin-bottom: 0.5rem; }
+  .loan-left p { font-size: 13px; color: #A8C4A8; line-height: 1.6; margin-bottom: 1rem; }
+  .loan-banks { display: flex; gap: 8px; flex-wrap: wrap; }
+  .bank-pill {
+    background: rgba(255,255,255,0.1); color: #C8B97A; font-size: 11px;
+    padding: 4px 10px; border-radius: 5px; border: 1px solid rgba(200,185,122,0.25);
+  }
+  .loan-right {
+    background: rgba(255,255,255,0.08); border-radius: 10px; padding: 1rem; min-width: 220px;
+    border: 1px solid rgba(200,185,122,0.2);
+  }
+  .loan-right h4 { font-size: 12px; font-weight: 500; color: #C8B97A; margin-bottom: 10px; letter-spacing: 0.5px; }
+  .loan-field { margin-bottom: 10px; }
+  .loan-field label { font-size: 10px; color: #7A9E7A; display: block; margin-bottom: 3px; }
+  .loan-field input {
+    width: 100%; background: rgba(255,255,255,0.1); border: 1px solid rgba(200,185,122,0.2);
+    border-radius: 6px; padding: 6px 10px; color: #fff; font-size: 12px;
+    font-family: var(--font-sans); outline: none;
+  }
+  .loan-result {
+    background: rgba(200,185,122,0.15); border-radius: 6px; padding: 8px 10px; margin-top: 8px;
+    border: 1px solid rgba(200,185,122,0.3);
+  }
+  .loan-result-num { font-size: 18px; font-weight: 500; color: #C8B97A; }
+  .loan-result-label { font-size: 10px; color: #7A9E7A; }
+  .loan-check-btn {
+    width: 100%; margin-top: 8px; background: #C8B97A; color: #1E3528;
+    border: none; border-radius: 6px; padding: 8px; font-size: 12px; font-weight: 500; cursor: pointer;
+  }
+
+  .risk-section { padding: 2rem; background: var(--color-background-secondary); }
+  .risk-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 10px; }
+  .risk-card {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: 10px; padding: 1rem;
+  }
+  .risk-indicator { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .risk-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .risk-dot.green { background: #639922; }
+  .risk-dot.amber { background: #BA7517; }
+  .risk-dot.red { background: #E24B4A; }
+  .risk-label { font-size: 12px; font-weight: 500; color: var(--color-text-primary); }
+  .risk-desc { font-size: 11px; color: var(--color-text-secondary); line-height: 1.5; }
+
+  .footer-cta {
+    background: var(--color-background-primary);
+    border-top: 0.5px solid var(--color-border-tertiary);
+    padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-cta p { font-size: 14px; color: var(--color-text-primary); font-weight: 500; }
+  .footer-cta span { font-size: 12px; color: var(--color-text-secondary); display: block; }
+  .cta-btn {
+    background: #2C4A35; color: #C8B97A; border: none; border-radius: 8px;
+    padding: 10px 24px; font-size: 13px; font-weight: 500; cursor: pointer;
+  }
+</style>
+
+<nav class="nav">
+  <div class="nav-brand">NIVAASLINK</div>
+  <div class="nav-links">
+    <a href="#">Properties</a>
+    <a href="#">How it works</a>
+    <a href="#">Loan check</a>
+    <a href="#">For lenders</a>
+  </div>
+  <button class="nav-cta">Get started</button>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">BANK AUCTION PROPERTIES</div>
+  <h1>Find your home at <span>30–55% below</span><br>market price</h1>
+  <p>NivaasLink aggregates bank and NBFC auction properties across India — with transparent pricing, risk flags, and loan matching. No legal jargon. No confusion.</p>
+  <div class="search-box">
+    <div class="search-field">
+      <label>City</label>
+      <select><option>Mumbai</option><option>Pune</option><option>Bangalore</option><option>Delhi</option></select>
+    </div>
+    <div class="search-divider"></div>
+    <div class="search-field">
+      <label>Budget</label>
+      <input type="text" value="Up to Rs. 50 Lakh" readonly />
+    </div>
+    <div class="search-divider"></div>
+    <div class="search-field">
+      <label>Type</label>
+      <select><option>Flat</option><option>House</option><option>Plot</option></select>
+    </div>
+    <button class="search-btn">Search properties</button>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><div class="hstat-num">9,139</div><div class="hstat-label">Live listings in Mumbai</div></div>
+    <div class="hstat"><div class="hstat-num">41.8%</div><div class="hstat-label">Average discount we found</div></div>
+    <div class="hstat"><div class="hstat-num">50+</div><div class="hstat-label">Banks & NBFCs covered</div></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Featured auction properties</div>
+  <div class="section-sub">Live listings — auction prices vs. market price</div>
+  <div class="listings-grid">
+
+    <div class="listing-card">
+      <div class="listing-img" style="background:#EAF3DE;">
+        🏠
+        <div class="listing-badge">41% off</div>
+      </div>
+      <div class="listing-body">
+        <div>
+          <span class="listing-price">Rs. 23.0L</span>
+          <span class="listing-market">Rs. 38.0L</span>
+          <span class="listing-discount">Save Rs. 15L</span>
+        </div>
+        <div class="listing-location">Badlapur, Mumbai</div>
+        <div class="listing-meta">
+          <span class="listing-tag">Flat</span>
+          <span class="listing-tag">680 sq ft</span>
+          <span class="listing-tag">2 BHK</span>
+        </div>
+      </div>
+      <div class="listing-footer">
+        <div>
+          <div class="listing-bank">ICICI Bank</div>
+          <div class="listing-date">Auction: 07 May 2026</div>
+        </div>
+        <button class="btn-view">View details</button>
+      </div>
+    </div>
+
+    <div class="listing-card">
+      <div class="listing-img" style="background:#E6F1FB;">
+        🏢
+        <div class="listing-badge">46% off</div>
+      </div>
+      <div class="listing-body">
+        <div>
+          <span class="listing-price">Rs. 50.0L</span>
+          <span class="listing-market">Rs. 90.0L</span>
+          <span class="listing-discount">Save Rs. 40L</span>
+        </div>
+        <div class="listing-location">Andheri, Mumbai</div>
+        <div class="listing-meta">
+          <span class="listing-tag">Flat</span>
+          <span class="listing-tag">920 sq ft</span>
+          <span class="listing-tag">2 BHK</span>
+        </div>
+      </div>
+      <div class="listing-footer">
+        <div>
+          <div class="listing-bank">ICICI Bank</div>
+          <div class="listing-date">Auction: 28 Apr 2026</div>
+        </div>
+        <button class="btn-view">View details</button>
+      </div>
+    </div>
+
+    <div class="listing-card">
+      <div class="listing-img" style="background:#FAEEDA;">
+        🏡
+        <div class="listing-badge">44% off</div>
+      </div>
+      <div class="listing-body">
+        <div>
+          <span class="listing-price">Rs. 36.7L</span>
+          <span class="listing-market">Rs. 65.0L</span>
+          <span class="listing-discount">Save Rs. 28L</span>
+        </div>
+        <div class="listing-location">Kasba Peth, Pune</div>
+        <div class="listing-meta">
+          <span class="listing-tag">Flat</span>
+          <span class="listing-tag">1830 sq ft</span>
+          <span class="listing-tag">3 BHK</span>
+        </div>
+      </div>
+      <div class="listing-footer">
+        <div>
+          <div class="listing-bank">State Bank of India</div>
+          <div class="listing-date">Auction: 23 Mar 2026</div>
+        </div>
+        <button class="btn-view">View details</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="padding-top:0">
+  <div class="section-title">How NivaasLink works</div>
+  <div class="section-sub">Four steps from discovery to ownership</div>
+  <div class="how-grid">
+    <div class="how-card">
+      <div class="how-num">1</div>
+      <h4>Discover</h4>
+      <p>Search auction properties from 50+ banks in one place — filter by city, price, type</p>
+      <div class="how-connector">›</div>
+    </div>
+    <div class="how-card">
+      <div class="how-num">2</div>
+      <h4>Analyse</h4>
+      <p>See market price vs. auction price, AI fair value, and risk flags all on one screen</p>
+      <div class="how-connector">›</div>
+    </div>
+    <div class="how-card">
+      <div class="how-num">3</div>
+      <h4>Finance</h4>
+      <p>Check your loan eligibility instantly and get matched to lenders who finance auctions</p>
+      <div class="how-connector">›</div>
+    </div>
+    <div class="how-card">
+      <div class="how-num">4</div>
+      <h4>Bid & own</h4>
+      <p>Our step-by-step guide walks you through the e-auction process from EMD to ownership</p>
+    </div>
+  </div>
+</div>
+
+<div style="padding: 0 2rem 1.5rem;">
+  <div class="loan-section">
+    <div class="loan-left">
+      <h3>Check your loan eligibility in 60 seconds</h3>
+      <p>Most buyers don't know that loans are available for auction properties. NivaasLink connects you to banks and NBFCs who specialise in financing these purchases.</p>
+      <div class="loan-banks">
+        <div class="bank-pill">SBI</div>
+        <div class="bank-pill">HDFC Bank</div>
+        <div class="bank-pill">ICICI Bank</div>
+        <div class="bank-pill">LIC HFL</div>
+        <div class="bank-pill">PNB Housing</div>
+        <div class="bank-pill">Aditya Birla HFL</div>
+      </div>
+    </div>
+    <div class="loan-right">
+      <h4>ELIGIBILITY CHECK</h4>
+      <div class="loan-field">
+        <label>Monthly income (Rs.)</label>
+        <input type="text" value="85,000" id="income" oninput="calcLoan()" />
+      </div>
+      <div class="loan-field">
+        <label>Property auction price (Rs.)</label>
+        <input type="text" value="50,00,000" />
+      </div>
+      <div class="loan-result">
+        <div class="loan-result-num" id="loanAmt">Rs. 40.8L</div>
+        <div class="loan-result-label">estimated max loan eligibility</div>
+      </div>
+      <button class="loan-check-btn" onclick="sendPrompt('How can I improve my loan eligibility for an auction property?')">Get lender matches ↗</button>
+    </div>
+  </div>
+</div>
+
+<div class="risk-section">
+  <div class="section-title" style="margin-bottom:0.25rem">Property risk indicators</div>
+  <div class="section-sub">Every listing comes with a plain-language risk summary</div>
+  <div class="risk-grid">
+    <div class="risk-card">
+      <div class="risk-indicator"><div class="risk-dot green"></div><div class="risk-label">Clear title</div></div>
+      <div class="risk-desc">No pending litigation, no encumbrances on record. Bank has clear possession rights. Lower legal risk.</div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-indicator"><div class="risk-dot amber"></div><div class="risk-label">Symbolic possession</div></div>
+      <div class="risk-desc">Bank has legal rights but property may be occupied. Eviction process required post-purchase. Proceed with legal advice.</div>
+    </div>
+    <div class="risk-card">
+      <div class="risk-indicator"><div class="risk-dot red"></div><div class="risk-label">Court stay risk</div></div>
+      <div class="risk-desc">Borrower has filed an appeal. Auction could be stayed by court order. High risk — independent legal review essential.</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer-cta">
+  <div>
+    <p>Ready to find your home below market price?</p>
+    <span>Join thousands of first-time buyers navigating auctions with NivaasLink</span>
+  </div>
+  <button class="cta-btn">Browse auction properties</button>
+</div>
+
+<script>
+function calcLoan() {
+  const income = parseFloat(document.getElementById('income').value.replace(/,/g, '')) || 85000;
+  const loan = Math.round((income * 60 * 0.8) / 100000) / 10;
+  document.getElementById('loanAmt').textContent = 'Rs. ' + loan.toFixed(1) + 'L';
+}
+</script>

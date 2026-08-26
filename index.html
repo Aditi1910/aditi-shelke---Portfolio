@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aditi Shelke · Business Analytics</title>
+  <meta name="description" content="Business analyst turning finance, operations, and product data into decisions. Real projects, dashboards, and a startup product case study."/>
+  <meta property="og:title" content="Aditi Shelke · Business Analytics Portfolio"/>
+  <meta property="og:description" content="Turning finance, operations, and product data into decisions. Python · SQL · Tableau · Power BI · MS Business Analytics, Northeastern."/>
+  <meta property="og:image" content="https://aditi1910.github.io/aditi-shelke-portfolio/files/portfolio_preview.png"/>
+  <meta property="og:url" content="https://aditi1910.github.io/aditi-shelke-portfolio/"/>
+  <meta property="og:type" content="website"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Aditi Shelke · Business Analytics Portfolio"/>
+  <meta name="twitter:image" content="https://aditi1910.github.io/aditi-shelke-portfolio/files/portfolio_preview.png"/>
+  <link rel="canonical" href="https://aditi1910.github.io/aditi-shelke-portfolio/"/>
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%235340a8'/%3E%3Ctext x='50' y='68' font-family='Georgia,serif' font-size='52' fill='%23ffffff' text-anchor='middle'%3EAS%3C/text%3E%3C/svg%3E"/>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet"/>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Aditi Shelke",
+    "jobTitle": "Business Analyst",
+    "email": "adishelke2000@gmail.com",
+    "telephone": "+1-925-202-3104",
+    "address": { "@type": "PostalAddress", "addressLocality": "Oakland", "addressRegion": "CA", "addressCountry": "US" },
+    "alumniOf": [
+      { "@type": "CollegeOrUniversity", "name": "Northeastern University, D'Amore-McKim School of Business" },
+      { "@type": "CollegeOrUniversity", "name": "Welingkar Institute of Management Development & Research" },
+      { "@type": "CollegeOrUniversity", "name": "Savitribai Phule Pune University" }
+    ],
+    "knowsAbout": ["Business Analysis","Data Visualization","Credit Risk Analysis","SQL","Python","Tableau","Power BI","Financial Modelling"],
+    "sameAs": [
+      "https://www.linkedin.com/in/aditi-shelke-172021179/",
+      "https://github.com/Aditi1910",
+      "https://public.tableau.com/app/profile/aditi.shelke6513/vizzes"
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg:      #faf9f6;
+      --white:   #ffffff;
+      --ink:     #1a1917;
+      --muted:   #6b6a62;
+      --line:    #e8e4dc;
+      --sage:    #e0f0e0;
+      --sage-d:  #3d6b4a;
+      --lav:     #ebe8fb;
+      --lav-d:   #5340a8;
+      --peach:   #fdeee6;
+      --peach-d: #b8511e;
+      --sky:     #e0f0fb;
+      --sky-d:   #1a6fa8;
+      --blush:   #fae4f2;
+      --blush-d: #9e2060;
+      --gold:    #faf3d8;
+      --gold-d:  #7a6010;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    /* Fixed nav must not cover the heading of the section we jump to */
+    section, .band { scroll-margin-top: 84px; }
+
+    /* ── NAV ── */
+    .site-header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(250,249,246,0.94);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line);
+    }
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 5rem;
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem; font-weight: 600;
+      color: var(--ink); text-decoration: none; letter-spacing: 0.02em;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      position: relative;
+      font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--ink); font-weight: 400; text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a::after {
+      content:''; position:absolute; left:0; bottom:-4px; height:1px; width:100%;
+      background:var(--lav-d); transform:scaleX(0); transform-origin:left;
+      transition:transform 0.3s ease;
+    }
+    .nav-links a:hover::after,
+    .nav-links a.active::after { transform:scaleX(1); }
+    .nav-links a.active { color:var(--lav-d); }
+    .nav-right { display: flex; align-items: center; gap: 0.8rem; }
+    .nav-cta {
+      font-size: 0.78rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+      background: var(--ink); color: var(--white);
+      padding: 0.65rem 1.5rem; text-decoration: none;
+      transition: background 0.25s, transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .nav-cta:hover { background: var(--lav-d); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(26,25,23,0.18); }
+
+    /* Mobile menu */
+    .nav-burger {
+      display: none; background: none; border: 1px solid var(--line);
+      border-radius: 8px; width: 40px; height: 38px; cursor: pointer;
+      align-items: center; justify-content: center; flex-direction: column; gap: 4px;
+      transition: border-color 0.2s;
+    }
+    .nav-burger:hover { border-color: var(--lav-d); }
+    .nav-burger span { display: block; width: 17px; height: 1.5px; background: var(--ink); transition: transform 0.28s ease, opacity 0.2s ease; }
+    .nav-burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+    .nav-burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+    .nav-burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+    /* Sits directly below the nav inside .site-header, so it can never overlap it */
+    #mobileMenu {
+      display: none;
+      border-top: 1px solid var(--line);
+      padding: 0.5rem 1.5rem 1.2rem;
+      max-height: 70vh; overflow-y: auto;
+    }
+    #mobileMenu.open { display: block; }
+    #mobileMenu ul { list-style: none; }
+    #mobileMenu a {
+      display: block; padding: 0.9rem 0.2rem; text-decoration: none;
+      color: var(--ink); font-size: 0.9rem; letter-spacing: 0.06em;
+      border-bottom: 1px solid var(--line);
+    }
+    #mobileMenu a:last-child { border-bottom: none; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 92vh;
+      display: grid; grid-template-rows: 1fr auto;
+      padding: 0 5rem;
+      position: relative; overflow: hidden;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(155deg, #f1eefb 0%, #faf9f6 44%, #eaf2fc 100%);
+    }
+    .blob { position: absolute; border-radius: 50%; filter: blur(90px); pointer-events: none;
+      transition: transform 0.5s cubic-bezier(0.2,0.8,0.2,1); }
+    .b1 { width: 620px; height: 620px; background: var(--lav);   top: -150px; right: -100px; opacity: 0.6; }
+    .b2 { width: 420px; height: 420px; background: var(--sky);   bottom: 5%;  left: -80px;  opacity: 0.55; }
+    .b3 { width: 360px; height: 360px; background: #d7cef7;      bottom: 18%; right: 8%;    opacity: 0.5; }
+
+    .hero-top {
+      display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 4rem;
+      align-items: center; padding-top: 6rem;
+      position: relative; z-index: 1;
+    }
+    .hero-main { perspective: 900px; }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 0.6rem; margin-bottom: 1.1rem;
+      background: rgba(255,255,255,0.72); border: 1px solid var(--line);
+      border-radius: 99px; padding: 0.4rem 0.95rem;
+      animation: up 0.8s ease both;
+    }
+    .hero-dot {
+      width: 8px; height: 8px; border-radius: 50%; background: var(--sage-d);
+      animation: pulse 2s infinite; flex-shrink: 0;
+    }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.3)} }
+    .hero-eyebrow span {
+      font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted); font-family: 'JetBrains Mono', monospace;
+    }
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 6.5vw, 6.5rem);
+      font-weight: 300; line-height: 0.95;
+      letter-spacing: -0.02em;
+      animation: up 0.8s 0.1s ease both;
+    }
+    .hero-role {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(0.85rem, 1.4vw, 1.05rem);
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--lav-d); margin-top: 0.7rem;
+      animation: up 0.8s 0.15s ease both;
+    }
+    .hero-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.15rem, 2vw, 1.6rem);
+      font-weight: 400; font-style: italic;
+      color: #35342f; margin-top: 1rem; max-width: 620px; line-height: 1.6;
+      animation: up 0.8s 0.2s ease both;
+    }
+    .hero-tagline b { font-weight: 600; font-style: normal; color: var(--lav-d); }
+    .hero-links { display: flex; gap: 1.2rem; margin-top: 2rem; flex-wrap: wrap;
+      animation: up 0.8s 0.28s ease both; }
+    .btn-primary {
+      font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase;
+      background: var(--ink); color: var(--white);
+      padding: 0.9rem 2.2rem; text-decoration: none;
+      display: inline-block;
+      transition: background 0.25s, transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .btn-primary:hover { background: var(--lav-d); transform: translateY(-3px); box-shadow: 0 10px 24px rgba(83,64,168,0.28); }
+    .btn-outline {
+      font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase;
+      border: 1px solid var(--line); color: var(--muted); background: rgba(255,255,255,0.5);
+      padding: 0.9rem 2.2rem; text-decoration: none;
+      display: inline-block;
+      transition: border-color 0.2s, color 0.2s, transform 0.25s ease;
+    }
+    .btn-outline:hover { transform: translateY(-3px); border-color: var(--lav-d); color: var(--ink); }
+
+    /* Hero "at a glance" panel */
+    .hero-panel {
+      background: rgba(255,255,255,0.78); border: 1px solid var(--line);
+      border-radius: 20px; padding: 1.6rem;
+      box-shadow: 0 18px 50px rgba(26,25,23,0.06);
+      animation: up 0.9s 0.35s ease both;
+    }
+    .hero-panel-label {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.62rem;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted);
+      margin-bottom: 1.1rem;
+    }
+    .hero-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; }
+    .hero-metric { padding: 0.95rem 1rem; border-radius: 13px; }
+    .hero-metric .n {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.75rem;
+      font-weight: 600; line-height: 1;
+    }
+    .hero-metric .l { font-size: 0.7rem; color: var(--muted); margin-top: 0.35rem; line-height: 1.4; }
+    .hm1 { background: var(--lav); }   .hm1 .n { color: var(--lav-d); }
+    .hm2 { background: var(--sage); }  .hm2 .n { color: var(--sage-d); }
+    .hm3 { background: var(--sky); }   .hm3 .n { color: var(--sky-d); }
+    .hm4 { background: var(--gold); }  .hm4 .n { color: var(--gold-d); }
+    .hero-panel-foot {
+      margin-top: 1.1rem; padding-top: 1rem; border-top: 1px solid var(--line);
+      font-size: 0.74rem; color: var(--muted); line-height: 1.55;
+    }
+    .hero-panel-foot b { color: var(--ink); font-weight: 500; }
+
+    .hero-bottom {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 2rem 0; border-top: 1px solid var(--line);
+      position: relative; z-index: 1; gap: 1rem;
+      animation: up 0.8s 0.45s ease both;
+    }
+    .hero-meta {
+      font-size: 0.74rem; letter-spacing: 0.08em; color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .hero-scroll {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+      letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted);
+      text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;
+      transition: color 0.2s;
+    }
+    .hero-scroll:hover { color: var(--lav-d); }
+    .hero-scroll i { display: block; width: 1px; height: 22px;
+      background: linear-gradient(to bottom, var(--lav-d), transparent);
+      animation: scrollPulse 1.6s ease-in-out infinite; }
+    @keyframes scrollPulse { 0%,100%{opacity:0.35;transform:scaleY(0.55)} 50%{opacity:1;transform:scaleY(1)} }
+
+    /* ── SHARED ── */
+    section { padding: 4rem 5rem; }
+    .sec-label {
+      font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--muted); font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 0.8rem;
+    }
+    .sec-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+      font-weight: 300; letter-spacing: -0.01em; line-height: 1.1;
+    }
+
+    /* ── STRENGTHS BAND (no hover required) ── */
+    #strengths {
+      padding: 3rem 5rem; border-bottom: 1px solid var(--line);
+      background: var(--bg);
+    }
+    .str-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 0.9rem; margin-top: 1.4rem;
+    }
+    .str-card {
+      border-radius: 16px; padding: 1.2rem 1.3rem;
+      display: flex; flex-direction: column; gap: 0.5rem;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .str-card:hover { transform: translateY(-4px); box-shadow: 0 14px 32px rgba(26,25,23,0.08); }
+    .str-cat { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.04em; }
+    .str-stat {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 600; line-height: 1.05;
+    }
+    .str-detail { font-size: 0.73rem; color: #55544d; line-height: 1.5; margin-top: auto; }
+    .s-lav   { background: var(--lav);   border: 1px solid rgba(83,64,168,0.15); }
+    .s-lav .str-cat, .s-lav .str-stat { color: var(--lav-d); }
+    .s-sky   { background: var(--sky);   border: 1px solid rgba(26,111,168,0.15); }
+    .s-sky .str-cat, .s-sky .str-stat { color: var(--sky-d); }
+    .s-sage  { background: var(--sage);  border: 1px solid rgba(61,107,74,0.15); }
+    .s-sage .str-cat, .s-sage .str-stat { color: var(--sage-d); }
+    .s-peach { background: var(--peach); border: 1px solid rgba(184,81,30,0.15); }
+    .s-peach .str-cat, .s-peach .str-stat { color: var(--peach-d); }
+    .s-blush { background: var(--blush); border: 1px solid rgba(158,32,96,0.15); }
+    .s-blush .str-cat, .s-blush .str-stat { color: var(--blush-d); }
+    .s-gold  { background: var(--gold);  border: 1px solid rgba(122,96,16,0.15); }
+    .s-gold .str-cat, .s-gold .str-stat { color: var(--gold-d); }
+    @media (max-width: 1100px) { .str-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px)  { .str-grid { grid-template-columns: 1fr; } }
+
+    /* ── ABOUT ── */
+    #about {
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(135deg, #fdfcf9 0%, #f2eef8 100%);
+    }
+    .about-top { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .about-body { font-size: 0.95rem; line-height: 1.7; color: #3a3830; margin-top: 1rem; }
+    .about-body strong { color: var(--ink); font-weight: 500; }
+    .about-body p + p { margin-top: 0.8rem; }
+    .about-lead { font-size: 0.92rem; color: var(--ink); line-height: 1.55; margin-top: 0.7rem; }
+    .about-lead b { color: var(--lav-d); }
+    .exp-stack { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.9rem; }
+    .exp-card {
+      padding: 1.2rem 1.5rem; border-radius: 12px;
+      border: 1px solid var(--line); background: rgba(255,255,255,0.7);
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .exp-card:hover { border-color: var(--lav-d); transform: translateY(-2px); }
+    .exp-role { font-weight: 500; font-size: 0.9rem; }
+    .exp-note { font-size: 0.8rem; color: var(--muted); margin-top: 0.35rem; line-height: 1.55; }
+    .chip-row { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 0.8rem; }
+    .chip { font-size: 0.7rem; padding: 0.3rem 0.75rem; border-radius: 99px; }
+    .c-lav{background:var(--lav);color:var(--lav-d)} .c-sage{background:var(--sage);color:var(--sage-d)}
+    .c-sky{background:var(--sky);color:var(--sky-d)} .c-peach{background:var(--peach);color:var(--peach-d)}
+    .c-blush{background:var(--blush);color:var(--blush-d)} .c-gold{background:var(--gold);color:var(--gold-d)}
+
+    .tools-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .pill-item {
+      font-size: 0.75rem; border-radius: 99px; padding: 0.4rem 1rem;
+      font-weight: 400; transition: filter 0.2s; cursor: default;
+    }
+    .pill-item:hover { filter: brightness(0.9); }
+    .pill-item:nth-child(4n+1) { background: var(--lav);   color: var(--lav-d); }
+    .pill-item:nth-child(4n+2) { background: var(--sage);  color: var(--sage-d); }
+    .pill-item:nth-child(4n+3) { background: var(--sky);   color: var(--sky-d); }
+    .pill-item:nth-child(4n+4) { background: var(--peach); color: var(--peach-d); }
+
+    /* Certificates */
+    .cert-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 0.9rem; }
+    .cert-card { display: block; text-decoration: none; border: 1px solid var(--line); border-radius: 12px;
+      overflow: hidden; background: var(--white); transition: transform 0.25s ease, box-shadow 0.25s ease; }
+    .cert-card:hover { transform: translateY(-4px); box-shadow: 0 14px 30px rgba(26,25,23,0.10); }
+    .cert-card img { width: 100%; height: auto; display: block; border-bottom: 1px solid var(--line); }
+    .cert-body { padding: 0.7rem 0.9rem 0.8rem; }
+    .cert-name { font-size: 0.82rem; font-weight: 500; color: var(--ink); line-height: 1.3; }
+    .cert-meta { font-size: 0.7rem; color: var(--muted); margin-top: 0.2rem; }
+    @media (max-width: 760px) { .cert-grid { grid-template-columns: 1fr; } }
+
+    /* ── JOURNEY ── */
+    #skills {
+      display: grid; grid-template-columns: 1.35fr 0.65fr; gap: 4rem;
+      align-items: start;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(135deg, #f0f8f0 0%, #fdfcfa 50%, #f4f0fa 100%);
+    }
+    .journey-side { position: sticky; top: 92px; }
+    .tl { margin-top: 2rem; position: relative; padding-left: 1.5rem; }
+    .tl-line { position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: var(--line); }
+    .tl-item { position: relative; margin-bottom: 2rem; }
+    .tl-item:last-child { margin-bottom: 0; }
+    .tl-dot {
+      position: absolute; left: -1.9rem; top: 4px; width: 10px; height: 10px;
+      border-radius: 50%; border: 2px solid var(--bg);
+    }
+    .tl-date { font-family: 'JetBrains Mono', monospace; font-size: 0.66rem; color: var(--muted); margin-bottom: 0.3rem; }
+    .tl-role { font-size: 0.9rem; font-weight: 500; }
+    .tl-desc { font-size: 0.8rem; color: var(--muted); margin-top: 0.25rem; line-height: 1.6; }
+    .tl-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.6rem; }
+    .tl-tag { font-size: 0.66rem; padding: 0.2rem 0.6rem; border-radius: 99px; }
+    .tl-now .tl-dot { left: -2rem; width: 12px; height: 12px; background: var(--gold-d); box-shadow: 0 0 0 3px var(--gold); }
+    .tl-now .tl-date, .tl-now .tl-role { color: var(--gold-d); }
+
+    .edu-stack { display: flex; flex-direction: column; gap: 0.7rem; margin-top: 1rem; }
+    .edu-item {
+      display: flex; gap: 0.7rem; padding: 1rem 1.2rem;
+      border: 1px solid var(--line); border-radius: 10px;
+      background: rgba(255,255,255,0.6); transition: border-color 0.2s, background 0.2s;
+    }
+    .edu-item:hover { border-color: var(--lav-d); background: rgba(255,255,255,0.95); }
+    .edu-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+    .edu-item:nth-child(1) .edu-dot { background: var(--lav-d); }
+    .edu-item:nth-child(2) .edu-dot { background: var(--sage-d); }
+    .edu-item:nth-child(3) .edu-dot { background: var(--sky-d); }
+    .edu-degree { font-size: 0.9rem; font-weight: 500; }
+    .edu-uni { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; }
+    .edu-year { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--muted); margin-top: 0.3rem; }
+
+    .live-box { margin-top: 2rem; padding: 1.6rem; background: rgba(255,255,255,0.7);
+      border: 1px solid var(--line); border-radius: 12px; }
+    .live-links { display: flex; flex-direction: column; gap: 0.8rem; }
+    .live-link {
+      display: flex; align-items: center; gap: 0.8rem; text-decoration: none;
+      padding: 0.9rem 1.2rem; border-radius: 8px; font-size: 0.82rem; font-weight: 500;
+      transition: filter 0.2s, transform 0.2s;
+    }
+    .live-link:hover { filter: brightness(0.93); transform: translateX(3px); }
+
+    /* ── PROJECTS ── */
+    #projects { border-bottom: 1px solid var(--line); }
+    .proj-group-label {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--lav-d); margin: 2.8rem 0 0.2rem;
+    }
+    .proj-group-label span { color: var(--muted); text-transform: none; letter-spacing: 0.02em; font-size: 0.7rem; }
+    .proj-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-top: 0.9rem; }
+    .proj-tile {
+      background: var(--white); border: 1px solid var(--line); border-radius: 14px;
+      overflow: hidden; display: flex; flex-direction: column;
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .proj-tile:hover { transform: translateY(-5px); box-shadow: 0 16px 34px rgba(26,25,23,0.10); }
+    .proj-tile-cover {
+      aspect-ratio: 16/9; overflow: hidden; background: var(--bg);
+      border-bottom: 1px solid var(--line); display: block;
+    }
+    .proj-tile-cover img {
+      width: 100%; height: 100%; object-fit: contain; display: block;
+      transition: transform .35s ease;
+    }
+    .proj-tile:hover .proj-tile-cover img { transform: scale(1.03); }
+    .proj-tile-body { padding: 0.9rem 1.1rem 1.1rem; display: flex; flex-direction: column; flex: 1; }
+    .proj-tile-cat { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+    .proj-tile-title {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 600;
+      margin: 0.25rem 0 0.3rem; line-height: 1.12;
+    }
+    .proj-tile-title a { color: var(--ink); text-decoration: none; }
+    .proj-tile-title a:hover { color: var(--lav-d); }
+    .proj-tile-desc { font-size: 0.79rem; color: var(--muted); line-height: 1.45; }
+    .proj-actions { display: flex; flex-wrap: wrap; gap: 0.45rem 1rem; margin-top: 0.8rem; padding-top: 0.15rem; }
+    .proj-link {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.64rem; letter-spacing: 0.03em;
+      color: var(--lav-d); text-decoration: none; border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .proj-link:hover { border-color: var(--lav-d); }
+    .proj-link.sub { color: var(--muted); }
+    .proj-link.sub:hover { border-color: var(--muted); }
+    @media (max-width: 900px) { .proj-tiles { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .proj-tiles { grid-template-columns: 1fr; } }
+
+    /* Coursework strip */
+    .course-strip { margin-top: 3rem; padding-top: 1.8rem; border-top: 1px solid var(--line); }
+    .course-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1rem; }
+    .course-item {
+      border: 1px solid var(--line); border-radius: 12px; padding: 1.1rem 1.2rem;
+      background: var(--white); transition: border-color 0.2s, transform 0.2s;
+    }
+    .course-item:hover { border-color: var(--lav-d); transform: translateY(-3px); }
+    .course-title { font-size: 0.86rem; font-weight: 500; }
+    .course-desc { font-size: 0.75rem; color: var(--muted); margin-top: 0.3rem; line-height: 1.5; }
+    @media (max-width: 860px) { .course-grid { grid-template-columns: 1fr; } }
+
+    /* ── CONTACT ── */
+    #contact {
+      padding: 5rem 5rem;
+      background: linear-gradient(150deg, var(--lav) 0%, var(--sage) 50%, var(--sky) 100%);
+      text-align: center;
+    }
+    .contact-pre {
+      font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--sage-d); margin-bottom: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .contact-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 4rem);
+      font-weight: 300; letter-spacing: -0.02em; line-height: 1.05;
+      color: var(--ink); margin-bottom: 1rem;
+    }
+    .contact-heading em { font-style: italic; color: var(--lav-d); }
+    .contact-sub { font-size: 0.9rem; color: #55544d; margin-bottom: 3rem; line-height: 1.7; }
+    .contact-email {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem; font-style: italic; font-weight: 400;
+      color: var(--lav-d); text-decoration: none;
+      border-bottom: 1px solid var(--lav-d);
+      padding-bottom: 0.25rem; display: inline-block;
+      transition: opacity 0.2s; margin-bottom: 3rem;
+    }
+    .contact-email:hover { opacity: 0.65; }
+    .socials { display: flex; gap: 0.7rem; justify-content: center; flex-wrap: wrap; }
+    .social-btn {
+      font-size: 0.74rem; letter-spacing: 0.1em; text-transform: uppercase;
+      border-radius: 99px; padding: 0.7rem 1.6rem;
+      text-decoration: none; border: 1px solid rgba(0,0,0,0.12);
+      background: rgba(255,255,255,0.6); color: var(--ink);
+      transition: background 0.2s, transform 0.2s; display: inline-block;
+    }
+    .social-btn:hover { background: var(--white); transform: translateY(-2px); }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 1.5rem 5rem; border-top: 1px solid var(--line);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    footer span {
+      font-size: 0.72rem; letter-spacing: 0.08em; color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* ── REVEAL ── */
+    @keyframes up { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.9s ease, transform 0.9s ease; }
+    .reveal.on { opacity: 1; transform: none; }
+
+    /* ── RECRUITER 30-SECOND SCAN ── */
+    .rec-fab {
+      position: fixed; right: 1.6rem; bottom: 1.6rem; z-index: 200;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--ink); color: var(--white);
+      font-size: 0.78rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0.85rem 1.3rem; border: none; border-radius: 99px; cursor: pointer;
+      box-shadow: 0 10px 30px rgba(26,25,23,0.25);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s, opacity 0.3s, visibility 0.3s;
+      animation: recPop 0.6s 1.4s ease both;
+    }
+    .rec-fab:hover { transform: translateY(-3px) scale(1.03); background: var(--lav-d); box-shadow: 0 14px 36px rgba(83,64,168,0.35); }
+    .rec-fab.tucked { opacity: 0; visibility: hidden; }
+    .rec-fab .rec-bolt { animation: recBolt 2.6s infinite; }
+    @keyframes recBolt { 0%,90%,100%{opacity:1;} 95%{opacity:0.3;} }
+    @keyframes recPop { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:none;} }
+
+    .rec-overlay {
+      position: fixed; inset: 0; z-index: 300;
+      background: rgba(26,25,23,0.55); backdrop-filter: blur(6px);
+      display: flex; align-items: center; justify-content: center; padding: 1.5rem;
+      opacity: 0; visibility: hidden; transition: opacity 0.35s ease, visibility 0.35s;
+    }
+    .rec-overlay.open { opacity: 1; visibility: visible; }
+    .rec-card {
+      background: var(--white); border-radius: 20px; max-width: 560px; width: 100%;
+      max-height: 90vh; overflow-y: auto; padding: 2.2rem 2.2rem 2rem;
+      position: relative; border: 1px solid var(--line);
+      transform: translateY(24px) scale(0.98); transition: transform 0.35s ease;
+      box-shadow: 0 30px 80px rgba(26,25,23,0.3);
+    }
+    .rec-overlay.open .rec-card { transform: none; }
+    .rec-close {
+      position: absolute; top: 1rem; right: 1.1rem;
+      width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--line);
+      background: var(--bg); color: var(--muted); font-size: 1.2rem; line-height: 1;
+      cursor: pointer; transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .rec-close:hover { background: var(--ink); color: var(--white); border-color: var(--ink); }
+    .rec-eyebrow { font-family:'JetBrains Mono',monospace; font-size:0.66rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--lav-d); }
+    .rec-title { font-family:'Cormorant Garamond',serif; font-size:2rem; font-weight:300; line-height:1.1; margin:0.4rem 0 0.3rem; }
+    .rec-sub { font-size:0.85rem; color:var(--muted); line-height:1.55; }
+    .rec-looking { display:flex; flex-wrap:wrap; gap:0.4rem 1.2rem; margin:1.2rem 0; padding:0.9rem 1.1rem; background:var(--bg); border-radius:12px; font-size:0.8rem; color:#55544d; }
+    .rec-looking b { color:var(--ink); font-weight:500; }
+    .rec-metrics { display:grid; grid-template-columns:1fr 1fr; gap:0.7rem; margin:1.1rem 0; }
+    .rec-metric { padding:0.9rem 1rem; border-radius:12px; }
+    .rec-metric .num { font-family:'Cormorant Garamond',serif; font-size:1.9rem; font-weight:600; line-height:1; }
+    .rec-metric .lbl { font-size:0.73rem; color:var(--muted); margin-top:0.3rem; line-height:1.4; }
+    .rec-metric.m1 { background:var(--lav); }   .rec-metric.m1 .num{color:var(--lav-d);}
+    .rec-metric.m2 { background:var(--sage); }  .rec-metric.m2 .num{color:var(--sage-d);}
+    .rec-metric.m3 { background:var(--sky); }   .rec-metric.m3 .num{color:var(--sky-d);}
+    .rec-metric.m4 { background:var(--peach); } .rec-metric.m4 .num{color:var(--peach-d);}
+    .rec-chips { display:flex; flex-wrap:wrap; gap:0.4rem; margin:1rem 0 1.3rem; }
+    .rec-chip { font-size:0.72rem; background:var(--bg); border:1px solid var(--line); padding:0.3rem 0.7rem; border-radius:99px; color:var(--muted); }
+    .rec-cta { display:flex; gap:0.7rem; flex-wrap:wrap; }
+    .rec-cta a { flex:1; min-width:150px; text-align:center; font-size:0.78rem; font-weight:500; letter-spacing:0.06em; text-transform:uppercase; padding:0.9rem 1rem; border-radius:10px; text-decoration:none; transition:transform 0.2s, box-shadow 0.2s, background 0.2s, color 0.2s, border-color 0.2s; }
+    .rec-cta .primary { background:var(--ink); color:var(--white); }
+    .rec-cta .primary:hover { background:var(--lav-d); transform:translateY(-2px); box-shadow:0 10px 24px rgba(83,64,168,0.3); }
+    .rec-cta .ghost { border:1px solid var(--line); color:var(--ink); }
+    .rec-cta .ghost:hover { border-color:var(--lav-d); color:var(--lav-d); transform:translateY(-2px); }
+    .rec-mini { display:flex; gap:1.2rem; margin-top:1rem; justify-content:center; flex-wrap:wrap; }
+    .rec-mini a { font-size:0.76rem; color:var(--muted); text-decoration:none; border-bottom:1px solid var(--line); transition:color 0.2s, border-color 0.2s; }
+    .rec-mini a:hover { color:var(--lav-d); border-color:var(--lav-d); }
+
+    /* ── FOCUS VISIBILITY ── */
+    a:focus-visible, button:focus-visible {
+      outline: 2px solid var(--lav-d); outline-offset: 3px; border-radius: 2px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1000px) {
+      .hero-top { grid-template-columns: 1fr; gap: 2.5rem; align-items: start; padding-top: 5.5rem; }
+      .hero-panel { max-width: 520px; }
+      #skills { grid-template-columns: 1fr; gap: 3rem; }
+      .journey-side { position: static; }
+    }
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .nav-burger { display: flex; }
+      #hero { padding: 0 1.5rem; }
+      section { padding: 4rem 1.5rem; }
+      #strengths { padding: 3rem 1.5rem; }
+      #contact { padding: 5rem 1.5rem; }
+      .about-top { grid-template-columns: 1fr; gap: 3rem; }
+      .hero-bottom { flex-direction: column; align-items: flex-start; }
+      .nav-cta { font-size: 0.7rem; padding: 0.55rem 1rem; }
+      footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+    @media (max-width: 560px) {
+      section { padding: 3rem 1.2rem; }
+      #strengths { padding: 2.5rem 1.2rem; }
+      #contact { padding: 3.5rem 1.2rem; }
+      .hero-tagline { font-size: 1.05rem; }
+      nav { padding: 0.9rem 1.2rem; }
+      .hero-metrics { grid-template-columns: 1fr 1fr; }
+      /* keep the availability chip on one line at narrow widths */
+      .hero-eyebrow { align-items: flex-start; }
+      .hero-eyebrow .hero-dot { margin-top: 4px; }
+      .hero-eyebrow span { font-size: 0.64rem; letter-spacing: 0.07em; }
+      /* equal-width stacked buttons instead of two ragged ones */
+      .hero-links { gap: 0.7rem; }
+      .hero-links a { flex: 1 1 100%; text-align: center; padding: 0.9rem 1rem; }
+      .rec-fab { right: 1rem; bottom: 1rem; padding: 0.75rem 1.1rem; font-size: 0.72rem; }
+      .rec-title { font-size: 1.6rem; }
+      .rec-card { padding: 1.8rem 1.4rem; }
+    }
+
+    /* Respect users who prefer less motion */
+    @media (prefers-reduced-motion: reduce){
+      *, *::before, *::after {
+        animation-duration:0.001ms !important; animation-iteration-count:1 !important;
+        transition-duration:0.001ms !important; scroll-behavior:auto !important;
+      }
+      #hero-name-3d, .blob { transform:none !important; }
+      .reveal { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+
+  <!-- If JS is blocked or fails, show all content instead of a blank page -->
+  <noscript>
+    <style>
+      .reveal { opacity: 1 !important; transform: none !important; }
+      .nav-burger { display: none !important; }
+    </style>
+  </noscript>
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="site-header">
+  <nav>
+    <a href="#" class="nav-logo">Aditi Shelke</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Journey</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="#contact" class="nav-cta">Hire Me</a>
+      <button class="nav-burger" id="navBurger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  <div id="mobileMenu">
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Journey</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="files/Aditi_Shelke_Resume.pdf" download="Aditi_Shelke_Resume.pdf">Resume ↓</a></li>
+    </ul>
+  </div>
+  </header>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+
+    <div class="hero-top">
+      <div class="hero-main">
+        <div class="hero-eyebrow">
+          <div class="hero-dot"></div>
+          <span>Open to Dec 2026 roles · Oakland, CA</span>
+        </div>
+
+        <h1 class="hero-name" id="hero-name-3d" style="transition:transform 0.2s ease;transform-style:preserve-3d;">
+          Aditi Shelke
+        </h1>
+        <p class="hero-role">Business Analyst</p>
+
+        <p class="hero-tagline">
+          "Since <b>ATS bots</b> are going to reject my resume anyway, here is my actual portfolio. No buzzwords, <b>just data</b>."
+        </p>
+
+        <div class="hero-links">
+          <a href="#projects" class="btn-primary">See My Work</a>
+          <a href="files/Aditi_Shelke_Resume.pdf" download="Aditi_Shelke_Resume.pdf" class="btn-outline">Resume ↓</a>
+        </div>
+      </div>
+
+      <aside class="hero-panel">
+        <div class="hero-panel-label">// At a glance</div>
+        <div class="hero-metrics">
+          <div class="hero-metric hm1"><div class="n">4+ yrs</div><div class="l">In financial services &amp; operations</div></div>
+          <div class="hero-metric hm2"><div class="n">9 hrs/wk</div><div class="l">Manual reporting eliminated</div></div>
+          <div class="hero-metric hm3"><div class="n">50+</div><div class="l">Credit accounts assessed</div></div>
+          <div class="hero-metric hm4"><div class="n">6</div><div class="l">End-to-end analytics projects</div></div>
+        </div>
+        <p class="hero-panel-foot">
+          <b>MS Business Analytics</b>, Northeastern University · Graduating Dec 2026.
+          Seeking business analyst, product, and marketing analytics roles.
+        </p>
+      </aside>
+    </div>
+
+    <div class="hero-bottom">
+      <div class="hero-meta">Python · SQL · Tableau · Power BI · R · Advanced Excel</div>
+      <a href="#strengths" class="hero-scroll"><i></i> Scroll</a>
+    </div>
+  </section>
+
+  <!-- STRENGTHS -->
+  <div class="band reveal" id="strengths">
+    <div class="sec-label">// What I'm strong at</div>
+    <div class="str-grid">
+
+      <div class="str-card s-lav">
+        <div class="str-cat">Financial Domain</div>
+        <div class="str-stat">4+ yrs</div>
+        <div class="str-detail">Credit risk · CAM reports · LTV analysis · repayment capacity · KYC/AML compliance</div>
+      </div>
+
+      <div class="str-card s-sky">
+        <div class="str-cat">Data Visualization</div>
+        <div class="str-stat">9+ hrs/wk saved</div>
+        <div class="str-detail">Tableau · Power BI · Plotly · executive dashboards · self-serve analytics</div>
+      </div>
+
+      <div class="str-card s-sage">
+        <div class="str-cat">Analytics &amp; Modelling</div>
+        <div class="str-stat">6 end-to-end projects</div>
+        <div class="str-detail">Python · SQL · R · Pandas · NumPy · regression · clustering · decision trees</div>
+      </div>
+
+      <div class="str-card s-peach">
+        <div class="str-cat">KPI Development</div>
+        <div class="str-stat">50+ accounts tracked</div>
+        <div class="str-detail">KPI design · performance tracking · compliance reporting · executive summaries</div>
+      </div>
+
+      <div class="str-card s-blush">
+        <div class="str-cat">Stakeholder Translation</div>
+        <div class="str-stat">5+ functions bridged</div>
+        <div class="str-detail">Sales · Finance · IT · Operations · Compliance — technical data into executive-ready outputs</div>
+      </div>
+
+      <div class="str-card s-gold">
+        <div class="str-cat">Workflow Automation</div>
+        <div class="str-stat">Proactive, not reactive</div>
+        <div class="str-detail">AI-assisted analytics · automated pipelines · early risk surfacing · faster reporting cycles</div>
+      </div>
+
+      <div class="str-card s-lav">
+        <div class="str-cat">Data Management</div>
+        <div class="str-stat">100+ models built</div>
+        <div class="str-detail">Advanced Excel · Google Sheets · MIS databases · cleaning · normalization</div>
+      </div>
+
+      <div class="str-card s-sage">
+        <div class="str-cat">Statistical Analysis</div>
+        <div class="str-stat">AUC &gt; 0.80</div>
+        <div class="str-detail">Logistic regression · K-means · perceptual mapping · correlation · hypothesis testing</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about">
+
+    <div class="reveal about-top">
+      <div>
+        <div class="sec-label">// 01 · About</div>
+        <h2 class="sec-title">Finance background.<br/>Analytics mind.<br/><em style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--lav-d);">Storyteller at heart.</em></h2>
+        <div class="about-body">
+          <p>I turn messy, multi-source data into the answers that decide what a business, a product, or a campaign does next. Four-plus years in financial services plus an MS in Business Analytics gave me the mix most teams are missing: <strong>analytical depth and real domain fluency</strong>.</p>
+          <p>My work lives where <strong>data, statistics, and strategy</strong> meet. I don't stop at the dashboard. I dig into why a number moved, what it signals for the coming quarter, and what a team should actually do with it.</p>
+          <p>From <strong>credit risk models</strong> across 50+ accounts to a <strong>profitability diagnostic</strong> that found where a $2.3M business was leaking margin, every project starts from the same place: <em style="font-family:'Cormorant Garamond',serif;color:var(--lav-d);">what should someone do differently because of this?</em></p>
+          <p>That range is deliberate. I've built <strong>credit-risk models</strong> inside regulated finance, turned manual reporting into self-serve systems in <strong>operations</strong>, and most recently sized an untapped market and built the cost-and-emissions business case for an <strong>aviation-automation venture</strong>. Different industries, one throughline: get to the insight that changes what happens next.</p>
+        </div>
+      </div>
+      <div>
+        <div class="sec-label">// What I bring</div>
+        <p class="about-lead">Most analysts learned the tools in grad school. I brought <b>4+ years of finance &amp; operations</b> with me.</p>
+        <div class="exp-stack">
+          <div class="exp-card">
+            <div class="exp-role"><span style="color:var(--sage-d);">9+ hrs/week</span> of manual reporting, gone</div>
+            <div class="exp-note">Built Tableau and Power BI systems from scratch that replaced a weekly manual grind, so teams could pull their own answers instead of waiting on a report.</div>
+          </div>
+          <div class="exp-card">
+            <div class="exp-role"><span style="color:var(--sky-d);">100+</span> models · <span style="color:var(--sky-d);">50+</span> accounts</div>
+            <div class="exp-note">Years of shipping analysis leadership actually used, on real accounts and real money, well before the degree.</div>
+          </div>
+          <div class="exp-card">
+            <div class="exp-role">Business context, not just tools</div>
+            <div class="exp-note">Finance, credit risk, and operations depth, so I read the business behind the numbers before I open the file.</div>
+          </div>
+          <div class="exp-card">
+            <div class="exp-role">The business-data translator</div>
+            <div class="exp-note">I sit between executives and engineers so the question, and the answer, survive the trip.</div>
+          </div>
+        </div>
+        <div class="sec-label" style="margin-top:1.6rem;">// Industries</div>
+        <div class="chip-row">
+          <span class="chip c-lav">Financial Services</span>
+          <span class="chip c-sage">Credit Risk</span>
+          <span class="chip c-sky">Real Estate / PropTech</span>
+          <span class="chip c-peach">Aviation</span>
+          <span class="chip c-blush">Retail</span>
+          <span class="chip c-gold">Startups</span>
+          <span class="chip c-sky">Sales &amp; Marketing</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toolkit -->
+    <div class="reveal" style="margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--line);">
+      <div class="sec-label" style="margin-bottom:1rem;">// Toolkit</div>
+      <div class="tools-pills">
+        <span class="pill-item">Python</span><span class="pill-item">SQL</span>
+        <span class="pill-item">Tableau</span><span class="pill-item">Power BI</span>
+        <span class="pill-item">R</span><span class="pill-item">Advanced Excel</span>
+        <span class="pill-item">Pandas</span><span class="pill-item">NumPy</span>
+        <span class="pill-item">Plotly</span><span class="pill-item">Streamlit</span>
+        <span class="pill-item">Google Sheets</span><span class="pill-item">dplyr</span>
+        <span class="pill-item">KPI Development</span><span class="pill-item">Statistical Analysis</span>
+        <span class="pill-item">Financial Modelling</span><span class="pill-item">Credit Risk Analysis</span>
+        <span class="pill-item">AI-Assisted Analytics</span><span class="pill-item">Workflow Automation</span>
+        <span class="pill-item">Business Requirements</span><span class="pill-item">Cross-Functional Collaboration</span>
+        <span class="pill-item">Data Wrangling</span><span class="pill-item">Machine Learning</span>
+        <span class="pill-item">Stakeholder Translation</span><span class="pill-item">Executive Reporting</span>
+        <span class="pill-item">MIS Database Management</span>
+      </div>
+
+      <div class="sec-label" style="margin-top:1.6rem;margin-bottom:0.4rem;">// Certifications</div>
+      <div class="cert-grid">
+        <a class="cert-card" href="files/cert_google_prompting_essentials.png" target="_blank" rel="noopener noreferrer">
+          <img src="files/cert_google_prompting_essentials_thumb.jpg" width="760" height="618" loading="lazy" decoding="async" alt="Google Prompting Essentials certificate"/>
+          <div class="cert-body">
+            <div class="cert-name">Google Prompting Essentials</div>
+            <div class="cert-meta">Google · Coursera Specialization · 2026</div>
+          </div>
+        </a>
+        <a class="cert-card" href="files/cert_intro_business_analysis.png" target="_blank" rel="noopener noreferrer">
+          <img src="files/cert_intro_business_analysis_thumb.jpg" width="760" height="599" loading="lazy" decoding="async" alt="Introduction to Business Analysis certificate"/>
+          <div class="cert-body">
+            <div class="cert-name">Introduction to Business Analysis</div>
+            <div class="cert-meta">IBM · Coursera · 2026</div>
+          </div>
+        </a>
+        <a class="cert-card" href="files/cert_foundations_data_science.png" target="_blank" rel="noopener noreferrer">
+          <img src="files/cert_foundations_data_science_thumb.jpg" width="760" height="596" loading="lazy" decoding="async" alt="Foundations of Data Science certificate"/>
+          <div class="cert-body">
+            <div class="cert-name">Foundations of Data Science</div>
+            <div class="cert-meta">Google · Coursera · 2026</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- JOURNEY -->
+  <section id="skills">
+    <div class="reveal">
+      <div class="sec-label">// 02 · Journey</div>
+      <h2 class="sec-title">How I got<br/>here.</h2>
+
+      <div class="tl">
+        <div class="tl-line"></div>
+
+        <div class="tl-item">
+          <div class="tl-dot" style="background:var(--sage-d);"></div>
+          <div class="tl-date">Jun 2021 - Jun 2022</div>
+          <div class="tl-role">First Analyst Role · Paisabuddy Finance</div>
+          <div class="tl-desc">Where I learned to turn business questions into analysis. Gathered requirements from lending stakeholders, built 100+ data-backed models and business cases for corporate and retail accounts, and translated credit-risk logic into calls leadership could make under tight deadlines.</div>
+          <div class="tl-tags">
+            <span class="tl-tag c-sage">Requirements Gathering</span>
+            <span class="tl-tag c-sage">Business Cases</span>
+            <span class="tl-tag c-sage">Credit Analysis</span>
+            <span class="tl-tag c-sage">Excel</span>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot" style="background:var(--sky-d);"></div>
+          <div class="tl-date">Jul 2022 - May 2025</div>
+          <div class="tl-role">Business Operations Analyst · Star Housing Finance</div>
+          <div class="tl-desc">My core business-analysis years. Mapped and streamlined reporting processes across 5+ functions, gathered requirements from business stakeholders, and built Tableau &amp; Power BI systems from scratch for 50+ accounts, cutting 9+ hours of manual weekly work and giving leaders self-serve answers to their own questions. The bridge between business and technical teams.</div>
+          <div class="tl-tags">
+            <span class="tl-tag c-sky">Process Mapping</span>
+            <span class="tl-tag c-sky">Stakeholder Analysis</span>
+            <span class="tl-tag c-sky">Dashboard Design</span>
+            <span class="tl-tag c-sky">Tableau</span>
+            <span class="tl-tag c-sky">Power BI</span>
+            <span class="tl-tag c-sky">SQL</span>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot" style="background:var(--blush-d);"></div>
+          <div class="tl-date">Sep 2025 - Present</div>
+          <div class="tl-role">Graduate Student Assistant · Northeastern University</div>
+          <div class="tl-desc">Support exam accommodations at Northeastern's Disability Resource Center: managing the accommodations database, scheduling accommodated exams (including students with multiple same-day exams), and coordinating with the head of the center. Analyzed a semester of scheduling data in SQL, Python, Excel, and Tableau and flagged a missing field, actual exam duration was never captured, which left rooms sitting empty, then recommended tracking it to improve room use. Alongside it, earning my MS and building 6 end-to-end projects.</div>
+          <div class="tl-tags">
+            <span class="tl-tag c-blush">Database Management</span>
+            <span class="tl-tag c-blush">Exam Coordination</span>
+            <span class="tl-tag c-blush">Data Analysis</span>
+            <span class="tl-tag c-blush">Problem-Solving</span>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot" style="background:var(--sky-d);"></div>
+          <div class="tl-date">May 2026 - Present</div>
+          <div class="tl-role">Business Strategy Analyst · Jaris Technologies</div>
+          <div class="tl-desc">Business strategy for a venture automating aircraft ramp and turnaround operations, an untapped market still run manually with no incumbent. Built the business case in Excel, mapping the 13-step turnaround for an A320 at Toulouse and modeling its cost, time, and CO2, quantifying up to ~€740K in cascade cost from a single serious ramp incident and ~€2.9M in annual loss exposure across a 10-aircraft fleet, the value automation is positioned to reduce. Then defined the automated to-be value proposition, shaping product direction and the go-to-market story for leadership. The core analyst muscle: frame the question first, then let the evidence answer it.</div>
+          <div class="tl-tags">
+            <span class="tl-tag c-sky">Market Opportunity</span>
+            <span class="tl-tag c-sky">Business Case</span>
+            <span class="tl-tag c-sky">Excel Modeling</span>
+            <span class="tl-tag c-sky">Go-to-Market</span>
+          </div>
+        </div>
+
+        <div class="tl-item tl-now">
+          <div class="tl-dot"></div>
+          <div class="tl-date">Now · Graduating Dec 2026</div>
+          <div class="tl-role">Ready for what's next.</div>
+          <div class="tl-desc">A finance and operations foundation, a full analytics toolkit, and the habit of asking what the numbers mean for the business. Open to business analyst, product analyst, and marketing analytics roles where sharp questions beat fancy tools.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="reveal journey-side">
+      <div class="sec-label">// Education</div>
+      <div class="edu-stack">
+        <div class="edu-item">
+          <div class="edu-dot"></div>
+          <div>
+            <div class="edu-degree">MS in Business Analytics</div>
+            <div class="edu-uni">D'Amore-McKim School of Business, Northeastern University</div>
+            <div class="edu-year">2025 - Expected Dec 2026 · Oakland, CA</div>
+          </div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-dot"></div>
+          <div>
+            <div class="edu-degree">PG Diploma in Finance Management</div>
+            <div class="edu-uni">Welingkar Institute of Management Development &amp; Research</div>
+            <div class="edu-year">2022 - 2024</div>
+          </div>
+        </div>
+        <div class="edu-item">
+          <div class="edu-dot"></div>
+          <div>
+            <div class="edu-degree">Bachelor of Business Administration</div>
+            <div class="edu-uni">Savitribai Phule Pune University</div>
+            <div class="edu-year">2019 - 2021</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="live-box">
+        <div class="sec-label" style="margin-bottom:1rem;">// Live Work</div>
+        <div class="live-links">
+          <a class="live-link" style="background:var(--lav);color:var(--lav-d);"
+             href="https://public.tableau.com/app/profile/aditi.shelke6513/vizzes" target="_blank" rel="noopener noreferrer">
+            <span style="font-size:1rem;">📊</span> View Tableau Dashboards →
+          </a>
+          <a class="live-link" style="background:var(--sage);color:var(--sage-d);"
+             href="https://github.com/Aditi1910" target="_blank" rel="noopener noreferrer">
+            <span style="font-size:1rem;">💻</span> View GitHub Projects →
+          </a>
+          <a class="live-link" style="background:var(--sky);color:var(--sky-d);"
+             href="https://www.linkedin.com/in/aditi-shelke-172021179/" target="_blank" rel="noopener noreferrer">
+            <span style="font-size:1rem;">🔗</span> Connect on LinkedIn →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="reveal">
+      <div class="sec-label">// 03 · Work</div>
+      <h2 class="sec-title">Six projects.<br/>Real data. Real impact.</h2>
+    </div>
+
+    <div class="proj-group-label reveal">Dashboards &amp; Visualization <span>· interactive, visual, decision-ready</span></div>
+    <div class="proj-tiles reveal">
+
+      <article class="proj-tile">
+        <a class="proj-tile-cover" href="files/global_development_dashboard.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+          <img src="files/cover_convergence_dash.png" width="1200" height="740" loading="lazy" decoding="async" alt=""/>
+        </a>
+        <div class="proj-tile-body">
+          <div class="proj-tile-cat">Dashboard · Data Viz</div>
+          <h3 class="proj-tile-title"><a href="files/global_development_dashboard.html" target="_blank" rel="noopener noreferrer">The Great Convergence</a></h3>
+          <div class="proj-tile-desc">How 47 economies converged in lifespan but split on income, 1952-2007.</div>
+          <div class="proj-actions">
+            <a class="proj-link" href="files/global_development_dashboard.html" target="_blank" rel="noopener noreferrer">View dashboard →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="proj-tile">
+        <a class="proj-tile-cover" href="files/retail_dashboard.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+          <img src="files/cover_retail_dash.png" width="1200" height="740" loading="lazy" decoding="async" alt=""/>
+        </a>
+        <div class="proj-tile-body">
+          <div class="proj-tile-cat">Dashboard · Business Analysis</div>
+          <h3 class="proj-tile-title"><a href="files/retail_dashboard.html" target="_blank" rel="noopener noreferrer">The Profit Leak</a></h3>
+          <div class="proj-tile-desc">Where a $2.3M retailer quietly loses margin, and how to fix it.</div>
+          <div class="proj-actions">
+            <a class="proj-link" href="files/retail_dashboard.html" target="_blank" rel="noopener noreferrer">View dashboard →</a>
+            <a class="proj-link sub" href="files/retail_profitability_analysis.html" target="_blank" rel="noopener noreferrer">Full analysis →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="proj-tile">
+        <a class="proj-tile-cover" href="files/airbnb_dashboard.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+          <img src="files/cover_airbnb_dash.png" width="1200" height="740" loading="lazy" decoding="async" alt=""/>
+        </a>
+        <div class="proj-tile-body">
+          <div class="proj-tile-cat">Dashboard · BI</div>
+          <h3 class="proj-tile-title"><a href="files/airbnb_dashboard.html" target="_blank" rel="noopener noreferrer">Escape Routes</a></h3>
+          <div class="proj-tile-desc">What sets nightly price and ratings across 74,111 U.S. listings.</div>
+          <div class="proj-actions">
+            <a class="proj-link" href="files/airbnb_dashboard.html" target="_blank" rel="noopener noreferrer">View dashboard →</a>
+            <a class="proj-link sub" href="files/Escape_Route_Project_Report.docx">Report (Word) ↓</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="proj-group-label reveal">Forecasting &amp; Prediction <span>· statistical modeling &amp; ML</span></div>
+    <div class="proj-tiles reveal">
+
+      <article class="proj-tile">
+        <a class="proj-tile-cover" href="files/Airline_Finalproject.pdf" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+          <img src="files/cover_airline.png" width="1000" height="420" loading="lazy" decoding="async" alt=""/>
+        </a>
+        <div class="proj-tile-body">
+          <div class="proj-tile-cat">Prediction · Marketing Analytics</div>
+          <h3 class="proj-tile-title"><a href="files/Airline_Finalproject.pdf" target="_blank" rel="noopener noreferrer">Airline Customer Satisfaction</a></h3>
+          <div class="proj-tile-desc">Predicting flyer satisfaction and the Eco Plus experience gap.</div>
+          <div class="proj-actions">
+            <a class="proj-link" href="files/Airline_Finalproject.pdf" target="_blank" rel="noopener noreferrer">View report (PDF) →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="proj-tile">
+        <a class="proj-tile-cover" href="files/Project_Propasal_MISM6412.docx" tabindex="-1" aria-hidden="true">
+          <img src="files/cover_ai.png" width="1000" height="420" loading="lazy" decoding="async" alt=""/>
+        </a>
+        <div class="proj-tile-body">
+          <div class="proj-tile-cat">Prediction · Data Mining</div>
+          <h3 class="proj-tile-title"><a href="files/Project_Propasal_MISM6412.docx">AI Skepticism &amp; User Trust</a></h3>
+          <div class="proj-tile-desc">Why users overtrust AI, modeled across confidence and literacy.</div>
+          <div class="proj-actions">
+            <a class="proj-link" href="files/Project_Propasal_MISM6412.docx">Report (Word) ↓</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="proj-group-label reveal">Business Proposals &amp; Strategy <span>· market, product &amp; business case</span></div>
+    <div class="proj-tiles reveal">
+
+      <article class="proj-tile">
+        <a class="proj-tile-cover" href="files/nivaaslink_case_study.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+          <img src="files/cover_nivaaslink.png" width="1000" height="420" loading="lazy" decoding="async" alt=""/>
+        </a>
+        <div class="proj-tile-body">
+          <div class="proj-tile-cat">Business Proposal · Product</div>
+          <h3 class="proj-tile-title"><a href="files/nivaaslink_case_study.html" target="_blank" rel="noopener noreferrer">NivaasLink</a></h3>
+          <div class="proj-tile-desc">A market-entry case for automating bank-auction home buying.</div>
+          <div class="proj-actions">
+            <a class="proj-link" href="files/nivaaslink_case_study.html" target="_blank" rel="noopener noreferrer">Case study →</a>
+            <a class="proj-link sub" href="files/nivaaslink_mvp.html" target="_blank" rel="noopener noreferrer">MVP walkthrough →</a>
+            <a class="proj-link sub" href="files/NivaasLink_Report.pdf" target="_blank" rel="noopener noreferrer">Full report (PDF) →</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Coursework & case studies -->
+    <div class="course-strip reveal">
+      <div class="proj-group-label" style="margin-top:0;">Coursework &amp; Case Studies <span>· supporting written work</span></div>
+      <div class="course-grid">
+        <div class="course-item">
+          <div class="course-title">Data Warehouse Design</div>
+          <div class="course-desc">Proposal and final presentation for a dimensional warehouse build.</div>
+          <div class="proj-actions">
+            <a class="proj-link" href="files/DW_Project_Proposal.pdf" target="_blank" rel="noopener noreferrer">Proposal (PDF) →</a>
+            <a class="proj-link sub" href="files/Dabase_Mgt__Final_Presentation_1.pdf" target="_blank" rel="noopener noreferrer">Presentation (PDF) →</a>
+          </div>
+        </div>
+        <div class="course-item">
+          <div class="course-title">Apple · Strategy Case Study</div>
+          <div class="course-desc">Business and competitive analysis write-up.</div>
+          <div class="proj-actions">
+            <a class="proj-link" href="files/Apple_Case_study.docx">Read (Word) ↓</a>
+          </div>
+        </div>
+        <div class="course-item">
+          <div class="course-title">CEMEX · Operations Case Study</div>
+          <div class="course-desc">Supply chain and operations analysis write-up.</div>
+          <div class="proj-actions">
+            <a class="proj-link" href="files/Cemex_Case_study.docx">Read (Word) ↓</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="reveal">
+      <div class="contact-pre">// 04 · Let's talk</div>
+      <h2 class="contact-heading">
+        Your data has a story.<br/>Let me <em>tell it.</em>
+      </h2>
+      <p class="contact-sub">
+        Open to business analyst, product, and marketing analytics roles, full-time or contract.<br/>
+        MS Business Analytics · Northeastern University · Graduating Dec 2026
+      </p>
+      <a href="mailto:adishelke2000@gmail.com" class="contact-email">adishelke2000@gmail.com</a>
+      <div class="socials">
+        <a href="https://www.linkedin.com/in/aditi-shelke-172021179/" target="_blank" rel="noopener noreferrer" class="social-btn">LinkedIn</a>
+        <a href="https://github.com/Aditi1910" target="_blank" rel="noopener noreferrer" class="social-btn">GitHub</a>
+        <a href="https://public.tableau.com/app/profile/aditi.shelke6513/vizzes" target="_blank" rel="noopener noreferrer" class="social-btn">Tableau</a>
+        <a href="tel:+19252023104" class="social-btn">+1 925-202-3104</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECRUITER 30-SECOND SCAN -->
+  <button class="rec-fab" id="recOpen" aria-label="Open 30-second recruiter summary">
+    <span class="rec-bolt">⚡</span> 30-sec scan
+  </button>
+
+  <div class="rec-overlay" id="recOverlay" role="dialog" aria-modal="true" aria-labelledby="recTitle">
+    <div class="rec-card">
+      <button class="rec-close" id="recClose" aria-label="Close">×</button>
+      <div class="rec-eyebrow">// For recruiters in a hurry</div>
+      <h3 class="rec-title" id="recTitle">The 30-second version</h3>
+      <p class="rec-sub">Finance background, analytics toolkit, storytelling instinct. Here's everything that matters, fast.</p>
+
+      <div class="rec-looking">
+        <span><b>Seeking:</b> Business Analyst, Product &amp; Marketing Analytics</span>
+        <span><b>Available:</b> Dec 2026</span>
+        <span><b>Based:</b> Oakland, CA</span>
+      </div>
+
+      <div class="rec-metrics">
+        <div class="rec-metric m1"><div class="num">9 hrs/wk</div><div class="lbl">Manual reporting eliminated</div></div>
+        <div class="rec-metric m2"><div class="num">50+</div><div class="lbl">Credit accounts assessed</div></div>
+        <div class="rec-metric m3"><div class="num">6</div><div class="lbl">End-to-end analytics projects</div></div>
+        <div class="rec-metric m4"><div class="num">4+ yrs</div><div class="lbl">In financial services</div></div>
+      </div>
+
+      <div class="rec-chips">
+        <span class="rec-chip">Python</span><span class="rec-chip">SQL</span>
+        <span class="rec-chip">Tableau</span><span class="rec-chip">Power BI</span>
+        <span class="rec-chip">R</span><span class="rec-chip">Streamlit</span>
+      </div>
+
+      <div class="rec-cta">
+        <a class="primary" href="files/Aditi_Shelke_Resume.pdf" download="Aditi_Shelke_Resume.pdf">Resume ↓</a>
+        <a class="ghost" href="mailto:adishelke2000@gmail.com?subject=Opportunity%20for%20Aditi%20Shelke">Email me →</a>
+      </div>
+      <div class="rec-mini">
+        <a href="https://www.linkedin.com/in/aditi-shelke-172021179/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://github.com/Aditi1910" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://public.tableau.com/app/profile/aditi.shelke6513/vizzes" target="_blank" rel="noopener noreferrer">Tableau</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span>© 2026 Aditi Shelke</span>
+    <span>MS Business Analytics · Northeastern University</span>
+  </footer>
+
+  <script>
+  (function(){
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var fine   = window.matchMedia('(pointer: fine)').matches;
+
+    /* ── Scroll reveal ──
+       Content must never be stuck invisible, so this has three layers:
+       1. IntersectionObserver reveals sections as you reach them.
+       2. If IO is unavailable, everything is revealed immediately.
+       3. A failsafe timer reveals anything still hidden after 2.5s, whatever went wrong. */
+    var reveals = document.querySelectorAll('.reveal');
+    function revealAll(){ reveals.forEach(function(el){ el.classList.add('on'); }); }
+
+    if (!('IntersectionObserver' in window)) {
+      revealAll();
+    } else {
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.1 });
+      reveals.forEach(function(el){ io.observe(el); });
+      setTimeout(revealAll, 2500);
+    }
+
+    /* ── Mobile menu ── */
+    var burger = document.getElementById('navBurger');
+    var menu   = document.getElementById('mobileMenu');
+    if (burger && menu) {
+      var setMenu = function(open){
+        menu.classList.toggle('open', open);
+        burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+        burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      };
+      burger.addEventListener('click', function(){
+        setMenu(!menu.classList.contains('open'));
+      });
+      menu.addEventListener('click', function(e){
+        if (e.target.tagName === 'A') setMenu(false);
+      });
+      document.addEventListener('keydown', function(e){
+        if (e.key === 'Escape' && menu.classList.contains('open')) { setMenu(false); burger.focus(); }
+      });
+    }
+
+    /* ── Hero 3D tilt + gentle blob parallax (pointer devices only) ── */
+    var hero   = document.getElementById('hero');
+    var name3d = document.getElementById('hero-name-3d');
+    var blobs  = document.querySelectorAll('#hero .blob');
+    if (hero && fine && !reduce) {
+      hero.addEventListener('mousemove', function(e){
+        var r = hero.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width  - 0.5;
+        var py = (e.clientY - r.top)  / r.height - 0.5;
+        if (name3d) name3d.style.transform =
+          'rotateY(' + (px * 8) + 'deg) rotateX(' + (-py * 8) + 'deg)';
+        blobs.forEach(function(b, i){
+          var depth = (i + 1) * 16;
+          b.style.transform = 'translate(' + (px * depth) + 'px,' + (py * depth) + 'px)';
+        });
+      });
+      hero.addEventListener('mouseleave', function(){
+        if (name3d) name3d.style.transform = 'rotateY(0) rotateX(0)';
+        blobs.forEach(function(b){ b.style.transform = 'translate(0,0)'; });
+      });
+    }
+
+    /* ── Nav active-section highlight ── */
+    var navLinks = document.querySelectorAll('.nav-links a');
+    var linkMap = {};
+    navLinks.forEach(function(a){
+      var href = a.getAttribute('href');
+      if (href && href.charAt(0) === '#') linkMap[href.slice(1)] = a;
+    });
+    var spy = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting && linkMap[e.target.id]) {
+          navLinks.forEach(function(a){ a.classList.remove('active'); });
+          linkMap[e.target.id].classList.add('active');
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+    ['about','skills','projects','contact'].forEach(function(id){
+      var s = document.getElementById(id);
+      if (s) spy.observe(s);
+    });
+
+    /* ── Recruiter modal: open/close with focus management ── */
+    var openBtn  = document.getElementById('recOpen');
+    var overlay  = document.getElementById('recOverlay');
+    var closeBtn = document.getElementById('recClose');
+    var lastFocus = null;
+
+    function focusables(){
+      return overlay.querySelectorAll('a[href], button:not([disabled])');
+    }
+    function openRec(){
+      var active = document.activeElement;
+      lastFocus = (active && active !== document.body) ? active : openBtn;
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      /* wait a frame: the dialog is still visibility:hidden this tick, so focus() would no-op */
+      requestAnimationFrame(function(){ closeBtn.focus(); });
+    }
+    function closeRec(){
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+    if (openBtn && overlay && closeBtn) {
+      openBtn.addEventListener('click', openRec);
+      closeBtn.addEventListener('click', closeRec);
+      overlay.addEventListener('click', function(e){ if (e.target === overlay) closeRec(); });
+      document.addEventListener('keydown', function(e){
+        if (!overlay.classList.contains('open')) return;
+        if (e.key === 'Escape') { closeRec(); return; }
+        if (e.key !== 'Tab') return;
+        /* keep focus inside the dialog */
+        var f = focusables();
+        if (!f.length) return;
+        var first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      });
+    }
+
+    /* ── Tuck the floating button away once the contact section is reached ── */
+    var contact = document.getElementById('contact');
+    if (contact && openBtn) {
+      new IntersectionObserver(function(entries){
+        entries.forEach(function(e){ openBtn.classList.toggle('tucked', e.isIntersecting); });
+      }, { threshold: 0.15 }).observe(contact);
+    }
+  })();
+  </script>
+</body>
+</html>

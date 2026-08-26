@@ -1,0 +1,12 @@
+# Local backup of the previous version of the site — not part of the deploy
+index.html.backup
+
+# macOS
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+
+# Editor cruft
+*.swp
+*~

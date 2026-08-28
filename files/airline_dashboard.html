@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Eco Plus Gap · Airline Satisfaction Dashboard · Aditi Shelke</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{--bg:#faf9f6;--white:#fff;--ink:#1a1917;--muted:#6b6a62;--line:#e8e4dc;
+    --lav-d:#5340a8;--sky-d:#1a6fa8;--sage-d:#3d6b4a;--peach-d:#b8511e;--blush-d:#9e2060;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;font-weight:300;
+    height:100vh;display:grid;grid-template-rows:auto auto 1fr auto;gap:.7rem;padding:.85rem 1.2rem;overflow:hidden}
+  .head{display:flex;justify-content:space-between;align-items:center;gap:1rem;border-bottom:1px solid var(--line);padding-bottom:.55rem}
+  .head .l{display:flex;align-items:baseline;gap:.9rem;flex-wrap:wrap}
+  a.home{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--lav-d);text-decoration:none}
+  a.home:hover{text-decoration:underline}
+  .title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.55rem;line-height:1}
+  .meta{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--muted);text-align:right;line-height:1.6}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem}
+  .kpi{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:.55rem .8rem}
+  .kpi .k{font-family:'JetBrains Mono',monospace;font-size:.54rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .kpi .v{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:600;line-height:1.05}
+  .kpi .d{font-size:.63rem;color:var(--muted)}
+  .k1 .v{color:var(--sky-d)}.k2 .v{color:var(--sage-d)}.k3 .v{color:var(--peach-d)}.k4 .v{color:var(--blush-d)}
+  .charts{display:grid;grid-template-columns:1.25fr 1fr;grid-template-rows:1fr 1fr;gap:.7rem;min-height:0}
+  .panel{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:.5rem .8rem;display:flex;flex-direction:column;min-height:0}
+  .panel h3{font-size:.74rem;font-weight:600}
+  .panel .s{font-size:.6rem;color:var(--muted);margin-bottom:.25rem}
+  .cwrap{position:relative;flex:1;min-height:0}
+  canvas{position:absolute;inset:0}
+  .insight{background:#e0f0fb;border-left:3px solid var(--sky-d);border-radius:8px;padding:.5rem .9rem;font-size:.75rem;color:#26404f;line-height:1.4}
+  .insight b{color:var(--sky-d)}
+</style>
+</head>
+<body>
+  <div class="head">
+    <div class="l"><a class="home" href="../index.html">&larr; Portfolio</a><span class="title">The Eco Plus Gap &middot; Airline Satisfaction</span></div>
+    <div class="meta">Airline Passenger Satisfaction &middot; 103,904 passengers<br/>23 service attributes &middot; 3 cabin classes</div>
+  </div>
+  <div class="kpis">
+    <div class="kpi k1"><div class="k">Passengers Surveyed</div><div class="v">103,904</div><div class="d">3 cabin classes</div></div>
+    <div class="kpi k2"><div class="k">Business Class</div><div class="v">78%</div><div class="d">satisfied</div></div>
+    <div class="kpi k3"><div class="k">Economy</div><div class="v">51%</div><div class="d">satisfied</div></div>
+    <div class="kpi k4"><div class="k">Eco Plus</div><div class="v">44%</div><div class="d">worst, despite premium</div></div>
+  </div>
+  <div class="charts">
+    <div class="panel" style="grid-row:span 2">
+      <h3>Satisfaction by Cabin Class</h3><div class="s">Eco Plus sits below plain Economy &mdash; the anomaly</div>
+      <div class="cwrap"><canvas id="cabin"></canvas></div>
+    </div>
+    <div class="panel">
+      <h3>What Moves Satisfaction Most</h3><div class="s">Model importance, top service attributes</div>
+      <div class="cwrap"><canvas id="drivers"></canvas></div>
+    </div>
+    <div class="panel">
+      <h3>Business vs Personal Travel</h3><div class="s">Trip purpose splits the base sharply</div>
+      <div class="cwrap"><canvas id="purpose"></canvas></div>
+    </div>
+  </div>
+  <div class="insight"><b>Finding:</b> Eco Plus is the only cabin that underperforms the one below it, <b>44% satisfied against Economy's 51%</b>, so passengers pay a premium and rate the experience worse. <b>The upsell is selling legroom while online boarding and seat comfort, the actual drivers, stay at Economy level.</b></div>
+<script>
+const MUT="#6b6a62",LINE="#e8e4dc",LAVD="#5340a8",SAGED="#3d6b4a",PEACHD="#b8511e",BLUSHD="#9e2060",SKYD="#1a6fa8";
+Chart.defaults.font.family="Inter";Chart.defaults.font.size=10;Chart.defaults.color=MUT;Chart.defaults.maintainAspectRatio=false;
+
+/* Satisfaction by cabin class */
+const cab=[["Business",78],["Eco",51],["Eco Plus",44]];
+new Chart(cabin,{type:"bar",data:{labels:cab.map(c=>c[0]),
+  datasets:[{data:cab.map(c=>c[1]),backgroundColor:[BLUSHD,LAVD,PEACHD],borderRadius:3}]},
+  options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.raw+"% satisfied"}}},
+  scales:{x:{grid:{display:false},ticks:{font:{size:10}}},
+    y:{grid:{color:LINE},ticks:{callback:v=>v+"%",font:{size:9}},suggestedMax:90,
+       title:{display:true,text:"Satisfied",font:{size:9}}}}}});
+
+/* Driver importance */
+const drv=[["Online boarding",100],["Seat comfort",81],["Inflight wifi",74],["Entertainment",63],["Legroom",57],["Cleanliness",44]];
+new Chart(drivers,{type:"bar",data:{labels:drv.map(d=>d[0]),
+  datasets:[{data:drv.map(d=>d[1]),backgroundColor:drv.map((d,i)=>i<2?SKYD:"#8fbcd9"),borderRadius:2}]},
+  options:{indexAxis:"y",plugins:{legend:{display:false},
+    tooltip:{callbacks:{label:c=>"relative importance "+c.raw}}},
+  scales:{x:{grid:{color:LINE},ticks:{font:{size:9}},title:{display:true,text:"Relative importance",font:{size:9}}},
+    y:{grid:{display:false},ticks:{font:{size:9}}}}}});
+
+/* Travel purpose */
+new Chart(purpose,{type:"doughnut",data:{labels:["Business travel · 58% satisfied","Personal travel · 10% satisfied"],
+  datasets:[{data:[69,31],backgroundColor:[SAGED,PEACHD],borderWidth:0}]},
+  options:{cutout:"58%",plugins:{legend:{position:"bottom",labels:{boxWidth:9,font:{size:9},padding:8}},
+    tooltip:{callbacks:{label:c=>c.label+"  ("+c.raw+"% of passengers)"}}}}});
+</script>
+</body>
+</html>

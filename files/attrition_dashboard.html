@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Why They Leave · Workforce Attrition Dashboard · Aditi Shelke</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{--bg:#faf9f6;--white:#fff;--ink:#1a1917;--muted:#6b6a62;--line:#e8e4dc;
+    --lav-d:#5340a8;--sky-d:#1a6fa8;--sage-d:#3d6b4a;--peach-d:#b8511e;--blush-d:#9e2060;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;font-weight:300;
+    height:100vh;display:grid;grid-template-rows:auto auto 1fr auto;gap:.7rem;padding:.85rem 1.2rem;overflow:hidden}
+  .head{display:flex;justify-content:space-between;align-items:center;gap:1rem;border-bottom:1px solid var(--line);padding-bottom:.55rem}
+  .head .l{display:flex;align-items:baseline;gap:.9rem;flex-wrap:wrap}
+  a.home{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--lav-d);text-decoration:none}
+  a.home:hover{text-decoration:underline}
+  .title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.55rem;line-height:1}
+  .meta{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--muted);text-align:right;line-height:1.6}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem}
+  .kpi{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:.55rem .8rem}
+  .kpi .k{font-family:'JetBrains Mono',monospace;font-size:.54rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .kpi .v{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:600;line-height:1.05}
+  .kpi .d{font-size:.63rem;color:var(--muted)}
+  .k1 .v{color:var(--sky-d)}.k2 .v{color:var(--blush-d)}.k3 .v{color:var(--peach-d)}.k4 .v{color:var(--sage-d)}
+  .charts{display:grid;grid-template-columns:1.25fr 1fr;grid-template-rows:1fr 1fr;gap:.7rem;min-height:0}
+  .panel{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:.5rem .8rem;display:flex;flex-direction:column;min-height:0}
+  .panel h3{font-size:.74rem;font-weight:600}
+  .panel .s{font-size:.6rem;color:var(--muted);margin-bottom:.25rem}
+  .cwrap{position:relative;flex:1;min-height:0}
+  canvas{position:absolute;inset:0}
+  .insight{background:#fdeee6;border-left:3px solid var(--peach-d);border-radius:8px;padding:.5rem .9rem;font-size:.75rem;color:#4a3428;line-height:1.4}
+  .insight b{color:var(--peach-d)}
+</style>
+</head>
+<body>
+  <div class="head">
+    <div class="l"><a class="home" href="../index.html">&larr; Portfolio</a><span class="title">Why They Leave &middot; Workforce Attrition</span></div>
+    <div class="meta">IBM HR Analytics &middot; 1,470 employees<br/>35 attributes &middot; 237 exits</div>
+  </div>
+  <div class="kpis">
+    <div class="kpi k1"><div class="k">Headcount</div><div class="v">1,470</div><div class="d">3 departments</div></div>
+    <div class="kpi k2"><div class="k">Attrition Rate</div><div class="v">16.1%</div><div class="d">237 employees lost</div></div>
+    <div class="kpi k3"><div class="k">Overtime Effect</div><div class="v">3.0&times;</div><div class="d">30.5% vs 10.4%</div></div>
+    <div class="kpi k4"><div class="k">Highest-Risk Dept</div><div class="v">Sales</div><div class="d">20.6% of 446 staff</div></div>
+  </div>
+  <div class="charts">
+    <div class="panel" style="grid-row:span 2">
+      <h3>Attrition Rate by Department</h3><div class="s">Bar length = rate &middot; label = headcount</div>
+      <div class="cwrap"><canvas id="dept"></canvas></div>
+    </div>
+    <div class="panel">
+      <h3>Overtime vs Attrition</h3><div class="s">The strongest single lever in the data</div>
+      <div class="cwrap"><canvas id="ot"></canvas></div>
+    </div>
+    <div class="panel">
+      <h3>Attrition by Tenure</h3><div class="s">Risk is front-loaded into year one</div>
+      <div class="cwrap"><canvas id="tenure"></canvas></div>
+    </div>
+  </div>
+  <div class="insight"><b>Finding:</b> overtime triples the odds of leaving (<b>30.5%</b> vs <b>10.4%</b>), and Sales loses one in five staff a year. Attrition concentrates in the first year, so it is a <b>workload and onboarding problem, not a pay problem</b>. Target overtime in Sales first.</div>
+<script>
+const MUT="#6b6a62",LINE="#e8e4dc",LAVD="#5340a8",SAGED="#3d6b4a",PEACHD="#b8511e",BLUSHD="#9e2060",SKYD="#1a6fa8";
+Chart.defaults.font.family="Inter";Chart.defaults.font.size=10;Chart.defaults.color=MUT;Chart.defaults.maintainAspectRatio=false;
+
+/* Attrition by department */
+const dep=[["Sales",20.6,446],["Human Resources",19.0,63],["R & D",13.8,961]];
+new Chart(dept,{type:"bar",data:{labels:dep.map(d=>d[0]),
+  datasets:[{data:dep.map(d=>d[1]),backgroundColor:dep.map(d=>d[1]>=19?BLUSHD:PEACHD),borderRadius:3}]},
+  options:{indexAxis:"y",layout:{padding:{left:6,right:10}},
+  plugins:{legend:{display:false},tooltip:{callbacks:{
+    label:c=>c.raw+"% attrition  (n="+dep[c.dataIndex][2]+")"}}},
+  scales:{x:{grid:{color:LINE},ticks:{callback:v=>v+"%",font:{size:9}},suggestedMax:25,
+    title:{display:true,text:"Attrition rate",font:{size:9}}},
+    y:{grid:{display:false},ticks:{font:{size:10},padding:4,crossAlign:"far"},afterFit:s=>{s.width=110;}}}}});
+
+/* Overtime */
+new Chart(ot,{type:"bar",data:{labels:["Works overtime","No overtime"],
+  datasets:[{data:[30.5,10.4],backgroundColor:[BLUSHD,SAGED],borderRadius:3}]},
+  options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.raw+"% attrition"}}},
+  scales:{x:{grid:{display:false}},y:{grid:{color:LINE},ticks:{callback:v=>v+"%",font:{size:9}},suggestedMax:35}}}});
+
+/* Tenure */
+const ten=[["< 1 yr",35.2],["1–2 yrs",21.4],["3–5 yrs",14.6],["6–10 yrs",10.1],["10+ yrs",8.3]];
+new Chart(tenure,{type:"line",data:{labels:ten.map(t=>t[0]),
+  datasets:[{data:ten.map(t=>t[1]),borderColor:PEACHD,backgroundColor:"rgba(184,81,30,0.12)",
+    fill:true,tension:.35,pointRadius:3,pointBackgroundColor:PEACHD,borderWidth:2}]},
+  options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.raw+"% attrition"}}},
+  scales:{x:{grid:{display:false},ticks:{font:{size:9}}},
+    y:{grid:{color:LINE},ticks:{callback:v=>v+"%",font:{size:9}},beginAtZero:true}}}});
+</script>
+</body>
+</html>

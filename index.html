@@ -147,8 +147,8 @@
 
     /* ── HERO ── */
     #hero {
-      min-height: 92vh;
-      display: grid; grid-template-rows: 1fr auto;
+      min-height: 88vh;
+      display: grid; grid-template-rows: 1fr;
       padding: 0 5rem;
       position: relative; overflow: hidden;
       border-bottom: 1px solid var(--line);
@@ -161,8 +161,8 @@
     .b3 { width: 360px; height: 360px; background: #d7cef7;      bottom: 18%; right: 8%;    opacity: 0.5; }
 
     .hero-top {
-      display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 4rem;
-      align-items: center; padding-top: 6rem;
+      display: flex; flex-direction: column; justify-content: center;
+      padding-top: 5rem; max-width: 900px;
       position: relative; z-index: 1;
     }
     .hero-main { perspective: 900px; }
@@ -221,57 +221,6 @@
       transition: border-color 0.2s, color 0.2s, transform 0.25s ease;
     }
     .btn-outline:hover { transform: translateY(-3px); border-color: var(--lav-d); color: var(--ink); }
-
-    /* Hero "at a glance" panel */
-    .hero-panel {
-      background: rgba(255,255,255,0.78); border: 1px solid var(--line);
-      border-radius: 20px; padding: 1.6rem;
-      box-shadow: 0 18px 50px rgba(26,25,23,0.06);
-      animation: up 0.9s 0.35s ease both;
-    }
-    .hero-panel-label {
-      font-family: 'JetBrains Mono', monospace; font-size: 0.62rem;
-      letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted);
-      margin-bottom: 1.1rem;
-    }
-    .hero-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; }
-    .hero-metric { padding: 0.95rem 1rem; border-radius: 13px; }
-    .hero-metric .n {
-      font-family: 'Cormorant Garamond', serif; font-size: 1.75rem;
-      font-weight: 600; line-height: 1;
-    }
-    .hero-metric .l { font-size: 0.7rem; color: var(--muted); margin-top: 0.35rem; line-height: 1.4; }
-    .hm1 { background: var(--lav); }   .hm1 .n { color: var(--lav-d); }
-    .hm2 { background: var(--sage); }  .hm2 .n { color: var(--sage-d); }
-    .hm3 { background: var(--sky); }   .hm3 .n { color: var(--sky-d); }
-    .hm4 { background: var(--gold); }  .hm4 .n { color: var(--gold-d); }
-    .hero-panel-foot {
-      margin-top: 1.1rem; padding-top: 1rem; border-top: 1px solid var(--line);
-      font-size: 0.74rem; color: var(--muted); line-height: 1.55;
-    }
-    .hero-panel-foot b { color: var(--ink); font-weight: 500; }
-
-    .hero-bottom {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 2rem 0; border-top: 1px solid var(--line);
-      position: relative; z-index: 1; gap: 1rem;
-      animation: up 0.8s 0.45s ease both;
-    }
-    .hero-meta {
-      font-size: 0.74rem; letter-spacing: 0.08em; color: var(--muted);
-      font-family: 'JetBrains Mono', monospace;
-    }
-    .hero-scroll {
-      font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
-      letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted);
-      text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;
-      transition: color 0.2s;
-    }
-    .hero-scroll:hover { color: var(--lav-d); }
-    .hero-scroll i { display: block; width: 1px; height: 22px;
-      background: linear-gradient(to bottom, var(--lav-d), transparent);
-      animation: scrollPulse 1.6s ease-in-out infinite; }
-    @keyframes scrollPulse { 0%,100%{opacity:0.35;transform:scaleY(0.55)} 50%{opacity:1;transform:scaleY(1)} }
 
     /* ── SHARED ── */
     section { padding: 4rem 5rem; }
@@ -433,6 +382,13 @@
       transition: transform .25s ease, box-shadow .25s ease;
     }
     .proj-tile:hover { transform: translateY(-5px); box-shadow: 0 16px 34px rgba(26,25,23,0.10); }
+    /* Tiles without a cover image: a colour bar carries the identity instead */
+    .proj-tile.plain { border-top-width: 3px; border-top-style: solid; }
+    .proj-tile.plain .proj-tile-body { padding-top: 1.1rem; }
+    .t-sky   { border-top-color: var(--sky-d); }
+    .t-peach { border-top-color: var(--peach-d); }
+    .t-blush { border-top-color: var(--blush-d); }
+    .t-gold  { border-top-color: var(--gold-d); }
     .proj-tile-cover {
       aspect-ratio: 16/9; overflow: hidden; background: var(--bg);
       border-bottom: 1px solid var(--line); display: block;
@@ -527,6 +483,13 @@
     @keyframes up { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
     .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.9s ease, transform 0.9s ease; }
     .reveal.on { opacity: 1; transform: none; }
+    /* Hero text fades in via CSS animation with fill-mode:both, which holds it at opacity 0
+       until the animation actually runs. In a background tab animations are frozen, so this
+       class is force-applied on a timer to guarantee the hero can never stay invisible. */
+    body.anim-safe .hero-eyebrow, body.anim-safe .hero-name, body.anim-safe .hero-role,
+    body.anim-safe .hero-tagline, body.anim-safe .hero-links {
+      animation: none !important; opacity: 1 !important; transform: none !important;
+    }
 
     /* ── RECRUITER 30-SECOND SCAN ── */
     .rec-fab {
@@ -599,8 +562,7 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 1000px) {
-      .hero-top { grid-template-columns: 1fr; gap: 2.5rem; align-items: start; padding-top: 5.5rem; }
-      .hero-panel { max-width: 520px; }
+      .hero-top { padding-top: 5rem; }
       #skills { grid-template-columns: 1fr; gap: 3rem; }
       .journey-side { position: static; }
     }
@@ -613,7 +575,6 @@
       #strengths { padding: 3rem 1.5rem; }
       #contact { padding: 5rem 1.5rem; }
       .about-top { grid-template-columns: 1fr; gap: 3rem; }
-      .hero-bottom { flex-direction: column; align-items: flex-start; }
       .nav-cta { font-size: 0.7rem; padding: 0.55rem 1rem; }
       footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
     }
@@ -623,7 +584,6 @@
       #contact { padding: 3.5rem 1.2rem; }
       .hero-tagline { font-size: 1.05rem; }
       nav { padding: 0.9rem 1.2rem; }
-      .hero-metrics { grid-template-columns: 1fr 1fr; }
       /* keep the availability chip on one line at narrow widths */
       .hero-eyebrow { align-items: flex-start; }
       .hero-eyebrow .hero-dot { margin-top: 4px; }
@@ -713,24 +673,6 @@
         </div>
       </div>
 
-      <aside class="hero-panel">
-        <div class="hero-panel-label">// At a glance</div>
-        <div class="hero-metrics">
-          <div class="hero-metric hm1"><div class="n">4+ yrs</div><div class="l">In financial services &amp; operations</div></div>
-          <div class="hero-metric hm2"><div class="n">9 hrs/wk</div><div class="l">Manual reporting eliminated</div></div>
-          <div class="hero-metric hm3"><div class="n">50+</div><div class="l">Credit accounts assessed</div></div>
-          <div class="hero-metric hm4"><div class="n">6</div><div class="l">End-to-end analytics projects</div></div>
-        </div>
-        <p class="hero-panel-foot">
-          <b>MS Business Analytics</b>, Northeastern University · Graduating Dec 2026.
-          Seeking business analyst, product, and marketing analytics roles.
-        </p>
-      </aside>
-    </div>
-
-    <div class="hero-bottom">
-      <div class="hero-meta">Python · SQL · Tableau · Power BI · R · Advanced Excel</div>
-      <a href="#strengths" class="hero-scroll"><i></i> Scroll</a>
     </div>
   </section>
 
@@ -1011,11 +953,69 @@
   <section id="projects">
     <div class="reveal">
       <div class="sec-label">// 03 · Work</div>
-      <h2 class="sec-title">Six projects.<br/>Real data. Real impact.</h2>
+      <h2 class="sec-title">Five dashboards.<br/>Four deep-dives. Real data.</h2>
     </div>
 
-    <div class="proj-group-label reveal">Dashboards &amp; Visualization <span>· interactive, visual, decision-ready</span></div>
+    <div class="proj-group-label reveal">Dashboards <span>· interactive, visual, decision-ready</span></div>
     <div class="proj-tiles reveal">
+
+      <article class="proj-tile">
+        <a class="proj-tile-cover" href="files/credit_risk_dashboard.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+          <img src="files/cover_credit_risk.png" width="1000" height="420" loading="lazy" decoding="async" alt=""/>
+        </a>
+        <div class="proj-tile-body">
+          <div class="proj-tile-cat">Interactive · Credit Risk</div>
+          <h3 class="proj-tile-title"><a href="files/credit_risk_dashboard.html" target="_blank" rel="noopener noreferrer">Credit Portfolio Command</a></h3>
+          <div class="proj-tile-desc">Move the approval cut-off and watch approval rate, bad rate and expected loss re-price live across 1,000 accounts.</div>
+          <div class="proj-actions">
+            <a class="proj-link" href="files/credit_risk_dashboard.html" target="_blank" rel="noopener noreferrer">Open dashboard →</a>
+            <span class="proj-link sub" style="color:var(--sage-d)">Filters · parameters · scorecard</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="proj-tile">
+        <a class="proj-tile-cover" href="files/retail_dashboard.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+          <img src="files/cover_retail_dash.png" width="1200" height="740" loading="lazy" decoding="async" alt=""/>
+        </a>
+        <div class="proj-tile-body">
+          <div class="proj-tile-cat">Dashboard · Profitability</div>
+          <h3 class="proj-tile-title"><a href="files/retail_dashboard.html" target="_blank" rel="noopener noreferrer">The Profit Leak</a></h3>
+          <div class="proj-tile-desc">Where a $2.3M retailer quietly loses margin, and how to fix it.</div>
+          <div class="proj-actions">
+            <a class="proj-link" href="files/retail_dashboard.html" target="_blank" rel="noopener noreferrer">View dashboard →</a>
+            <a class="proj-link sub" href="files/retail_profitability_analysis.html" target="_blank" rel="noopener noreferrer">Full analysis →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="proj-tile">
+        <a class="proj-tile-cover" href="files/attrition_dashboard.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+          <img src="files/cover_attrition.png" width="1000" height="420" loading="lazy" decoding="async" alt=""/>
+        </a>
+        <div class="proj-tile-body">
+          <div class="proj-tile-cat">Dashboard · People Analytics</div>
+          <h3 class="proj-tile-title"><a href="files/attrition_dashboard.html" target="_blank" rel="noopener noreferrer">Why They Leave</a></h3>
+          <div class="proj-tile-desc">Overtime triples the odds of quitting. Sales loses one in five.</div>
+          <div class="proj-actions">
+            <a class="proj-link" href="files/attrition_dashboard.html" target="_blank" rel="noopener noreferrer">View dashboard →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="proj-tile">
+        <a class="proj-tile-cover" href="files/airline_dashboard.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+          <img src="files/cover_airline_dash.png" width="1000" height="420" loading="lazy" decoding="async" alt=""/>
+        </a>
+        <div class="proj-tile-body">
+          <div class="proj-tile-cat">Dashboard · Customer Experience</div>
+          <h3 class="proj-tile-title"><a href="files/airline_dashboard.html" target="_blank" rel="noopener noreferrer">The Eco Plus Gap</a></h3>
+          <div class="proj-tile-desc">The one cabin that scores worse than the cheaper seat below it.</div>
+          <div class="proj-actions">
+            <a class="proj-link" href="files/airline_dashboard.html" target="_blank" rel="noopener noreferrer">View dashboard →</a>
+          </div>
+        </div>
+      </article>
 
       <article class="proj-tile">
         <a class="proj-tile-cover" href="files/global_development_dashboard.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
@@ -1031,61 +1031,38 @@
         </div>
       </article>
 
-      <article class="proj-tile">
-        <a class="proj-tile-cover" href="files/retail_dashboard.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
-          <img src="files/cover_retail_dash.png" width="1200" height="740" loading="lazy" decoding="async" alt=""/>
-        </a>
-        <div class="proj-tile-body">
-          <div class="proj-tile-cat">Dashboard · Business Analysis</div>
-          <h3 class="proj-tile-title"><a href="files/retail_dashboard.html" target="_blank" rel="noopener noreferrer">The Profit Leak</a></h3>
-          <div class="proj-tile-desc">Where a $2.3M retailer quietly loses margin, and how to fix it.</div>
-          <div class="proj-actions">
-            <a class="proj-link" href="files/retail_dashboard.html" target="_blank" rel="noopener noreferrer">View dashboard →</a>
-            <a class="proj-link sub" href="files/retail_profitability_analysis.html" target="_blank" rel="noopener noreferrer">Full analysis →</a>
-          </div>
-        </div>
-      </article>
-
-      <article class="proj-tile">
-        <a class="proj-tile-cover" href="files/airbnb_dashboard.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
-          <img src="files/cover_airbnb_dash.png" width="1200" height="740" loading="lazy" decoding="async" alt=""/>
-        </a>
-        <div class="proj-tile-body">
-          <div class="proj-tile-cat">Dashboard · BI</div>
-          <h3 class="proj-tile-title"><a href="files/airbnb_dashboard.html" target="_blank" rel="noopener noreferrer">Escape Routes</a></h3>
-          <div class="proj-tile-desc">What sets nightly price and ratings across 74,111 U.S. listings.</div>
-          <div class="proj-actions">
-            <a class="proj-link" href="files/airbnb_dashboard.html" target="_blank" rel="noopener noreferrer">View dashboard →</a>
-            <a class="proj-link sub" href="files/Escape_Route_Project_Report.docx">Report (Word) ↓</a>
-          </div>
-        </div>
-      </article>
-
     </div>
 
-    <div class="proj-group-label reveal">Forecasting &amp; Prediction <span>· statistical modeling &amp; ML</span></div>
+    <div class="proj-group-label reveal">Analysis &amp; Modelling <span>· statistical modeling, ML &amp; market analysis</span></div>
     <div class="proj-tiles reveal">
 
-      <article class="proj-tile">
-        <a class="proj-tile-cover" href="files/Airline_Finalproject.pdf" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
-          <img src="files/cover_airline.png" width="1000" height="420" loading="lazy" decoding="async" alt=""/>
-        </a>
+      <article class="proj-tile plain t-sky">
         <div class="proj-tile-body">
-          <div class="proj-tile-cat">Prediction · Marketing Analytics</div>
+          <div class="proj-tile-cat">Project · Market Analysis</div>
+          <h3 class="proj-tile-title"><a href="files/Escape_Route_Project_Report.docx">Escape Routes</a></h3>
+          <div class="proj-tile-desc">What sets nightly price and ratings across 74,111 U.S. Airbnb listings.</div>
+          <div class="proj-actions">
+            <a class="proj-link" href="files/Escape_Route_Project_Report.docx">Report (Word) ↓</a>
+            <a class="proj-link sub" href="files/airbnb_dashboard.html" target="_blank" rel="noopener noreferrer">Interactive view →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="proj-tile plain t-peach">
+        <div class="proj-tile-body">
+          <div class="proj-tile-cat">Project · Prediction</div>
           <h3 class="proj-tile-title"><a href="files/Airline_Finalproject.pdf" target="_blank" rel="noopener noreferrer">Airline Customer Satisfaction</a></h3>
           <div class="proj-tile-desc">Predicting flyer satisfaction and the Eco Plus experience gap.</div>
           <div class="proj-actions">
             <a class="proj-link" href="files/Airline_Finalproject.pdf" target="_blank" rel="noopener noreferrer">View report (PDF) →</a>
+            <a class="proj-link sub" href="files/airline_dashboard.html" target="_blank" rel="noopener noreferrer">Dashboard →</a>
           </div>
         </div>
       </article>
 
-      <article class="proj-tile">
-        <a class="proj-tile-cover" href="files/Project_Propasal_MISM6412.docx" tabindex="-1" aria-hidden="true">
-          <img src="files/cover_ai.png" width="1000" height="420" loading="lazy" decoding="async" alt=""/>
-        </a>
+      <article class="proj-tile plain t-blush">
         <div class="proj-tile-body">
-          <div class="proj-tile-cat">Prediction · Data Mining</div>
+          <div class="proj-tile-cat">Project · Data Mining</div>
           <h3 class="proj-tile-title"><a href="files/Project_Propasal_MISM6412.docx">AI Skepticism &amp; User Trust</a></h3>
           <div class="proj-tile-desc">Why users overtrust AI, modeled across confidence and literacy.</div>
           <div class="proj-actions">
@@ -1099,10 +1076,7 @@
     <div class="proj-group-label reveal">Business Proposals &amp; Strategy <span>· market, product &amp; business case</span></div>
     <div class="proj-tiles reveal">
 
-      <article class="proj-tile">
-        <a class="proj-tile-cover" href="files/nivaaslink_case_study.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
-          <img src="files/cover_nivaaslink.png" width="1000" height="420" loading="lazy" decoding="async" alt=""/>
-        </a>
+      <article class="proj-tile plain t-gold">
         <div class="proj-tile-body">
           <div class="proj-tile-cat">Business Proposal · Product</div>
           <h3 class="proj-tile-title"><a href="files/nivaaslink_case_study.html" target="_blank" rel="noopener noreferrer">NivaasLink</a></h3>
@@ -1184,6 +1158,7 @@
         <span><b>Seeking:</b> Business Analyst, Product &amp; Marketing Analytics</span>
         <span><b>Available:</b> Dec 2026</span>
         <span><b>Based:</b> Oakland, CA</span>
+        <span><b>Degree:</b> MS Business Analytics, Northeastern University</span>
       </div>
 
       <div class="rec-metrics">
@@ -1227,7 +1202,10 @@
        2. If IO is unavailable, everything is revealed immediately.
        3. A failsafe timer reveals anything still hidden after 2.5s, whatever went wrong. */
     var reveals = document.querySelectorAll('.reveal');
-    function revealAll(){ reveals.forEach(function(el){ el.classList.add('on'); }); }
+    function revealAll(){
+      reveals.forEach(function(el){ el.classList.add('on'); });
+      document.body.classList.add('anim-safe'); /* also un-freezes the hero intro */
+    }
 
     if (!('IntersectionObserver' in window)) {
       revealAll();

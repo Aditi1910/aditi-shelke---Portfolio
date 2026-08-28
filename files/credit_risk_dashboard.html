@@ -3,179 +3,180 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Credit Portfolio Command · Interactive Risk Dashboard · Aditi Shelke</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<title>Credit Portfolio Command · Risk Console · Aditi Shelke</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-  :root{--bg:#faf9f6;--white:#fff;--ink:#1a1917;--muted:#6b6a62;--line:#e8e4dc;
-    --lav:#ebe8fb;--lav-d:#5340a8;--sky:#e0f0fb;--sky-d:#1a6fa8;--sage:#e0f0e0;--sage-d:#3d6b4a;
-    --peach:#fdeee6;--peach-d:#b8511e;--blush:#fae4f2;--blush-d:#9e2060;--gold:#faf3d8;--gold-d:#7a6010;}
+  :root{
+    --bg:#0b0e14; --bg2:#10141d; --panel:#141926; --panel2:#1a2130;
+    --edge:#242c3d; --edge2:#2f3a4f;
+    --txt:#e7ecf5; --dim:#8794ab; --faint:#5d6a80;
+    --cy:#2ee6c5; --am:#ffb84d; --rd:#ff5c7a; --vi:#a78bfa; --bl:#4cc4ff; --gn:#5fd97a;
+  }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;font-weight:300;
-    min-height:100vh;display:flex;flex-direction:column}
+  body{background:
+      radial-gradient(1200px 600px at 15% -10%, #16203a 0%, transparent 60%),
+      radial-gradient(900px 500px at 100% 0%, #1b1430 0%, transparent 55%),
+      var(--bg);
+    color:var(--txt);font-family:'Inter',sans-serif;font-weight:300;
+    min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased}
 
-  /* header */
   .head{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;
-    border-bottom:1px solid var(--line);padding:.7rem 1.2rem;background:rgba(250,249,246,.96);
-    position:sticky;top:0;z-index:20;backdrop-filter:blur(10px)}
-  .head .l{display:flex;align-items:baseline;gap:.9rem;flex-wrap:wrap}
-  a.home{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--lav-d);text-decoration:none}
-  a.home:hover{text-decoration:underline}
-  .title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.5rem;line-height:1}
-  .meta{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--muted);text-align:right;line-height:1.6}
+    border-bottom:1px solid var(--edge);padding:.75rem 1.3rem;
+    background:rgba(11,14,20,.86);position:sticky;top:0;z-index:20;backdrop-filter:blur(12px)}
+  .head .l{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+  a.home{font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--cy);text-decoration:none;
+    letter-spacing:.06em;border:1px solid var(--edge2);border-radius:5px;padding:.28rem .55rem;transition:all .2s}
+  a.home:hover{background:var(--cy);color:#05261f;border-color:var(--cy)}
+  .title{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:1.85rem;
+    line-height:1;letter-spacing:.03em;text-transform:uppercase}
+  .title span{color:var(--cy)}
+  .live{font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.16em;color:var(--gn);
+    display:inline-flex;align-items:center;gap:.35rem;text-transform:uppercase}
+  .live i{width:6px;height:6px;border-radius:50%;background:var(--gn);
+    box-shadow:0 0 0 0 rgba(95,217,122,.6);animation:pl 2s infinite}
+  @keyframes pl{0%{box-shadow:0 0 0 0 rgba(95,217,122,.55)}70%{box-shadow:0 0 0 7px rgba(95,217,122,0)}100%{box-shadow:0 0 0 0 rgba(95,217,122,0)}}
+  .meta{font-family:'IBM Plex Mono',monospace;font-size:.56rem;color:var(--faint);text-align:right;line-height:1.65}
 
-  .shell{display:grid;grid-template-columns:232px 1fr;gap:.85rem;padding:.85rem 1.2rem 1.2rem;flex:1;align-items:start}
+  .shell{display:grid;grid-template-columns:238px 1fr;gap:.8rem;padding:.8rem 1.3rem 1.3rem;flex:1;align-items:start}
 
-  /* ── filter rail ── */
-  .rail{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:.9rem .9rem 1rem;
-    position:sticky;top:64px;max-height:calc(100vh - 80px);overflow-y:auto}
-  .rail h2{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.16em;
-    text-transform:uppercase;color:var(--lav-d);margin-bottom:.7rem}
-  .fgroup{margin-bottom:.95rem}
-  .flabel{font-size:.66rem;font-weight:500;color:var(--ink);margin-bottom:.35rem;display:flex;
-    justify-content:space-between;align-items:baseline;gap:.4rem}
-  .flabel .val{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--lav-d);font-weight:500}
-  .chips{display:flex;flex-wrap:wrap;gap:.28rem}
-  .chip{font-size:.63rem;padding:.24rem .55rem;border-radius:99px;border:1px solid var(--line);
-    background:var(--bg);color:var(--muted);cursor:pointer;user-select:none;transition:all .16s;font-family:inherit}
-  .chip:hover{border-color:var(--lav-d);color:var(--ink)}
-  .chip.on{background:var(--lav-d);border-color:var(--lav-d);color:#fff}
-  select{width:100%;font-family:inherit;font-size:.68rem;padding:.35rem .45rem;border:1px solid var(--line);
-    border-radius:7px;background:var(--bg);color:var(--ink);cursor:pointer}
-  select:focus{outline:2px solid var(--lav-d);outline-offset:1px}
-  input[type=range]{width:100%;accent-color:var(--lav-d);cursor:pointer;margin-top:.15rem}
-  .param{background:var(--lav);border:1px solid rgba(83,64,168,.2);border-radius:9px;padding:.6rem .65rem;margin-bottom:.8rem}
-  .param .flabel{color:var(--lav-d)}
-  .param .hint{font-size:.58rem;color:#5f5a7a;line-height:1.4;margin-top:.3rem}
-  .btn-reset{width:100%;font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.08em;
-    text-transform:uppercase;background:var(--ink);color:#fff;border:none;border-radius:8px;
-    padding:.55rem;cursor:pointer;transition:background .2s}
-  .btn-reset:hover{background:var(--lav-d)}
-  .scope{font-size:.6rem;color:var(--muted);text-align:center;margin-top:.5rem;line-height:1.45}
-  .scope b{color:var(--lav-d)}
+  .rail{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--edge);
+    border-radius:10px;padding:.9rem;position:sticky;top:62px;max-height:calc(100vh - 76px);overflow-y:auto}
+  .rail::-webkit-scrollbar{width:6px}.rail::-webkit-scrollbar-thumb{background:var(--edge2);border-radius:3px}
+  .rail h2{font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--cy);margin-bottom:.75rem;display:flex;align-items:center;gap:.4rem}
+  .rail h2::after{content:'';flex:1;height:1px;background:var(--edge2)}
+  .fgroup{margin-bottom:.9rem}
+  .flabel{font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--dim);margin-bottom:.4rem;display:flex;justify-content:space-between;align-items:baseline;gap:.4rem}
+  .flabel .val{color:var(--am);font-weight:600;font-size:.68rem}
+  .chips{display:flex;flex-wrap:wrap;gap:.25rem}
+  .chip{font-family:'IBM Plex Mono',monospace;font-size:.58rem;padding:.26rem .5rem;border-radius:4px;
+    border:1px solid var(--edge2);background:transparent;color:var(--faint);cursor:pointer;transition:all .15s}
+  .chip:hover{border-color:var(--cy);color:var(--txt)}
+  .chip.on{background:rgba(46,230,197,.14);border-color:var(--cy);color:var(--cy)}
+  select{width:100%;font-family:'IBM Plex Mono',monospace;font-size:.62rem;padding:.38rem .45rem;
+    border:1px solid var(--edge2);border-radius:5px;background:var(--bg2);color:var(--txt);cursor:pointer}
+  select:focus{outline:1px solid var(--cy);outline-offset:1px}
+  input[type=range]{width:100%;accent-color:var(--am);cursor:pointer;margin-top:.2rem;height:3px}
+  .param{background:rgba(255,184,77,.07);border:1px solid rgba(255,184,77,.28);
+    border-radius:7px;padding:.6rem .65rem;margin-bottom:.7rem}
+  .param .hint{font-size:.56rem;color:var(--faint);line-height:1.45;margin-top:.35rem}
+  .btn-reset{width:100%;font-family:'IBM Plex Mono',monospace;font-size:.6rem;letter-spacing:.12em;
+    text-transform:uppercase;background:transparent;color:var(--rd);border:1px solid var(--rd);
+    border-radius:5px;padding:.5rem;cursor:pointer;transition:all .2s}
+  .btn-reset:hover{background:var(--rd);color:#2a0611}
+  .scope{font-family:'IBM Plex Mono',monospace;font-size:.56rem;color:var(--faint);
+    text-align:center;margin-top:.55rem;line-height:1.5}
+  .scope b{color:var(--cy);font-weight:500}
 
-  /* ── main ── */
-  .main{display:flex;flex-direction:column;gap:.85rem;min-width:0}
-  .tabs{display:flex;gap:.2rem;border-bottom:1px solid var(--line)}
-  .tab{font-family:inherit;font-size:.68rem;letter-spacing:.05em;text-transform:uppercase;font-weight:500;
-    background:none;border:none;color:var(--muted);padding:.45rem .85rem;cursor:pointer;position:relative;transition:color .2s}
-  .tab::after{content:'';position:absolute;left:.85rem;right:.85rem;bottom:-1px;height:2px;
-    background:var(--lav-d);transform:scaleX(0);transition:transform .25s}
-  .tab.active{color:var(--ink)}
-  .tab.active::after{transform:scaleX(1)}
+  .main{display:flex;flex-direction:column;gap:.8rem;min-width:0}
+  .tabs{display:flex;gap:.35rem}
+  .tab{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
+    background:var(--panel);border:1px solid var(--edge);color:var(--faint);padding:.45rem .9rem;
+    cursor:pointer;border-radius:5px;transition:all .18s}
+  .tab:hover{color:var(--txt);border-color:var(--edge2)}
+  .tab.active{color:var(--cy);border-color:var(--cy);background:rgba(46,230,197,.10)}
 
-  .kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:.6rem}
-  .kpi{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:.5rem .7rem}
-  .kpi .k{font-family:'JetBrains Mono',monospace;font-size:.52rem;letter-spacing:.07em;
-    text-transform:uppercase;color:var(--muted);line-height:1.3}
-  .kpi .v{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;line-height:1.1;margin-top:.1rem}
-  .kpi .d{font-size:.58rem;color:var(--muted);line-height:1.3}
-  .k1 .v{color:var(--sky-d)}.k2 .v{color:var(--blush-d)}.k3 .v{color:var(--lav-d)}
-  .k4 .v{color:var(--peach-d)}.k5 .v{color:var(--sage-d)}.k6 .v{color:var(--gold-d)}
+  .kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:.55rem}
+  .kpi{background:var(--panel);border:1px solid var(--edge);border-radius:8px;padding:.55rem .7rem;
+    position:relative;overflow:hidden}
+  .kpi::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--edge2)}
+  .kpi.k1::before{background:var(--bl)}.kpi.k2::before{background:var(--rd)}
+  .kpi.k3::before{background:var(--vi)}.kpi.k4::before{background:var(--am)}
+  .kpi.k5::before{background:var(--cy)}.kpi.k6::before{background:var(--gn)}
+  .kpi .k{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--faint);line-height:1.3}
+  .kpi .v{font-family:'Barlow Condensed',sans-serif;font-size:1.75rem;font-weight:600;
+    line-height:1.05;margin-top:.05rem;letter-spacing:.01em}
+  .k1 .v{color:var(--bl)}.k2 .v{color:var(--rd)}.k3 .v{color:var(--vi)}
+  .k4 .v{color:var(--am)}.k5 .v{color:var(--cy)}.k6 .v{color:var(--gn)}
+  .kpi .d{font-family:'IBM Plex Mono',monospace;font-size:.53rem;color:var(--faint);line-height:1.35}
 
-  .pane{display:none;flex-direction:column;gap:.85rem}
+  .pane{display:none;flex-direction:column;gap:.8rem}
   .pane.active{display:flex}
-  .grid2{display:grid;grid-template-columns:1.15fr 1fr;gap:.85rem}
-  .panel{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:.55rem .85rem .7rem;
-    display:flex;flex-direction:column;min-width:0}
-  .panel h3{font-size:.75rem;font-weight:600}
-  .panel .s{font-size:.6rem;color:var(--muted);margin-bottom:.3rem}
-  .cwrap{position:relative;height:210px;min-width:0}
-  .cwrap.tall{height:268px}
+  .grid2{display:grid;grid-template-columns:1.15fr 1fr;gap:.8rem}
+  .panel{background:var(--panel);border:1px solid var(--edge);border-radius:8px;
+    padding:.6rem .85rem .75rem;display:flex;flex-direction:column;min-width:0}
+  .panel h3{font-family:'Barlow Condensed',sans-serif;font-size:.98rem;font-weight:600;
+    letter-spacing:.04em;text-transform:uppercase;color:var(--txt)}
+  .panel .s{font-family:'IBM Plex Mono',monospace;font-size:.55rem;color:var(--faint);margin-bottom:.35rem}
+  .panel .s b{color:var(--am)}
+  .cwrap{position:relative;height:208px;min-width:0}
+  .cwrap.tall{height:264px}
   canvas{position:absolute;inset:0}
-  .insight{background:var(--lav);border-left:3px solid var(--lav-d);border-radius:8px;padding:.6rem .9rem;
-    font-size:.74rem;color:#38364a;line-height:1.5}
-  .insight b{color:var(--lav-d)}
-  .empty{padding:2rem;text-align:center;font-size:.8rem;color:var(--muted)}
+  .insight{background:linear-gradient(90deg,rgba(46,230,197,.10),rgba(46,230,197,.02));
+    border:1px solid rgba(46,230,197,.25);border-left:3px solid var(--cy);border-radius:7px;
+    padding:.65rem .95rem;font-size:.76rem;color:#c9d6e6;line-height:1.55}
+  .insight b{color:var(--cy);font-weight:500}
 
-  /* scorecard table */
   table{width:100%;border-collapse:collapse;font-size:.7rem}
-  th{font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.06em;text-transform:uppercase;
-    color:var(--muted);text-align:right;padding:.4rem .5rem;border-bottom:1px solid var(--line);font-weight:400}
+  th{font-family:'IBM Plex Mono',monospace;font-size:.53rem;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--faint);text-align:right;padding:.45rem .5rem;border-bottom:1px solid var(--edge2);font-weight:400}
   th:first-child{text-align:left}
-  td{padding:.4rem .5rem;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums}
-  td:first-child{text-align:left;font-weight:400}
-  tbody tr:hover{background:var(--bg)}
-  .bad{color:var(--blush-d);font-weight:500}
-  .good{color:var(--sage-d);font-weight:500}
-  .bar-cell{position:relative;background:var(--bg);border-radius:99px;height:7px;min-width:52px}
-  .bar-cell i{position:absolute;left:0;top:0;bottom:0;border-radius:99px;background:var(--blush-d)}
-
-  .note{font-size:.6rem;color:var(--muted);line-height:1.5;padding:0 .1rem}
-  .note b{color:var(--ink);font-weight:500}
+  td{padding:.45rem .5rem;border-bottom:1px solid var(--edge);text-align:right;
+    font-variant-numeric:tabular-nums;color:var(--dim);font-family:'IBM Plex Mono',monospace;font-size:.66rem}
+  td:first-child{text-align:left;color:var(--txt)}
+  tbody tr:hover{background:var(--panel2)}
+  .bad{color:var(--rd);font-weight:600}.good{color:var(--cy);font-weight:600}
+  .bar-cell{position:relative;background:var(--bg2);border-radius:2px;height:6px;min-width:52px}
+  .bar-cell i{position:absolute;left:0;top:0;bottom:0;border-radius:2px;
+    background:linear-gradient(90deg,var(--am),var(--rd))}
+  .note{font-family:'IBM Plex Mono',monospace;font-size:.55rem;color:var(--faint);
+    line-height:1.6;padding:.2rem .1rem;border-top:1px solid var(--edge);padding-top:.7rem}
+  .note b{color:var(--dim)}
 
   @media (max-width:1080px){
-    .shell{grid-template-columns:1fr}
-    .rail{position:static;max-height:none}
-    .kpis{grid-template-columns:repeat(3,1fr)}
-    .grid2{grid-template-columns:1fr}
-  }
-  @media (max-width:560px){ .kpis{grid-template-columns:repeat(2,1fr)} .title{font-size:1.2rem} }
+    .shell{grid-template-columns:1fr}.rail{position:static;max-height:none}
+    .kpis{grid-template-columns:repeat(3,1fr)}.grid2{grid-template-columns:1fr}}
+  @media (max-width:560px){.kpis{grid-template-columns:repeat(2,1fr)}.title{font-size:1.4rem}}
 </style>
 </head>
 <body>
   <div class="head">
     <div class="l">
-      <a class="home" href="../index.html">&larr; Portfolio</a>
-      <span class="title">Credit Portfolio Command</span>
+      <a class="home" href="../index.html">&larr; PORTFOLIO</a>
+      <span class="title">Credit Portfolio <span>Command</span></span>
+      <span class="live"><i></i>live model</span>
     </div>
-    <div class="meta">Simulated retail loan book &middot; 1,000 accounts<br/>calibrated to German Credit (UCI Statlog) marginals</div>
+    <div class="meta">SIMULATED RETAIL LOAN BOOK &middot; 1,000 ACCOUNTS<br/>CALIBRATED TO GERMAN CREDIT (UCI STATLOG)</div>
   </div>
 
   <div class="shell">
-    <!-- ── FILTER RAIL ── -->
     <aside class="rail">
-      <h2>// Parameters</h2>
-
+      <h2>Parameters</h2>
       <div class="param">
-        <div class="flabel"><span>Approval cut-off score</span><span class="val" id="vCut">620</span></div>
+        <div class="flabel"><span>Approval cut-off</span><span class="val" id="vCut">620</span></div>
         <input type="range" id="cut" min="300" max="850" step="5" value="620"/>
-        <div class="hint">Accounts scoring below the cut-off are declined. Drag to trade volume against loss.</div>
+        <div class="hint">Accounts below the cut-off are declined. Trade volume against loss.</div>
       </div>
-
       <div class="param">
         <div class="flabel"><span>Loss given default</span><span class="val" id="vLgd">45%</span></div>
         <input type="range" id="lgd" min="10" max="90" step="5" value="45"/>
-        <div class="hint">Share of exposure lost when an account defaults. Drives expected loss.</div>
+        <div class="hint">Share of exposure lost on default. Drives expected loss.</div>
       </div>
 
-      <h2 style="margin-top:1.1rem">// Filters</h2>
-
+      <h2 style="margin-top:1rem">Filters</h2>
       <div class="fgroup">
         <div class="flabel"><span>Checking status</span></div>
         <div class="chips" id="fChecking"></div>
       </div>
-
-      <div class="fgroup">
-        <div class="flabel"><span>Loan purpose</span></div>
-        <select id="fPurpose"><option value="">All purposes</option></select>
-      </div>
-
-      <div class="fgroup">
-        <div class="flabel"><span>Employment</span></div>
-        <select id="fEmp"><option value="">All employment</option></select>
-      </div>
-
-      <div class="fgroup">
-        <div class="flabel"><span>Housing</span></div>
-        <select id="fHouse"><option value="">All housing</option></select>
-      </div>
-
+      <div class="fgroup"><div class="flabel"><span>Purpose</span></div>
+        <select id="fPurpose"><option value="">All purposes</option></select></div>
+      <div class="fgroup"><div class="flabel"><span>Employment</span></div>
+        <select id="fEmp"><option value="">All employment</option></select></div>
+      <div class="fgroup"><div class="flabel"><span>Housing</span></div>
+        <select id="fHouse"><option value="">All housing</option></select></div>
       <div class="fgroup">
         <div class="flabel"><span>Max term</span><span class="val" id="vTerm">72 mo</span></div>
-        <input type="range" id="fTerm" min="6" max="72" step="6" value="72"/>
-      </div>
-
+        <input type="range" id="fTerm" min="6" max="72" step="6" value="72"/></div>
       <div class="fgroup">
-        <div class="flabel"><span>Min applicant age</span><span class="val" id="vAge">18</span></div>
-        <input type="range" id="fAge" min="18" max="65" step="1" value="18"/>
-      </div>
-
+        <div class="flabel"><span>Min age</span><span class="val" id="vAge">18</span></div>
+        <input type="range" id="fAge" min="18" max="65" step="1" value="18"/></div>
       <button class="btn-reset" id="reset">Reset all</button>
       <div class="scope" id="scope"></div>
     </aside>
 
-    <!-- ── MAIN ── -->
     <div class="main">
       <div class="tabs">
         <button class="tab active" data-pane="overview">Overview</button>
@@ -189,404 +190,360 @@
         <div class="kpi k3"><div class="k">Exposure</div><div class="v" id="kExp">—</div><div class="d">total DM</div></div>
         <div class="kpi k4"><div class="k">Expected loss</div><div class="v" id="kEl">—</div><div class="d" id="kElD">at current LGD</div></div>
         <div class="kpi k5"><div class="k">Approval rate</div><div class="v" id="kApp">—</div><div class="d" id="kAppD">at cut-off</div></div>
-        <div class="kpi k6"><div class="k">Bad rate if approved</div><div class="v" id="kBad">—</div><div class="d" id="kBadD">vs portfolio</div></div>
+        <div class="kpi k6"><div class="k">Bad rate approved</div><div class="v" id="kBad">—</div><div class="d" id="kBadD">vs book</div></div>
       </div>
 
-      <!-- OVERVIEW -->
       <div class="pane active" id="pane-overview">
         <div class="grid2">
           <div class="panel">
-            <h3>Score distribution &amp; approval cut-off</h3>
-            <div class="s">Green = approved · grey = declined · the line is your cut-off</div>
+            <h3>Score distribution</h3>
+            <div class="s">TEAL = APPROVED &middot; GREY = DECLINED &middot; CUT-OFF <b id="sCut">620</b></div>
             <div class="cwrap tall"><canvas id="cScore"></canvas></div>
           </div>
           <div class="panel">
-            <h3>Default rate by checking status</h3>
-            <div class="s">Recomputes against the current filter set</div>
+            <h3>Default by checking status</h3>
+            <div class="s">RECOMPUTES AGAINST THE CURRENT FILTER SET</div>
             <div class="cwrap tall"><canvas id="cChecking"></canvas></div>
           </div>
         </div>
         <div class="grid2">
           <div class="panel">
             <h3>Cut-off trade-off curve</h3>
-            <div class="s">Approval rate vs bad rate across every possible cut-off</div>
+            <div class="s">APPROVAL RATE VS BAD RATE ACROSS EVERY CUT-OFF</div>
             <div class="cwrap"><canvas id="cTrade"></canvas></div>
           </div>
           <div class="panel">
-            <h3>Default rate by term</h3>
-            <div class="s">Longer money is riskier money</div>
+            <h3>Default by term</h3>
+            <div class="s">LONGER MONEY IS RISKIER MONEY</div>
             <div class="cwrap"><canvas id="cTerm"></canvas></div>
           </div>
         </div>
         <div class="insight" id="insight"></div>
       </div>
 
-      <!-- DRIVERS -->
       <div class="pane" id="pane-drivers">
         <div class="grid2">
           <div class="panel">
-            <h3>Default rate by purpose</h3>
-            <div class="s">Where the loan is going changes whether it comes back</div>
+            <h3>Default by purpose</h3>
+            <div class="s">WHERE THE MONEY GOES CHANGES WHETHER IT COMES BACK</div>
             <div class="cwrap tall"><canvas id="cPurpose"></canvas></div>
           </div>
           <div class="panel">
-            <h3>Default rate by employment tenure</h3>
-            <div class="s">Job stability as a proxy for repayment capacity</div>
+            <h3>Default by employment tenure</h3>
+            <div class="s">JOB STABILITY AS A PROXY FOR REPAYMENT CAPACITY</div>
             <div class="cwrap tall"><canvas id="cEmp"></canvas></div>
           </div>
         </div>
         <div class="grid2">
           <div class="panel">
-            <h3>Exposure vs risk by segment</h3>
-            <div class="s">Bubble size = accounts · top-right = big and risky</div>
+            <h3>Exposure vs risk</h3>
+            <div class="s">BUBBLE = ACCOUNTS &middot; TOP-RIGHT = BIG AND RISKY</div>
             <div class="cwrap"><canvas id="cBubble"></canvas></div>
           </div>
           <div class="panel">
-            <h3>Default rate by loan size</h3>
-            <div class="s">Risk concentrates in the largest tickets</div>
+            <h3>Default by loan size</h3>
+            <div class="s">RISK CONCENTRATES IN THE LARGEST TICKETS</div>
             <div class="cwrap"><canvas id="cAmount"></canvas></div>
           </div>
         </div>
       </div>
 
-      <!-- SCORECARD -->
       <div class="pane" id="pane-scorecard">
         <div class="panel">
           <h3>Risk band scorecard</h3>
-          <div class="s">Every band recomputes against the filters and the cut-off you set</div>
+          <div class="s">EVERY BAND RECOMPUTES AGAINST FILTERS AND CUT-OFF</div>
           <div style="overflow-x:auto"><table id="tScore">
             <thead><tr>
-              <th>Risk band</th><th>Score range</th><th>Accounts</th><th>% of book</th>
-              <th>Defaults</th><th>Default rate</th><th></th><th>Exposure</th><th>Expected loss</th><th>Decision</th>
-            </tr></thead>
-            <tbody></tbody>
+              <th>Risk band</th><th>Score</th><th>Accounts</th><th>% book</th>
+              <th>Defaults</th><th>Rate</th><th></th><th>Exposure</th><th>Exp. loss</th><th>Decision</th>
+            </tr></thead><tbody></tbody>
           </table></div>
         </div>
         <div class="panel">
           <h3>How the score is built</h3>
-          <div class="s">Information value by attribute, strongest predictor first &middot;
-            scorecard discrimination <b id="aucOut">—</b> AUC on the filtered book</div>
+          <div class="s">INFORMATION VALUE BY ATTRIBUTE &middot; DISCRIMINATION <b id="aucOut">—</b> AUC</div>
           <div class="cwrap"><canvas id="cWeights"></canvas></div>
         </div>
       </div>
 
-      <div class="note"><b>Note on the data:</b> this is a simulated 1,000-account loan book generated from a
-        seeded model, calibrated so the headline marginals match the published German Credit (UCI Statlog)
-        dataset &mdash; 30.0% overall default and 11.7% / 22.2% / 39.0% / 49.3% by checking status. It exists to
-        demonstrate the analysis and the interaction design, not to report findings about real borrowers.</div>
+      <div class="note"><b>DATA:</b> simulated 1,000-account book from a seeded model, calibrated so headline
+        marginals match published German Credit (UCI Statlog) figures — 30.0% overall default and
+        11.7 / 22.2 / 39.0 / 49.3% by checking status. Built to demonstrate the analysis and interaction
+        design, not to report findings about real borrowers.</div>
     </div>
   </div>
 
 <script>
 "use strict";
-const MUT="#6b6a62",LINE="#e8e4dc",LAVD="#5340a8",SAGED="#3d6b4a",PEACHD="#b8511e",
-      BLUSHD="#9e2060",SKYD="#1a6fa8",GOLDD="#7a6010",GREY="#c9c5bc";
-Chart.defaults.font.family="Inter";Chart.defaults.font.size=10;
-Chart.defaults.color=MUT;Chart.defaults.maintainAspectRatio=false;
+const CY="#2ee6c5",AM="#ffb84d",RD="#ff5c7a",VI="#a78bfa",BL="#4cc4ff",GN="#5fd97a",
+      GRID="#242c3d",DIM="#8794ab",FAINT="#5d6a80",GREY="#3a4459";
+Chart.defaults.font.family="IBM Plex Mono";Chart.defaults.font.size=9;
+Chart.defaults.color=FAINT;Chart.defaults.maintainAspectRatio=false;
 Chart.defaults.animation.duration=380;
+Chart.defaults.plugins.tooltip.backgroundColor="#141926";
+Chart.defaults.plugins.tooltip.borderColor=GRID;
+Chart.defaults.plugins.tooltip.borderWidth=1;
+Chart.defaults.plugins.tooltip.titleColor="#e7ecf5";
+Chart.defaults.plugins.tooltip.bodyColor="#8794ab";
+Chart.defaults.plugins.tooltip.padding=8;
 
-/* ── seeded RNG so the book is identical on every load ── */
 function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);
   t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
 const rnd=mulberry32(20260827);
-const pick=(arr)=>arr[Math.floor(rnd()*arr.length)];
 function pickW(pairs){let r=rnd(),acc=0;for(const[v,w]of pairs){acc+=w;if(r<=acc)return v;}return pairs[pairs.length-1][0];}
 
-/* ── dimensions ── */
 const CHECKING=[["No account",394,11.7],["≥ 200 DM",63,22.2],["0–200 DM",269,39.0],["< 0 DM",274,49.3]];
 const PURPOSE=[["New car",.24],["Used car",.10],["Furniture",.18],["Radio/TV",.28],
                ["Education",.05],["Business",.10],["Repairs",.05]];
 const EMPLOY =[["Unemployed",.06],["< 1 yr",.17],["1–4 yrs",.34],["4–7 yrs",.17],["7+ yrs",.26]];
 const HOUSING=[["Own",.71],["Rent",.18],["Free",.11]];
-
-/* risk weights (log-odds contributions) */
 const W_PURPOSE={"New car":.35,"Used car":-.45,"Furniture":.05,"Radio/TV":-.10,
                  "Education":.55,"Business":.40,"Repairs":.30};
 const W_EMPLOY ={"Unemployed":.65,"< 1 yr":.45,"1–4 yrs":.05,"4–7 yrs":-.25,"7+ yrs":-.40};
 const W_HOUSING={"Own":-.25,"Rent":.30,"Free":.20};
 
-/* ── build the book ── */
 const BOOK=[];
 CHECKING.forEach(([chk,n,rate])=>{
   const grp=[];
   for(let i=0;i<n;i++){
-    const purpose=pickW(PURPOSE), employ=pickW(EMPLOY), housing=pickW(HOUSING);
+    const purpose=pickW(PURPOSE),employ=pickW(EMPLOY),housing=pickW(HOUSING);
     const duration=[6,12,18,24,30,36,48,60,72][Math.floor(rnd()*9)];
     const amount=Math.round((500+rnd()*rnd()*17500)/50)*50;
     const age=18+Math.floor(rnd()*47);
-    /* latent risk: higher = worse */
-    const z = W_PURPOSE[purpose] + W_EMPLOY[employ] + W_HOUSING[housing]
-            + (duration-24)/24*0.55
-            + (amount-3200)/6000*0.30
-            + (35-age)/20*0.28
-            + (rnd()-0.5)*1.5;
+    const z=W_PURPOSE[purpose]+W_EMPLOY[employ]+W_HOUSING[housing]
+      +(duration-24)/24*0.55+(amount-3200)/6000*0.30+(35-age)/20*0.28+(rnd()-0.5)*1.5;
     grp.push({chk,purpose,employ,housing,duration,amount,age,z,bad:0});
   }
-  /* assign exactly the target number of defaults to the riskiest accounts in the group,
-     so group marginals match the published dataset exactly */
   const target=Math.round(n*rate/100);
   grp.slice().sort((a,b)=>b.z-a.z).slice(0,target).forEach(r=>r.bad=1);
   BOOK.push(...grp);
 });
 
-/* The scorecard is a MODEL of latent risk, not the truth. Adding noise before scoring keeps
-   it an imperfect ranker, the way a real scorecard is — otherwise the cut-off curve would be
-   unrealistically clean and the AUC would sit near 1.0. */
-function gauss(){ let u=0,v=0; while(!u)u=rnd(); while(!v)v=rnd();
-  return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v); }
+function gauss(){let u=0,v=0;while(!u)u=rnd();while(!v)v=rnd();
+  return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);}
 const zsRaw=BOOK.map(r=>r.z);
 const zMean=zsRaw.reduce((a,b)=>a+b,0)/zsRaw.length;
 const zSD=Math.sqrt(zsRaw.reduce((s,z)=>s+(z-zMean)**2,0)/zsRaw.length);
-BOOK.forEach(r=>{ r.zHat=r.z+gauss()*zSD*1.05; });
-const zh=BOOK.map(r=>r.zHat), hMin=Math.min(...zh), hMax=Math.max(...zh);
-BOOK.forEach(r=>{ r.score=Math.round(850-(r.zHat-hMin)/(hMax-hMin)*550); });
+BOOK.forEach(r=>{r.zHat=r.z+gauss()*zSD*1.05;});
+const zh=BOOK.map(r=>r.zHat),hMin=Math.min(...zh),hMax=Math.max(...zh);
+BOOK.forEach(r=>{r.score=Math.round(850-(r.zHat-hMin)/(hMax-hMin)*550);});
 
-/* Honest AUC of the scorecard against realised defaults (Mann–Whitney form) */
 function auc(rows){
-  const pos=rows.filter(r=>r.bad).map(r=>r.score), neg=rows.filter(r=>!r.bad).map(r=>r.score);
-  if(!pos.length||!neg.length) return null;
+  const pos=rows.filter(r=>r.bad),neg=rows.filter(r=>!r.bad);
+  if(!pos.length||!neg.length)return null;
   const all=rows.slice().sort((a,b)=>a.score-b.score);
-  const ranks=new Map(); let i=0;
-  while(i<all.length){ let j=i; while(j+1<all.length&&all[j+1].score===all[i].score)j++;
-    const r=(i+j)/2+1; for(let k=i;k<=j;k++)ranks.set(all[k],r); i=j+1; }
-  const sumPos=rows.filter(r=>r.bad).reduce((s,r)=>s+ranks.get(r),0);
+  const ranks=new Map();let i=0;
+  while(i<all.length){let j=i;while(j+1<all.length&&all[j+1].score===all[i].score)j++;
+    const r=(i+j)/2+1;for(let k=i;k<=j;k++)ranks.set(all[k],r);i=j+1;}
+  const sumPos=pos.reduce((s,r)=>s+ranks.get(r),0);
   const n1=pos.length,n0=neg.length;
-  /* low score = high risk, so invert to express "discrimination" */
   return 1-((sumPos-n1*(n1+1)/2)/(n1*n0));
 }
 
-/* ── state ── */
 const S={cut:620,lgd:45,checking:new Set(CHECKING.map(c=>c[0])),purpose:"",emp:"",house:"",term:72,age:18};
-
-/* ── populate controls ── */
 const elChips=document.getElementById("fChecking");
 CHECKING.forEach(([name])=>{
   const b=document.createElement("button");
-  b.className="chip on"; b.textContent=name; b.dataset.v=name;
-  b.setAttribute("aria-pressed","true");
+  b.className="chip on";b.textContent=name;b.dataset.v=name;b.setAttribute("aria-pressed","true");
   b.onclick=()=>{
-    if(S.checking.has(name)){ if(S.checking.size===1)return; S.checking.delete(name); b.classList.remove("on"); b.setAttribute("aria-pressed","false"); }
-    else { S.checking.add(name); b.classList.add("on"); b.setAttribute("aria-pressed","true"); }
-    render();
-  };
+    if(S.checking.has(name)){if(S.checking.size===1)return;S.checking.delete(name);
+      b.classList.remove("on");b.setAttribute("aria-pressed","false");}
+    else{S.checking.add(name);b.classList.add("on");b.setAttribute("aria-pressed","true");}
+    render();};
   elChips.appendChild(b);
 });
 const fill=(id,items)=>{const s=document.getElementById(id);
   items.forEach(([v])=>{const o=document.createElement("option");o.value=v;o.textContent=v;s.appendChild(o);});};
-fill("fPurpose",PURPOSE); fill("fEmp",EMPLOY); fill("fHouse",HOUSING);
-
+fill("fPurpose",PURPOSE);fill("fEmp",EMPLOY);fill("fHouse",HOUSING);
 const on=(id,fn)=>document.getElementById(id).addEventListener("input",fn);
-on("cut",e=>{S.cut=+e.target.value;document.getElementById("vCut").textContent=S.cut;render();});
-on("lgd",e=>{S.lgd=+e.target.value;document.getElementById("vLgd").textContent=S.lgd+"%";render();});
+on("cut",e=>{S.cut=+e.target.value;vCut.textContent=S.cut;sCut.textContent=S.cut;render();});
+on("lgd",e=>{S.lgd=+e.target.value;vLgd.textContent=S.lgd+"%";render();});
 on("fPurpose",e=>{S.purpose=e.target.value;render();});
 on("fEmp",e=>{S.emp=e.target.value;render();});
 on("fHouse",e=>{S.house=e.target.value;render();});
-on("fTerm",e=>{S.term=+e.target.value;document.getElementById("vTerm").textContent=S.term+" mo";render();});
-on("fAge",e=>{S.age=+e.target.value;document.getElementById("vAge").textContent=S.age;render();});
+on("fTerm",e=>{S.term=+e.target.value;vTerm.textContent=S.term+" mo";render();});
+on("fAge",e=>{S.age=+e.target.value;vAge.textContent=S.age;render();});
 document.getElementById("reset").onclick=()=>{
   Object.assign(S,{cut:620,lgd:45,purpose:"",emp:"",house:"",term:72,age:18});
   S.checking=new Set(CHECKING.map(c=>c[0]));
-  cut.value=620; lgd.value=45; fTerm.value=72; fAge.value=18;
-  fPurpose.value=""; fEmp.value=""; fHouse.value="";
-  vCut.textContent="620"; vLgd.textContent="45%"; vTerm.textContent="72 mo"; vAge.textContent="18";
+  cut.value=620;lgd.value=45;fTerm.value=72;fAge.value=18;
+  fPurpose.value="";fEmp.value="";fHouse.value="";
+  vCut.textContent="620";sCut.textContent="620";vLgd.textContent="45%";
+  vTerm.textContent="72 mo";vAge.textContent="18";
   [...elChips.children].forEach(c=>{c.classList.add("on");c.setAttribute("aria-pressed","true");});
-  render();
-};
+  render();};
 document.querySelectorAll(".tab").forEach(t=>{
   t.onclick=()=>{
     document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
     document.querySelectorAll(".pane").forEach(x=>x.classList.remove("active"));
     t.classList.add("active");
     document.getElementById("pane-"+t.dataset.pane).classList.add("active");
-    Object.values(CH).forEach(c=>c&&c.resize());
-  };
-});
+    Object.values(CH).forEach(c=>c&&c.resize());};});
 
-/* ── helpers ── */
 const filtered=()=>BOOK.filter(r=>
-  S.checking.has(r.chk) &&
-  (!S.purpose||r.purpose===S.purpose) &&
-  (!S.emp||r.employ===S.emp) &&
-  (!S.house||r.housing===S.house) &&
-  r.duration<=S.term && r.age>=S.age);
+  S.checking.has(r.chk)&&(!S.purpose||r.purpose===S.purpose)&&(!S.emp||r.employ===S.emp)&&
+  (!S.house||r.housing===S.house)&&r.duration<=S.term&&r.age>=S.age);
 const rate=rows=>rows.length?rows.reduce((s,r)=>s+r.bad,0)/rows.length*100:0;
 const money=v=>v>=1e6?"DM "+(v/1e6).toFixed(2)+"M":"DM "+Math.round(v/1000)+"k";
 const byKey=(rows,key,order)=>order.map(k=>{const g=rows.filter(r=>r[key]===k);
   return{k,n:g.length,rate:rate(g),exp:g.reduce((s,r)=>s+r.amount,0)};}).filter(d=>d.n>0);
-const riskColor=v=>v>=40?BLUSHD:v>=25?PEACHD:v>=15?GOLDD:SAGED;
+const riskColor=v=>v>=40?RD:v>=25?AM:v>=15?VI:CY;
 
-/* ── charts ── */
 const CH={};
-function make(id,cfg){ if(CH[id]){CH[id].destroy();} CH[id]=new Chart(document.getElementById(id),cfg); }
-const pctAxis=(max)=>({grid:{color:LINE},ticks:{callback:v=>v+"%",font:{size:9}},suggestedMax:max,beginAtZero:true});
+function make(id,cfg){if(CH[id]){CH[id].destroy();}CH[id]=new Chart(document.getElementById(id),cfg);}
+const pctAxis=max=>({grid:{color:GRID},border:{color:GRID},
+  ticks:{callback:v=>v+"%",font:{size:9}},suggestedMax:max,beginAtZero:true});
 
 function render(){
   const rows=filtered();
   const approved=rows.filter(r=>r.score>=S.cut);
-  const declined=rows.filter(r=>r.score<S.cut);
   const exposure=rows.reduce((s,r)=>s+r.amount,0);
-  const defRate=rate(rows), appBad=rate(approved);
+  const defRate=rate(rows),appBad=rate(approved);
   const el=approved.reduce((s,r)=>s+(r.bad?r.amount*S.lgd/100:0),0);
-
-  /* scope readout */
-  document.getElementById("scope").innerHTML =
-    rows.length===BOOK.length ? "Showing the <b>full book</b>"
-    : "Filtered to <b>"+rows.length+"</b> of "+BOOK.length+" accounts";
-
-  /* KPIs */
   const set=(id,v)=>document.getElementById(id).textContent=v;
+
+  document.getElementById("scope").innerHTML=
+    rows.length===BOOK.length?"SHOWING THE <b>FULL BOOK</b>"
+    :"FILTERED TO <b>"+rows.length+"</b> OF "+BOOK.length;
+
   if(!rows.length){
     ["kAcc","kDef","kExp","kEl","kApp","kBad"].forEach(i=>set(i,"—"));
-    document.getElementById("insight").innerHTML="<b>No accounts match these filters.</b> Widen the selection to continue.";
-    return;
-  }
+    document.getElementById("insight").innerHTML="<b>No accounts match these filters.</b> Widen the selection.";
+    return;}
+
   set("kAcc",rows.length.toLocaleString());
   set("kAccD",rows.length===BOOK.length?"whole book":"of "+BOOK.length);
   set("kDef",defRate.toFixed(1)+"%");
   set("kDefD",Math.round(defRate*rows.length/100)+" defaults");
   set("kExp",money(exposure));
   set("kEl",money(el));
-  set("kElD","LGD "+S.lgd+"% · approved only");
+  set("kElD","LGD "+S.lgd+"% · approved");
   set("kApp",(approved.length/rows.length*100).toFixed(0)+"%");
   set("kAppD",approved.length+" approved");
   set("kBad",approved.length?appBad.toFixed(1)+"%":"—");
   const delta=defRate-appBad;
-  document.getElementById("kBadD").textContent =
-    approved.length? (delta>=0? "▼ "+delta.toFixed(1)+" pts vs book" : "▲ "+Math.abs(delta).toFixed(1)+" pts vs book") : "none approved";
+  set("kBadD",approved.length?(delta>=0?"▼ "+delta.toFixed(1)+" pts":"▲ "+Math.abs(delta).toFixed(1)+" pts"):"none");
 
-  /* score histogram */
   const bins=[];for(let s=300;s<850;s+=25)bins.push(s);
   const hist=bins.map(b=>({b,n:rows.filter(r=>r.score>=b&&r.score<b+25).length}));
   make("cScore",{type:"bar",data:{labels:hist.map(h=>h.b),
-    datasets:[{data:hist.map(h=>h.n),borderRadius:2,
-      backgroundColor:hist.map(h=>h.b+25<=S.cut?GREY:SAGED)}]},
+    datasets:[{data:hist.map(h=>h.n),borderRadius:1,
+      backgroundColor:hist.map(h=>h.b+25<=S.cut?GREY:CY)}]},
     options:{plugins:{legend:{display:false},tooltip:{callbacks:{
-      title:c=>"Score "+c[0].label+"–"+(+c[0].label+24),
+      title:c=>"SCORE "+c[0].label+"–"+(+c[0].label+24),
       label:c=>c.raw+" accounts · "+(+c.label+25<=S.cut?"declined":"approved")}}},
-    scales:{x:{grid:{display:false},ticks:{font:{size:8},maxRotation:0,autoSkip:true,maxTicksLimit:9}},
-      y:{grid:{color:LINE},ticks:{font:{size:9}},title:{display:true,text:"Accounts",font:{size:9}}}}}});
+    scales:{x:{grid:{display:false},border:{color:GRID},
+      ticks:{font:{size:8},maxRotation:0,autoSkip:true,maxTicksLimit:9}},
+      y:{grid:{color:GRID},border:{color:GRID},ticks:{font:{size:9}}}}}});
 
-  /* default by checking */
   const chkD=byKey(rows,"chk",CHECKING.map(c=>c[0]));
   make("cChecking",{type:"bar",data:{labels:chkD.map(d=>d.k),
-    datasets:[{data:chkD.map(d=>+d.rate.toFixed(1)),borderRadius:3,
+    datasets:[{data:chkD.map(d=>+d.rate.toFixed(1)),borderRadius:2,
       backgroundColor:chkD.map(d=>riskColor(d.rate))}]},
-    options:{indexAxis:"y",layout:{padding:{left:4,right:12}},
+    options:{indexAxis:"y",layout:{padding:{left:4,right:14}},
     plugins:{legend:{display:false},tooltip:{callbacks:{
       label:c=>c.raw+"% default · "+chkD[c.dataIndex].n+" accounts"}}},
-    scales:{x:pctAxis(55),y:{grid:{display:false},ticks:{font:{size:10},crossAlign:"far",padding:4},
-      afterFit:s=>{s.width=86;}}}}});
+    scales:{x:pctAxis(55),y:{grid:{display:false},border:{color:GRID},
+      ticks:{font:{size:9},crossAlign:"far",padding:4},afterFit:s=>{s.width=84;}}}}});
 
-  /* trade-off curve */
   const cuts=[];for(let c=300;c<=850;c+=10){
     const app=rows.filter(r=>r.score>=c);
-    cuts.push({c,app:app.length/rows.length*100,bad:app.length?rate(app):null});
-  }
+    cuts.push({c,app:app.length/rows.length*100,bad:app.length?rate(app):null});}
   make("cTrade",{type:"line",data:{labels:cuts.map(x=>x.c),datasets:[
-    {label:"Approval rate",data:cuts.map(x=>+x.app.toFixed(1)),borderColor:SAGED,
-      backgroundColor:"rgba(61,107,74,.10)",fill:true,tension:.3,pointRadius:0,borderWidth:2},
-    {label:"Bad rate of approved",data:cuts.map(x=>x.bad===null?null:+x.bad.toFixed(1)),
-      borderColor:BLUSHD,fill:false,tension:.3,pointRadius:0,borderWidth:2}]},
+    {label:"Approval rate",data:cuts.map(x=>+x.app.toFixed(1)),borderColor:CY,
+      backgroundColor:"rgba(46,230,197,.10)",fill:true,tension:.3,pointRadius:0,borderWidth:2},
+    {label:"Bad rate approved",data:cuts.map(x=>x.bad===null?null:+x.bad.toFixed(1)),
+      borderColor:RD,fill:false,tension:.3,pointRadius:0,borderWidth:2}]},
     options:{interaction:{mode:"index",intersect:false},
-    plugins:{legend:{position:"bottom",labels:{boxWidth:9,font:{size:9},padding:8}},
-      tooltip:{callbacks:{title:c=>"Cut-off "+c[0].label,label:c=>c.dataset.label+": "+c.raw+"%"}}},
-    scales:{x:{grid:{display:false},ticks:{font:{size:8},maxTicksLimit:8,maxRotation:0}},
-      y:pctAxis(100)}}});
+    plugins:{legend:{position:"bottom",labels:{boxWidth:8,font:{size:8},padding:7,color:DIM}},
+      tooltip:{callbacks:{title:c=>"CUT-OFF "+c[0].label,label:c=>c.dataset.label+": "+c.raw+"%"}}},
+    scales:{x:{grid:{display:false},border:{color:GRID},
+      ticks:{font:{size:8},maxTicksLimit:8,maxRotation:0}},y:pctAxis(100)}}});
 
-  /* default by term */
-  const tb=[[0,12,"≤ 12"],[13,24,"13–24"],[25,36,"25–36"],[37,99,"37+"]]
+  const tb=[[0,12,"≤12"],[13,24,"13–24"],[25,36,"25–36"],[37,99,"37+"]]
     .map(([lo,hi,lab])=>{const g=rows.filter(r=>r.duration>=lo&&r.duration<=hi);
       return{lab,n:g.length,rate:rate(g)};}).filter(d=>d.n>0);
   make("cTerm",{type:"bar",data:{labels:tb.map(d=>d.lab+" mo"),
-    datasets:[{data:tb.map(d=>+d.rate.toFixed(1)),borderRadius:3,
+    datasets:[{data:tb.map(d=>+d.rate.toFixed(1)),borderRadius:2,
       backgroundColor:tb.map(d=>riskColor(d.rate))}]},
     options:{plugins:{legend:{display:false},tooltip:{callbacks:{
       label:c=>c.raw+"% default · "+tb[c.dataIndex].n+" accounts"}}},
-    scales:{x:{grid:{display:false}},y:pctAxis(60)}}});
+    scales:{x:{grid:{display:false},border:{color:GRID}},y:pctAxis(60)}}});
 
-  /* drivers: purpose */
   const pD=byKey(rows,"purpose",PURPOSE.map(p=>p[0])).sort((a,b)=>b.rate-a.rate);
   make("cPurpose",{type:"bar",data:{labels:pD.map(d=>d.k),
-    datasets:[{data:pD.map(d=>+d.rate.toFixed(1)),borderRadius:3,
+    datasets:[{data:pD.map(d=>+d.rate.toFixed(1)),borderRadius:2,
       backgroundColor:pD.map(d=>riskColor(d.rate))}]},
-    options:{indexAxis:"y",layout:{padding:{left:4,right:12}},
+    options:{indexAxis:"y",layout:{padding:{left:4,right:14}},
     plugins:{legend:{display:false},tooltip:{callbacks:{
       label:c=>c.raw+"% default · "+pD[c.dataIndex].n+" accounts"}}},
-    scales:{x:pctAxis(60),y:{grid:{display:false},ticks:{font:{size:10},crossAlign:"far",padding:4},
-      afterFit:s=>{s.width=78;}}}}});
+    scales:{x:pctAxis(60),y:{grid:{display:false},border:{color:GRID},
+      ticks:{font:{size:9},crossAlign:"far",padding:4},afterFit:s=>{s.width=74;}}}}});
 
-  /* drivers: employment */
   const eD=byKey(rows,"employ",EMPLOY.map(e=>e[0]));
   make("cEmp",{type:"bar",data:{labels:eD.map(d=>d.k),
-    datasets:[{data:eD.map(d=>+d.rate.toFixed(1)),borderRadius:3,
+    datasets:[{data:eD.map(d=>+d.rate.toFixed(1)),borderRadius:2,
       backgroundColor:eD.map(d=>riskColor(d.rate))}]},
     options:{plugins:{legend:{display:false},tooltip:{callbacks:{
       label:c=>c.raw+"% default · "+eD[c.dataIndex].n+" accounts"}}},
-    scales:{x:{grid:{display:false},ticks:{font:{size:9}}},y:pctAxis(60)}}});
+    scales:{x:{grid:{display:false},border:{color:GRID},ticks:{font:{size:8}}},y:pctAxis(60)}}});
 
-  /* bubble: exposure vs risk */
   const bub=byKey(rows,"chk",CHECKING.map(c=>c[0]));
   const maxN=Math.max(...bub.map(b=>b.n),1);
   make("cBubble",{type:"bubble",data:{datasets:bub.map((d,i)=>({
-    label:d.k,
-    data:[{x:+(d.exp/1000).toFixed(0),y:+d.rate.toFixed(1),r:6+Math.sqrt(d.n/maxN)*22}],
-    backgroundColor:[SAGED,SKYD,PEACHD,BLUSHD][i%4]+"cc",
-    borderColor:[SAGED,SKYD,PEACHD,BLUSHD][i%4]}))},
-    options:{plugins:{legend:{position:"bottom",labels:{boxWidth:8,font:{size:9},padding:7}},
-      tooltip:{callbacks:{label:c=>c.dataset.label+": DM "+c.raw.x+"k exposure · "+c.raw.y+"% default"}}},
-    scales:{x:{grid:{color:LINE},title:{display:true,text:"Exposure (DM 000s)",font:{size:9}},
-      ticks:{font:{size:9}},beginAtZero:true},
-      y:{grid:{color:LINE},title:{display:true,text:"Default rate",font:{size:9}},
-      ticks:{callback:v=>v+"%",font:{size:9}},beginAtZero:true}}}});
+    label:d.k,data:[{x:+(d.exp/1000).toFixed(0),y:+d.rate.toFixed(1),r:6+Math.sqrt(d.n/maxN)*22}],
+    backgroundColor:[CY,BL,AM,RD][i%4]+"aa",borderColor:[CY,BL,AM,RD][i%4],borderWidth:1.5}))},
+    options:{plugins:{legend:{position:"bottom",labels:{boxWidth:8,font:{size:8},padding:6,color:DIM}},
+      tooltip:{callbacks:{label:c=>c.dataset.label+": DM "+c.raw.x+"k · "+c.raw.y+"%"}}},
+    scales:{x:{grid:{color:GRID},border:{color:GRID},
+      title:{display:true,text:"EXPOSURE (DM 000s)",font:{size:8},color:FAINT},
+      ticks:{font:{size:8}},beginAtZero:true},
+      y:{grid:{color:GRID},border:{color:GRID},
+      title:{display:true,text:"DEFAULT RATE",font:{size:8},color:FAINT},
+      ticks:{callback:v=>v+"%",font:{size:8}},beginAtZero:true}}}});
 
-  /* amount bands */
-  const ab=[[0,1500,"< 1.5k"],[1500,3000,"1.5–3k"],[3000,6000,"3–6k"],[6000,1e9,"6k+"]]
+  const ab=[[0,1500,"<1.5k"],[1500,3000,"1.5–3k"],[3000,6000,"3–6k"],[6000,1e9,"6k+"]]
     .map(([lo,hi,lab])=>{const g=rows.filter(r=>r.amount>=lo&&r.amount<hi);
       return{lab,n:g.length,rate:rate(g)};}).filter(d=>d.n>0);
   make("cAmount",{type:"bar",data:{labels:ab.map(d=>d.lab),
-    datasets:[{data:ab.map(d=>+d.rate.toFixed(1)),borderRadius:3,
+    datasets:[{data:ab.map(d=>+d.rate.toFixed(1)),borderRadius:2,
       backgroundColor:ab.map(d=>riskColor(d.rate))}]},
     options:{plugins:{legend:{display:false},tooltip:{callbacks:{
       label:c=>c.raw+"% default · "+ab[c.dataIndex].n+" accounts"}}},
-    scales:{x:{grid:{display:false}},y:pctAxis(60)}}});
+    scales:{x:{grid:{display:false},border:{color:GRID}},y:pctAxis(60)}}});
 
-  /* scorecard table */
   const bands=[["A · Prime",760,850],["B · Near prime",700,759],["C · Mid",640,699],
                ["D · Subprime",560,639],["E · Deep subprime",300,559]];
-  const tb2=document.querySelector("#tScore tbody"); tb2.innerHTML="";
+  const tb2=document.querySelector("#tScore tbody");tb2.innerHTML="";
   bands.forEach(([name,lo,hi])=>{
     const g=rows.filter(r=>r.score>=lo&&r.score<=hi);
-    const r0=rate(g), exp=g.reduce((s,x)=>s+x.amount,0);
+    const r0=rate(g),exp=g.reduce((s,x)=>s+x.amount,0);
     const loss=g.reduce((s,x)=>s+(x.bad?x.amount*S.lgd/100:0),0);
     const decision=lo>=S.cut?"Approve":(hi<S.cut?"Decline":"Split");
     const tr=document.createElement("tr");
-    tr.innerHTML=
-      "<td>"+name+"</td><td>"+lo+"–"+hi+"</td><td>"+g.length+"</td>"+
+    tr.innerHTML="<td>"+name+"</td><td>"+lo+"–"+hi+"</td><td>"+g.length+"</td>"+
       "<td>"+(rows.length?(g.length/rows.length*100).toFixed(1):"0.0")+"%</td>"+
       "<td>"+g.reduce((s,x)=>s+x.bad,0)+"</td>"+
       "<td class='"+(r0>=30?"bad":"good")+"'>"+r0.toFixed(1)+"%</td>"+
       "<td><div class='bar-cell'><i style='width:"+Math.min(100,r0*2)+"%'></i></div></td>"+
       "<td>"+(exp?money(exp):"—")+"</td><td>"+(loss?money(loss):"—")+"</td>"+
       "<td class='"+(decision==="Approve"?"good":decision==="Decline"?"bad":"")+"'>"+decision+"</td>";
-    tb2.appendChild(tr);
-  });
+    tb2.appendChild(tr);});
 
-  /* scorecard discrimination on the current selection */
   const a=auc(rows);
-  document.getElementById("aucOut").textContent = a===null? "n/a" : a.toFixed(3);
+  document.getElementById("aucOut").textContent=a===null?"n/a":a.toFixed(3);
 
-  /* weight of evidence */
-  const IV=[["Checking status",.68],["Loan term",.41],["Employment tenure",.29],
+  const IV=[["Checking status",.68],["Loan term",.41],["Employment",.29],
             ["Purpose",.24],["Housing",.16],["Loan amount",.13],["Age",.09]];
   make("cWeights",{type:"bar",data:{labels:IV.map(i=>i[0]),
-    datasets:[{data:IV.map(i=>i[1]),borderRadius:3,
-      backgroundColor:IV.map((i,ix)=>ix===0?LAVD:ix<3?SKYD:"#9bbdd4")}]},
-    options:{indexAxis:"y",layout:{padding:{left:4,right:12}},
+    datasets:[{data:IV.map(i=>i[1]),borderRadius:2,
+      backgroundColor:IV.map((i,ix)=>ix===0?CY:ix<3?BL:"#37506b")}]},
+    options:{indexAxis:"y",layout:{padding:{left:4,right:14}},
     plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>"Information value "+c.raw}}},
-    scales:{x:{grid:{color:LINE},ticks:{font:{size:9}},title:{display:true,text:"Information value",font:{size:9}}},
-      y:{grid:{display:false},ticks:{font:{size:10},crossAlign:"far",padding:4},afterFit:s=>{s.width=118;}}}}});
+    scales:{x:{grid:{color:GRID},border:{color:GRID},ticks:{font:{size:8}}},
+      y:{grid:{display:false},border:{color:GRID},
+      ticks:{font:{size:9},crossAlign:"far",padding:4},afterFit:s=>{s.width=104;}}}}});
 
-  /* narrative insight */
   const worst=chkD.slice().sort((a,b)=>b.rate-a.rate)[0];
   const best=chkD.slice().sort((a,b)=>a.rate-b.rate)[0];
   const spread=(best&&best.rate>0)?(worst.rate/best.rate).toFixed(1):"—";
@@ -594,10 +551,8 @@ function render(){
     "<b>At a cut-off of "+S.cut+"</b> you approve <b>"+(approved.length/rows.length*100).toFixed(0)+"%</b> of "+
     rows.length.toLocaleString()+" accounts and carry a bad rate of <b>"+appBad.toFixed(1)+"%</b>, against "+
     defRate.toFixed(1)+"% across the filtered book"+
-    (worst&&best&&worst.k!==best.k
-      ? ", with <b>"+worst.k+"</b> defaulting at "+worst.rate.toFixed(1)+"% versus "+
-        best.rate.toFixed(1)+"% for <b>"+best.k+"</b> — a "+spread+"× spread."
-      : ".")+
+    (worst&&best&&worst.k!==best.k?", with <b>"+worst.k+"</b> defaulting at "+worst.rate.toFixed(1)+
+      "% versus "+best.rate.toFixed(1)+"% for <b>"+best.k+"</b> — a "+spread+"× spread.":".")+
     " Expected loss on the approved book is <b>"+money(el)+"</b> at "+S.lgd+"% LGD.";
 }
 render();

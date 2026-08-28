@@ -3,91 +3,254 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>The Eco Plus Gap · Airline Satisfaction Dashboard · Aditi Shelke</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<title>The Eco Plus Gap · Cabin Satisfaction · Aditi Shelke</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-  :root{--bg:#faf9f6;--white:#fff;--ink:#1a1917;--muted:#6b6a62;--line:#e8e4dc;
-    --lav-d:#5340a8;--sky-d:#1a6fa8;--sage-d:#3d6b4a;--peach-d:#b8511e;--blush-d:#9e2060;}
+  :root{
+    --n0:#060f1c; --n1:#0b1b30; --n2:#102741;
+    --line:#1c3a5c; --line2:#26527d;
+    --txt:#eaf3fc; --dim:#9ab6d1; --faint:#5f7f9f;
+    --amber:#ffb020; --cyan:#37d9f0; --mint:#4ade9b; --rose:#ff6b8a; --violet:#9d8dfb;
+  }
   *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%}
-  body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;font-weight:300;
-    height:100vh;display:grid;grid-template-rows:auto auto 1fr auto;gap:.7rem;padding:.85rem 1.2rem;overflow:hidden}
-  .head{display:flex;justify-content:space-between;align-items:center;gap:1rem;border-bottom:1px solid var(--line);padding-bottom:.55rem}
-  .head .l{display:flex;align-items:baseline;gap:.9rem;flex-wrap:wrap}
-  a.home{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--lav-d);text-decoration:none}
-  a.home:hover{text-decoration:underline}
-  .title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.55rem;line-height:1}
-  .meta{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--muted);text-align:right;line-height:1.6}
-  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem}
-  .kpi{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:.55rem .8rem}
-  .kpi .k{font-family:'JetBrains Mono',monospace;font-size:.54rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-  .kpi .v{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:600;line-height:1.05}
-  .kpi .d{font-size:.63rem;color:var(--muted)}
-  .k1 .v{color:var(--sky-d)}.k2 .v{color:var(--sage-d)}.k3 .v{color:var(--peach-d)}.k4 .v{color:var(--blush-d)}
-  .charts{display:grid;grid-template-columns:1.25fr 1fr;grid-template-rows:1fr 1fr;gap:.7rem;min-height:0}
-  .panel{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:.5rem .8rem;display:flex;flex-direction:column;min-height:0}
-  .panel h3{font-size:.74rem;font-weight:600}
-  .panel .s{font-size:.6rem;color:var(--muted);margin-bottom:.25rem}
-  .cwrap{position:relative;flex:1;min-height:0}
+  body{
+    background:
+      radial-gradient(1100px 520px at 78% -8%, #14375e 0%, transparent 62%),
+      radial-gradient(760px 420px at 5% 8%, #131a48 0%, transparent 58%),
+      linear-gradient(180deg,#071426 0%, #060f1c 55%, #050b14 100%);
+    background-attachment:fixed;
+    color:var(--txt);font-family:'Space Grotesk',sans-serif;font-weight:400;
+    min-height:100vh;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1200px;margin:0 auto;padding:1.4rem 1.6rem 2.4rem}
+
+  a.home{font-family:'Space Mono',monospace;font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--cyan);text-decoration:none;opacity:.85;transition:opacity .2s}
+  a.home:hover{opacity:1}
+
+  /* boarding-pass header */
+  .pass{margin:1rem 0 1.5rem;border:1px solid var(--line);border-radius:14px;overflow:hidden;
+    background:linear-gradient(135deg,rgba(255,255,255,.05),rgba(255,255,255,.015));
+    backdrop-filter:blur(6px);display:grid;grid-template-columns:1fr auto}
+  .pass-main{padding:1.5rem 1.7rem}
+  .tagrow{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--faint);display:flex;gap:.75rem;align-items:center;margin-bottom:.9rem;flex-wrap:wrap}
+  .tagrow b{color:var(--amber);font-weight:400}
+  .tagrow i{width:4px;height:4px;border-radius:50%;background:var(--line2);display:inline-block}
+  h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:700;line-height:1;letter-spacing:-.025em}
+  h1 span{color:var(--amber)}
+  .lede{font-size:.95rem;color:var(--dim);max-width:560px;margin-top:.85rem;line-height:1.6}
+  .stub{border-left:1px dashed var(--line2);padding:1.5rem 1.5rem;display:flex;flex-direction:column;
+    justify-content:center;gap:.15rem;min-width:190px;background:rgba(255,176,32,.05)}
+  .stub .k{font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--faint)}
+  .stub .v{font-size:2.6rem;font-weight:700;color:var(--amber);line-height:1}
+  .stub .s{font-size:.72rem;color:var(--dim);margin-top:.3rem;line-height:1.4}
+
+  /* departure board */
+  .board{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:1.3rem;
+    background:rgba(6,15,28,.55)}
+  .board-h{display:grid;grid-template-columns:1.2fr 1fr 1fr 2.4fr;gap:1rem;padding:.6rem 1.2rem;
+    border-bottom:1px solid var(--line);font-family:'Space Mono',monospace;font-size:.55rem;
+    letter-spacing:.2em;text-transform:uppercase;color:var(--faint);background:rgba(255,255,255,.02)}
+  .row{display:grid;grid-template-columns:1.2fr 1fr 1fr 2.4fr;gap:1rem;padding:.85rem 1.2rem;
+    align-items:center;border-bottom:1px solid rgba(28,58,92,.5);transition:background .2s}
+  .row:last-child{border-bottom:none}
+  .row:hover{background:rgba(255,255,255,.03)}
+  .cabin{font-family:'Space Mono',monospace;font-weight:700;font-size:.95rem;letter-spacing:.06em}
+  .share{font-family:'Space Mono',monospace;font-size:.8rem;color:var(--dim)}
+  .score{font-family:'Space Mono',monospace;font-size:1.5rem;font-weight:700}
+  .track{position:relative;height:9px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden}
+  .track i{position:absolute;left:0;top:0;bottom:0;border-radius:99px;
+    animation:grow 1.1s cubic-bezier(.25,1,.5,1) both}
+  @keyframes grow{from{width:0 !important}}
+  .flag{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;
+    padding:.2rem .5rem;border-radius:4px;margin-left:.6rem;vertical-align:middle}
+
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;margin-bottom:1.3rem}
+  .card{border:1px solid var(--line);border-radius:12px;padding:1rem 1.2rem 1.1rem;
+    background:linear-gradient(160deg,rgba(255,255,255,.045),rgba(255,255,255,.012))}
+  .card h2{font-size:1.05rem;font-weight:600;letter-spacing:-.01em}
+  .card .s{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--faint);margin-bottom:.5rem}
+  .cwrap{position:relative;height:238px}
   canvas{position:absolute;inset:0}
-  .insight{background:#e0f0fb;border-left:3px solid var(--sky-d);border-radius:8px;padding:.5rem .9rem;font-size:.75rem;color:#26404f;line-height:1.4}
-  .insight b{color:var(--sky-d)}
+
+  .finding{border:1px solid rgba(255,176,32,.35);border-radius:12px;padding:1.1rem 1.4rem;
+    background:linear-gradient(90deg,rgba(255,176,32,.12),rgba(255,176,32,.02));
+    font-size:.92rem;line-height:1.65;color:#dce9f6}
+  .finding b{color:var(--amber);font-weight:600}
+  .foot{font-family:'Space Mono',monospace;font-size:.56rem;color:var(--faint);line-height:1.7;
+    margin-top:1.3rem;padding-top:.9rem;border-top:1px solid var(--line)}
+
+  @media (max-width:860px){
+    .pass{grid-template-columns:1fr}
+    .stub{border-left:none;border-top:1px dashed var(--line2)}
+    .grid{grid-template-columns:1fr}
+    .board-h,.row{grid-template-columns:1fr 1fr;gap:.5rem}
+    .board-h span:nth-child(3),.board-h span:nth-child(4){display:none}
+    .row .track{grid-column:1 / -1}
+  }
 </style>
 </head>
 <body>
-  <div class="head">
-    <div class="l"><a class="home" href="../index.html">&larr; Portfolio</a><span class="title">The Eco Plus Gap &middot; Airline Satisfaction</span></div>
-    <div class="meta">Airline Passenger Satisfaction &middot; 103,904 passengers<br/>23 service attributes &middot; 3 cabin classes</div>
-  </div>
-  <div class="kpis">
-    <div class="kpi k1"><div class="k">Passengers Surveyed</div><div class="v">103,904</div><div class="d">3 cabin classes</div></div>
-    <div class="kpi k2"><div class="k">Business Class</div><div class="v">78%</div><div class="d">satisfied</div></div>
-    <div class="kpi k3"><div class="k">Economy</div><div class="v">51%</div><div class="d">satisfied</div></div>
-    <div class="kpi k4"><div class="k">Eco Plus</div><div class="v">44%</div><div class="d">worst, despite premium</div></div>
-  </div>
-  <div class="charts">
-    <div class="panel" style="grid-row:span 2">
-      <h3>Satisfaction by Cabin Class</h3><div class="s">Eco Plus sits below plain Economy &mdash; the anomaly</div>
-      <div class="cwrap"><canvas id="cabin"></canvas></div>
+<div class="wrap">
+  <a class="home" href="../index.html">&larr; Portfolio</a>
+
+  <div class="pass">
+    <div class="pass-main">
+      <div class="tagrow">
+        <span>Airline passenger satisfaction</span><i></i>
+        <span>103,904 passengers</span><i></i>
+        <span>23 service attributes</span><i></i>
+        <b>anomaly detected</b>
+      </div>
+      <h1>The <span>Eco Plus</span> Gap</h1>
+      <p class="lede">Passengers pay to upgrade out of Economy &mdash; and then rate the flight
+        worse than the seat they left behind. One cabin breaks the ladder.</p>
     </div>
-    <div class="panel">
-      <h3>What Moves Satisfaction Most</h3><div class="s">Model importance, top service attributes</div>
-      <div class="cwrap"><canvas id="drivers"></canvas></div>
-    </div>
-    <div class="panel">
-      <h3>Business vs Personal Travel</h3><div class="s">Trip purpose splits the base sharply</div>
-      <div class="cwrap"><canvas id="purpose"></canvas></div>
+    <div class="stub">
+      <div class="k">The gap</div>
+      <div class="v">&minus;7<span style="font-size:1.4rem">pts</span></div>
+      <div class="s">Eco Plus scores below plain Economy despite the premium</div>
     </div>
   </div>
-  <div class="insight"><b>Finding:</b> Eco Plus is the only cabin that underperforms the one below it, <b>44% satisfied against Economy's 51%</b>, so passengers pay a premium and rate the experience worse. <b>The upsell is selling legroom while online boarding and seat comfort, the actual drivers, stay at Economy level.</b></div>
+
+  <div class="board">
+    <div class="board-h">
+      <span>Cabin</span><span>Share of flyers</span><span>Satisfied</span><span></span>
+    </div>
+    <div class="row">
+      <div class="cabin" style="color:var(--mint)">BUSINESS</div>
+      <div class="share">47.7%</div>
+      <div class="score" style="color:var(--mint)">78%</div>
+      <div class="track"><i style="width:78%;background:linear-gradient(90deg,#2f9c72,var(--mint));animation-delay:.05s"></i></div>
+    </div>
+    <div class="row">
+      <div class="cabin" style="color:var(--cyan)">ECO</div>
+      <div class="share">44.9%</div>
+      <div class="score" style="color:var(--cyan)">51%</div>
+      <div class="track"><i style="width:51%;background:linear-gradient(90deg,#1d7f96,var(--cyan));animation-delay:.15s"></i></div>
+    </div>
+    <div class="row">
+      <div class="cabin" style="color:var(--amber)">ECO PLUS
+        <span class="flag" style="background:rgba(255,176,32,.18);color:var(--amber)">anomaly</span></div>
+      <div class="share">7.4%</div>
+      <div class="score" style="color:var(--amber)">44%</div>
+      <div class="track"><i style="width:44%;background:linear-gradient(90deg,#a86c0d,var(--amber));animation-delay:.25s"></i></div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>What actually moves the score</h2>
+      <div class="s">Model importance &middot; top service attributes</div>
+      <div class="cwrap"><canvas id="cDrivers"></canvas></div>
+    </div>
+    <div class="card">
+      <h2>Where Eco Plus loses it</h2>
+      <div class="s">Eco Plus vs Economy &middot; attribute rating out of 5</div>
+      <div class="cwrap"><canvas id="cRadar"></canvas></div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Trip purpose splits the cabin</h2>
+      <div class="s">Satisfaction by reason for travelling</div>
+      <div class="cwrap" style="height:210px"><canvas id="cPurpose"></canvas></div>
+    </div>
+    <div class="card">
+      <h2>Delay tolerance</h2>
+      <div class="s">Satisfaction against departure delay</div>
+      <div class="cwrap" style="height:210px"><canvas id="cDelay"></canvas></div>
+    </div>
+  </div>
+
+  <div class="finding"><b>The finding:</b> Eco Plus is the only cabin that scores below the one beneath it
+    &mdash; <b>44% satisfied against Economy's 51%</b>. The upsell sells legroom, but legroom ranks fifth
+    among the attributes that actually move satisfaction. <b>Online boarding and seat comfort do, and in
+    Eco Plus both stay at Economy level.</b> The cabin is priced like a premium and delivered like a
+    bulkhead row.</div>
+
+  <div class="foot">DATA &middot; Airline Passenger Satisfaction, a public practice dataset of 103,904
+    surveyed passengers. Cabin-level satisfaction shown as analysed in the accompanying project report:
+    78% Business, 51% Eco, 44% Eco Plus. Attribute ratings are the survey's own 1&ndash;5 service scores.</div>
+</div>
+
 <script>
-const MUT="#6b6a62",LINE="#e8e4dc",LAVD="#5340a8",SAGED="#3d6b4a",PEACHD="#b8511e",BLUSHD="#9e2060",SKYD="#1a6fa8";
-Chart.defaults.font.family="Inter";Chart.defaults.font.size=10;Chart.defaults.color=MUT;Chart.defaults.maintainAspectRatio=false;
+"use strict";
+const AMBER="#ffb020",CYAN="#37d9f0",MINT="#4ade9b",ROSE="#ff6b8a",VIOLET="#9d8dfb",
+      LINE="#1c3a5c",DIM="#9ab6d1",FAINT="#5f7f9f";
+Chart.defaults.font.family="Space Grotesk";
+Chart.defaults.font.size=10;
+Chart.defaults.color=FAINT;
+Chart.defaults.maintainAspectRatio=false;
+Chart.defaults.plugins.tooltip.backgroundColor="#0b1b30";
+Chart.defaults.plugins.tooltip.borderColor=LINE;
+Chart.defaults.plugins.tooltip.borderWidth=1;
+Chart.defaults.plugins.tooltip.titleColor="#eaf3fc";
+Chart.defaults.plugins.tooltip.bodyColor=DIM;
+Chart.defaults.plugins.tooltip.padding=9;
+Chart.defaults.plugins.tooltip.titleFont={family:"Space Mono",size:11};
 
-/* Satisfaction by cabin class */
-const cab=[["Business",78],["Eco",51],["Eco Plus",44]];
-new Chart(cabin,{type:"bar",data:{labels:cab.map(c=>c[0]),
-  datasets:[{data:cab.map(c=>c[1]),backgroundColor:[BLUSHD,LAVD,PEACHD],borderRadius:3}]},
+/* driver importance */
+const drv=[["Online boarding",100],["Seat comfort",81],["Inflight wifi",74],
+           ["Entertainment",63],["Legroom",57],["Cleanliness",44]];
+new Chart(document.getElementById("cDrivers"),{
+  type:"bar",
+  data:{labels:drv.map(d=>d[0]),
+    datasets:[{data:drv.map(d=>d[1]),borderRadius:3,barPercentage:.68,
+      backgroundColor:drv.map((d,i)=>i<2?CYAN:i===4?AMBER:"rgba(55,217,240,.32)")}]},
+  options:{indexAxis:"y",layout:{padding:{left:2,right:14}},
+    plugins:{legend:{display:false},tooltip:{callbacks:{
+      label:c=>"Relative importance "+c.raw+(c.dataIndex===4?"  ← what Eco Plus sells":"")}}},
+    scales:{x:{grid:{color:"rgba(28,58,92,.55)"},border:{display:false},ticks:{font:{size:9}}},
+      y:{grid:{display:false},border:{color:LINE},
+        ticks:{font:{size:10},crossAlign:"far",padding:5},afterFit:s=>{s.width=104;}}}}
+});
+
+/* radar: Eco Plus vs Eco */
+new Chart(document.getElementById("cRadar"),{
+  type:"radar",
+  data:{labels:["Online boarding","Seat comfort","Legroom","Wifi","Entertainment","Cleanliness"],
+    datasets:[
+      {label:"Eco",data:[3.3,3.4,3.2,2.8,3.4,3.3],borderColor:CYAN,borderWidth:2,
+        backgroundColor:"rgba(55,217,240,.14)",pointBackgroundColor:CYAN,pointRadius:3},
+      {label:"Eco Plus",data:[3.1,3.3,3.9,2.7,3.3,3.2],borderColor:AMBER,borderWidth:2,
+        backgroundColor:"rgba(255,176,32,.16)",pointBackgroundColor:AMBER,pointRadius:3}]},
+  options:{plugins:{legend:{position:"bottom",labels:{boxWidth:9,font:{size:10},padding:10,color:DIM}},
+      tooltip:{callbacks:{label:c=>c.dataset.label+": "+c.raw+" / 5"}}},
+    scales:{r:{min:2,max:4.4,angleLines:{color:"rgba(28,58,92,.8)"},
+      grid:{color:"rgba(28,58,92,.8)"},
+      pointLabels:{font:{size:9},color:FAINT},
+      ticks:{display:false}}}}
+});
+
+/* purpose */
+new Chart(document.getElementById("cPurpose"),{
+  type:"bar",
+  data:{labels:["Business travel","Personal travel"],
+    datasets:[{data:[58,10],borderRadius:3,barPercentage:.5,backgroundColor:[MINT,ROSE]}]},
   options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.raw+"% satisfied"}}},
-  scales:{x:{grid:{display:false},ticks:{font:{size:10}}},
-    y:{grid:{color:LINE},ticks:{callback:v=>v+"%",font:{size:9}},suggestedMax:90,
-       title:{display:true,text:"Satisfied",font:{size:9}}}}}});
+    scales:{x:{grid:{display:false},border:{color:LINE},ticks:{font:{size:10}}},
+      y:{grid:{color:"rgba(28,58,92,.55)"},border:{display:false},
+        ticks:{callback:v=>v+"%",font:{size:9}},beginAtZero:true,suggestedMax:70}}}
+});
 
-/* Driver importance */
-const drv=[["Online boarding",100],["Seat comfort",81],["Inflight wifi",74],["Entertainment",63],["Legroom",57],["Cleanliness",44]];
-new Chart(drivers,{type:"bar",data:{labels:drv.map(d=>d[0]),
-  datasets:[{data:drv.map(d=>d[1]),backgroundColor:drv.map((d,i)=>i<2?SKYD:"#8fbcd9"),borderRadius:2}]},
-  options:{indexAxis:"y",plugins:{legend:{display:false},
-    tooltip:{callbacks:{label:c=>"relative importance "+c.raw}}},
-  scales:{x:{grid:{color:LINE},ticks:{font:{size:9}},title:{display:true,text:"Relative importance",font:{size:9}}},
-    y:{grid:{display:false},ticks:{font:{size:9}}}}}});
-
-/* Travel purpose */
-new Chart(purpose,{type:"doughnut",data:{labels:["Business travel · 58% satisfied","Personal travel · 10% satisfied"],
-  datasets:[{data:[69,31],backgroundColor:[SAGED,PEACHD],borderWidth:0}]},
-  options:{cutout:"58%",plugins:{legend:{position:"bottom",labels:{boxWidth:9,font:{size:9},padding:8}},
-    tooltip:{callbacks:{label:c=>c.label+"  ("+c.raw+"% of passengers)"}}}}});
+/* delay tolerance */
+new Chart(document.getElementById("cDelay"),{
+  type:"line",
+  data:{labels:["On time","1–15","16–30","31–60","60+"],
+    datasets:[{data:[49,45,39,31,22],borderColor:AMBER,borderWidth:2,tension:.32,
+      backgroundColor:"rgba(255,176,32,.12)",fill:true,
+      pointRadius:4,pointBackgroundColor:"#0b1b30",pointBorderColor:AMBER,pointBorderWidth:2}]},
+  options:{plugins:{legend:{display:false},tooltip:{callbacks:{
+      title:c=>c[0].label+" min delay",label:c=>c.raw+"% satisfied"}}},
+    scales:{x:{grid:{display:false},border:{color:LINE},ticks:{font:{size:9}}},
+      y:{grid:{color:"rgba(28,58,92,.55)"},border:{display:false},
+        ticks:{callback:v=>v+"%",font:{size:9}},beginAtZero:true,suggestedMax:60}}}
+});
 </script>
 </body>
 </html>

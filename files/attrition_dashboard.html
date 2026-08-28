@@ -3,93 +3,219 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Why They Leave · Workforce Attrition Dashboard · Aditi Shelke</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<title>Why They Leave · Workforce Attrition · Aditi Shelke</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-  :root{--bg:#faf9f6;--white:#fff;--ink:#1a1917;--muted:#6b6a62;--line:#e8e4dc;
-    --lav-d:#5340a8;--sky-d:#1a6fa8;--sage-d:#3d6b4a;--peach-d:#b8511e;--blush-d:#9e2060;}
+  :root{
+    --paper:#f1ece2; --card:#fdfbf7; --rule:#ded5c6; --rule2:#c9bdaa;
+    --ink:#26221c; --body:#4d463c; --dim:#8a8071;
+    --clay:#bf4426; --olive:#6d7a44; --plum:#7c3a54; --sand:#c9973f; --slate:#4a6572;
+  }
   *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%}
-  body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;font-weight:300;
-    height:100vh;display:grid;grid-template-rows:auto auto 1fr auto;gap:.7rem;padding:.85rem 1.2rem;overflow:hidden}
-  .head{display:flex;justify-content:space-between;align-items:center;gap:1rem;border-bottom:1px solid var(--line);padding-bottom:.55rem}
-  .head .l{display:flex;align-items:baseline;gap:.9rem;flex-wrap:wrap}
-  a.home{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--lav-d);text-decoration:none}
-  a.home:hover{text-decoration:underline}
-  .title{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.55rem;line-height:1}
-  .meta{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--muted);text-align:right;line-height:1.6}
-  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem}
-  .kpi{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:.55rem .8rem}
-  .kpi .k{font-family:'JetBrains Mono',monospace;font-size:.54rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-  .kpi .v{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:600;line-height:1.05}
-  .kpi .d{font-size:.63rem;color:var(--muted)}
-  .k1 .v{color:var(--sky-d)}.k2 .v{color:var(--blush-d)}.k3 .v{color:var(--peach-d)}.k4 .v{color:var(--sage-d)}
-  .charts{display:grid;grid-template-columns:1.25fr 1fr;grid-template-rows:1fr 1fr;gap:.7rem;min-height:0}
-  .panel{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:.5rem .8rem;display:flex;flex-direction:column;min-height:0}
-  .panel h3{font-size:.74rem;font-weight:600}
-  .panel .s{font-size:.6rem;color:var(--muted);margin-bottom:.25rem}
-  .cwrap{position:relative;flex:1;min-height:0}
+  body{background:var(--paper);color:var(--ink);font-family:'Work Sans',sans-serif;font-weight:300;
+    -webkit-font-smoothing:antialiased;line-height:1.5}
+  .wrap{max-width:1180px;margin:0 auto;padding:1.6rem 1.8rem 2.4rem}
+
+  a.home{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--clay);
+    text-decoration:none;border-bottom:1px solid transparent;transition:border-color .2s}
+  a.home:hover{border-color:var(--clay)}
+
+  /* masthead */
+  .mast{border-bottom:2px solid var(--ink);padding-bottom:1.1rem;margin:1rem 0 1.5rem}
+  .kicker{font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;color:var(--dim);
+    display:flex;gap:.7rem;align-items:center;margin-bottom:.7rem}
+  .kicker span{height:1px;background:var(--rule2);flex:1}
+  h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(2.4rem,6vw,4.4rem);
+    line-height:.94;letter-spacing:-.02em}
+  h1 em{font-style:italic;font-weight:400;color:var(--clay)}
+  .standfirst{font-family:'Playfair Display',serif;font-size:1.08rem;font-style:italic;
+    color:var(--body);max-width:640px;margin-top:.85rem;line-height:1.55}
+
+  /* editorial stat row — rules, not boxes */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:1.6rem 0 2rem;
+    border-top:1px solid var(--rule2);border-bottom:1px solid var(--rule2)}
+  .stat{padding:1rem 1.2rem;border-right:1px solid var(--rule)}
+  .stat:last-child{border-right:none}
+  .stat .n{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:600;line-height:1}
+  .stat:nth-child(1) .n{color:var(--ink)}
+  .stat:nth-child(2) .n{color:var(--clay)}
+  .stat:nth-child(3) .n{color:var(--plum)}
+  .stat:nth-child(4) .n{color:var(--olive)}
+  .stat .l{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-top:.4rem}
+
+  h2.sec{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:600;margin-bottom:.15rem}
+  .sub{font-size:.78rem;color:var(--dim);margin-bottom:.9rem}
+
+  .waffle-box{background:var(--card);border:1px solid var(--rule);padding:1.3rem 1.4rem 1.1rem;margin-bottom:1.6rem}
+  #waffle{width:100%;height:auto;display:block}
+  .legend{display:flex;gap:1.4rem;flex-wrap:wrap;margin-top:.9rem;font-size:.74rem;color:var(--body)}
+  .legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:.45rem;vertical-align:middle}
+
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:1.6rem}
+  .card{background:var(--card);border:1px solid var(--rule);padding:1.2rem 1.3rem 1rem}
+  .cwrap{position:relative;height:230px;margin-top:.5rem}
   canvas{position:absolute;inset:0}
-  .insight{background:#fdeee6;border-left:3px solid var(--peach-d);border-radius:8px;padding:.5rem .9rem;font-size:.75rem;color:#4a3428;line-height:1.4}
-  .insight b{color:var(--peach-d)}
+
+  /* the overtime contrast — drawn, not charted */
+  .contrast{display:flex;align-items:flex-end;gap:2rem;margin-top:1.2rem;height:200px}
+  .col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%}
+  .col .bar{width:100%;max-width:104px;border-radius:2px 2px 0 0;position:relative;transition:height .6s cubic-bezier(.25,1,.5,1)}
+  .col .pct{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:600;margin-bottom:.35rem}
+  .col .cap{font-size:.7rem;letter-spacing:.09em;text-transform:uppercase;color:var(--dim);margin-top:.6rem;text-align:center}
+  .multiple{font-family:'Playfair Display',serif;font-style:italic;font-size:.95rem;color:var(--clay);
+    text-align:center;margin-top:.9rem}
+
+  .pull{border-left:3px solid var(--clay);background:var(--card);padding:1.1rem 1.4rem;
+    font-family:'Playfair Display',serif;font-size:1.06rem;line-height:1.6;color:var(--body)}
+  .pull b{color:var(--clay);font-weight:600;font-style:normal}
+  .foot{font-size:.68rem;color:var(--dim);margin-top:1.4rem;padding-top:.9rem;border-top:1px solid var(--rule);line-height:1.6}
+
+  @media (max-width:820px){
+    .stats{grid-template-columns:1fr 1fr}
+    .stat:nth-child(2){border-right:none}
+    .stat:nth-child(1),.stat:nth-child(2){border-bottom:1px solid var(--rule)}
+    .cols{grid-template-columns:1fr}
+  }
 </style>
 </head>
 <body>
-  <div class="head">
-    <div class="l"><a class="home" href="../index.html">&larr; Portfolio</a><span class="title">Why They Leave &middot; Workforce Attrition</span></div>
-    <div class="meta">IBM HR Analytics &middot; 1,470 employees<br/>35 attributes &middot; 237 exits</div>
+<div class="wrap">
+  <a class="home" href="../index.html">&larr; Portfolio</a>
+
+  <div class="mast">
+    <div class="kicker">IBM HR Analytics <span></span> 1,470 employees <span></span> 35 attributes</div>
+    <h1>Why They <em>Leave</em></h1>
+    <p class="standfirst">One in six people walked out last year. The reason is not on the payslip &mdash;
+      it is on the timesheet.</p>
   </div>
-  <div class="kpis">
-    <div class="kpi k1"><div class="k">Headcount</div><div class="v">1,470</div><div class="d">3 departments</div></div>
-    <div class="kpi k2"><div class="k">Attrition Rate</div><div class="v">16.1%</div><div class="d">237 employees lost</div></div>
-    <div class="kpi k3"><div class="k">Overtime Effect</div><div class="v">3.0&times;</div><div class="d">30.5% vs 10.4%</div></div>
-    <div class="kpi k4"><div class="k">Highest-Risk Dept</div><div class="v">Sales</div><div class="d">20.6% of 446 staff</div></div>
+
+  <div class="stats">
+    <div class="stat"><div class="n">1,470</div><div class="l">Employees</div></div>
+    <div class="stat"><div class="n">237</div><div class="l">Left the business</div></div>
+    <div class="stat"><div class="n">3.0&times;</div><div class="l">Overtime risk multiple</div></div>
+    <div class="stat"><div class="n">20.6%</div><div class="l">Attrition in Sales</div></div>
   </div>
-  <div class="charts">
-    <div class="panel" style="grid-row:span 2">
-      <h3>Attrition Rate by Department</h3><div class="s">Bar length = rate &middot; label = headcount</div>
-      <div class="cwrap"><canvas id="dept"></canvas></div>
-    </div>
-    <div class="panel">
-      <h3>Overtime vs Attrition</h3><div class="s">The strongest single lever in the data</div>
-      <div class="cwrap"><canvas id="ot"></canvas></div>
-    </div>
-    <div class="panel">
-      <h3>Attrition by Tenure</h3><div class="s">Risk is front-loaded into year one</div>
-      <div class="cwrap"><canvas id="tenure"></canvas></div>
+
+  <div class="waffle-box">
+    <h2 class="sec">Every dot is one employee</h2>
+    <div class="sub">1,470 people. The 237 in clay left within the year.</div>
+    <svg id="waffle" viewBox="0 0 1000 232" role="img"
+         aria-label="Unit chart of 1,470 employees with 237 highlighted as leavers"></svg>
+    <div class="legend">
+      <span><i style="background:#bf4426"></i>Left the business &middot; 237</span>
+      <span><i style="background:#c9bdaa"></i>Stayed &middot; 1,233</span>
     </div>
   </div>
-  <div class="insight"><b>Finding:</b> overtime triples the odds of leaving (<b>30.5%</b> vs <b>10.4%</b>), and Sales loses one in five staff a year. Attrition concentrates in the first year, so it is a <b>workload and onboarding problem, not a pay problem</b>. Target overtime in Sales first.</div>
+
+  <div class="cols">
+    <div class="card">
+      <h2 class="sec">The overtime effect</h2>
+      <div class="sub">The single strongest lever in the dataset</div>
+      <div class="contrast">
+        <div class="col">
+          <div class="pct" style="color:var(--olive)">10.4%</div>
+          <div class="bar" style="height:34%;background:var(--olive)"></div>
+          <div class="cap">No overtime<br/>1,054 people</div>
+        </div>
+        <div class="col">
+          <div class="pct" style="color:var(--clay)">30.5%</div>
+          <div class="bar" style="height:100%;background:var(--clay)"></div>
+          <div class="cap">Works overtime<br/>416 people</div>
+        </div>
+      </div>
+      <div class="multiple">Three times the odds of walking</div>
+    </div>
+
+    <div class="card">
+      <h2 class="sec">Where it hurts</h2>
+      <div class="sub">Attrition rate by department &middot; hover for headcount</div>
+      <div class="cwrap"><canvas id="cDept"></canvas></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:1.6rem">
+    <h2 class="sec">Risk is front-loaded</h2>
+    <div class="sub">Attrition rate by years at the company &mdash; year one does most of the damage</div>
+    <div class="cwrap" style="height:210px"><canvas id="cTenure"></canvas></div>
+  </div>
+
+  <div class="pull"><b>The finding:</b> attrition is not spread evenly and it is not about pay. It concentrates
+    in people working overtime, in Sales, in their first year. Fix the workload and the onboarding for that
+    one overlapping group and you address roughly <b>half of all exits</b> without touching the salary bill.</div>
+
+  <div class="foot"><b>Data:</b> IBM HR Analytics Employee Attrition &amp; Performance, a public
+    practice dataset of 1,470 records. Headline figures shown as published: 16.1% overall attrition,
+    20.6% / 19.0% / 13.8% by department, 30.5% versus 10.4% by overtime status.</div>
+</div>
+
 <script>
-const MUT="#6b6a62",LINE="#e8e4dc",LAVD="#5340a8",SAGED="#3d6b4a",PEACHD="#b8511e",BLUSHD="#9e2060",SKYD="#1a6fa8";
-Chart.defaults.font.family="Inter";Chart.defaults.font.size=10;Chart.defaults.color=MUT;Chart.defaults.maintainAspectRatio=false;
+"use strict";
+const CLAY="#bf4426",OLIVE="#6d7a44",PLUM="#7c3a54",SAND="#c9973f",
+      RULE="#ded5c6",RULE2="#c9bdaa",DIM="#8a8071",INK="#26221c";
 
-/* Attrition by department */
+/* ── unit chart: 1,470 dots, 237 highlighted ── */
+(function(){
+  const svg=document.getElementById("waffle");
+  const TOTAL=1470, LEAVERS=237, COLS=70, ROWS=Math.ceil(TOTAL/COLS); /* 70 x 21 */
+  const W=1000, gap=W/COLS, r=gap*0.34, top=r+2;
+  svg.setAttribute("viewBox","0 0 "+W+" "+(ROWS*gap+top));
+  const ns="http://www.w3.org/2000/svg";
+  let frag=document.createDocumentFragment();
+  for(let i=0;i<TOTAL;i++){
+    const row=Math.floor(i/COLS), col=i%COLS;
+    const c=document.createElementNS(ns,"circle");
+    c.setAttribute("cx",(col*gap+gap/2).toFixed(2));
+    c.setAttribute("cy",(row*gap+top).toFixed(2));
+    c.setAttribute("r",r.toFixed(2));
+    c.setAttribute("fill", i<LEAVERS?CLAY:RULE2);
+    if(i<LEAVERS){c.setAttribute("opacity","0");
+      c.innerHTML="<animate attributeName='opacity' to='1' dur='0.5s' begin='"+(i*1.6)+"ms' fill='freeze'/>";}
+    frag.appendChild(c);
+  }
+  svg.appendChild(frag);
+})();
+
+/* ── charts, styled as print, not dashboard ── */
+Chart.defaults.font.family="Work Sans";
+Chart.defaults.font.size=11;
+Chart.defaults.color=DIM;
+Chart.defaults.maintainAspectRatio=false;
+Chart.defaults.plugins.tooltip.backgroundColor="#26221c";
+Chart.defaults.plugins.tooltip.padding=9;
+Chart.defaults.plugins.tooltip.cornerRadius=2;
+Chart.defaults.plugins.tooltip.titleFont={family:"Playfair Display",size:12};
+
 const dep=[["Sales",20.6,446],["Human Resources",19.0,63],["R & D",13.8,961]];
-new Chart(dept,{type:"bar",data:{labels:dep.map(d=>d[0]),
-  datasets:[{data:dep.map(d=>d[1]),backgroundColor:dep.map(d=>d[1]>=19?BLUSHD:PEACHD),borderRadius:3}]},
-  options:{indexAxis:"y",layout:{padding:{left:6,right:10}},
-  plugins:{legend:{display:false},tooltip:{callbacks:{
-    label:c=>c.raw+"% attrition  (n="+dep[c.dataIndex][2]+")"}}},
-  scales:{x:{grid:{color:LINE},ticks:{callback:v=>v+"%",font:{size:9}},suggestedMax:25,
-    title:{display:true,text:"Attrition rate",font:{size:9}}},
-    y:{grid:{display:false},ticks:{font:{size:10},padding:4,crossAlign:"far"},afterFit:s=>{s.width=110;}}}}});
+new Chart(document.getElementById("cDept"),{
+  type:"bar",
+  data:{labels:dep.map(d=>d[0]),
+    datasets:[{data:dep.map(d=>d[1]),backgroundColor:[CLAY,PLUM,SAND],
+      borderRadius:1,barPercentage:.62}]},
+  options:{indexAxis:"y",layout:{padding:{left:2,right:16}},
+    plugins:{legend:{display:false},tooltip:{callbacks:{
+      label:c=>c.raw+"% left · "+dep[c.dataIndex][2]+" employees"}}},
+    scales:{
+      x:{grid:{color:RULE,drawTicks:false},border:{display:false},
+        ticks:{callback:v=>v+"%",font:{size:10}},suggestedMax:24,beginAtZero:true},
+      y:{grid:{display:false},border:{color:RULE2},
+        ticks:{font:{size:11},crossAlign:"far",padding:6},afterFit:s=>{s.width=112;}}}}
+});
 
-/* Overtime */
-new Chart(ot,{type:"bar",data:{labels:["Works overtime","No overtime"],
-  datasets:[{data:[30.5,10.4],backgroundColor:[BLUSHD,SAGED],borderRadius:3}]},
-  options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.raw+"% attrition"}}},
-  scales:{x:{grid:{display:false}},y:{grid:{color:LINE},ticks:{callback:v=>v+"%",font:{size:9}},suggestedMax:35}}}});
-
-/* Tenure */
-const ten=[["< 1 yr",35.2],["1–2 yrs",21.4],["3–5 yrs",14.6],["6–10 yrs",10.1],["10+ yrs",8.3]];
-new Chart(tenure,{type:"line",data:{labels:ten.map(t=>t[0]),
-  datasets:[{data:ten.map(t=>t[1]),borderColor:PEACHD,backgroundColor:"rgba(184,81,30,0.12)",
-    fill:true,tension:.35,pointRadius:3,pointBackgroundColor:PEACHD,borderWidth:2}]},
-  options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.raw+"% attrition"}}},
-  scales:{x:{grid:{display:false},ticks:{font:{size:9}}},
-    y:{grid:{color:LINE},ticks:{callback:v=>v+"%",font:{size:9}},beginAtZero:true}}}});
+const ten=[["<1 yr",35.2],["1–2",21.4],["3–5",14.6],["6–10",10.1],["10+",8.3]];
+new Chart(document.getElementById("cTenure"),{
+  type:"line",
+  data:{labels:ten.map(t=>t[0]),
+    datasets:[{data:ten.map(t=>t[1]),borderColor:CLAY,borderWidth:2,
+      backgroundColor:"rgba(191,68,38,.10)",fill:true,tension:.32,
+      pointRadius:4,pointBackgroundColor:"#fdfbf7",pointBorderColor:CLAY,pointBorderWidth:2}]},
+  options:{plugins:{legend:{display:false},tooltip:{callbacks:{
+      title:c=>c[0].label+" at the company",label:c=>c.raw+"% attrition"}}},
+    scales:{
+      x:{grid:{display:false},border:{color:RULE2},ticks:{font:{size:11}}},
+      y:{grid:{color:RULE,drawTicks:false},border:{display:false},
+        ticks:{callback:v=>v+"%",font:{size:10}},beginAtZero:true,suggestedMax:40}}}
+});
 </script>
 </body>
 </html>

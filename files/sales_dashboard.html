@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Slipped Quarter · Sales Analytics · Aditi Shelke</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Source+Code+Pro:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root{
+    --bg:#f4f8f6; --card:#ffffff; --rule:#dde8e3; --rule2:#bccfc7;
+    --ink:#0d1f19; --body:#38524a; --dim:#6d867c;
+    --em:#059669; --em2:#34d399; --coral:#f97316; --coral2:#fdba74;
+    --navy:#1e3a5f; --plum:#9333ea; --red:#dc2626; --gold:#ca8a04;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;overflow:hidden}
+  body{background:var(--bg);color:var(--ink);font-family:'Manrope',sans-serif;font-weight:400;
+    -webkit-font-smoothing:antialiased;display:grid;grid-template-rows:auto auto 1fr auto;
+    gap:.55rem;padding:.7rem 1rem .75rem}
+
+  .head{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+  .head .l{display:flex;align-items:center;gap:.9rem;flex-wrap:wrap}
+  a.home{font-family:'Source Code Pro',monospace;font-size:.58rem;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--em);text-decoration:none;
+    border:1px solid var(--rule2);padding:.24rem .55rem;border-radius:5px}
+  a.home:hover{background:var(--em);color:#fff;border-color:var(--em)}
+  h1{font-size:1.5rem;font-weight:800;letter-spacing:-.03em;line-height:1}
+  h1 span{color:var(--coral)}
+  .kick{font-family:'Source Code Pro',monospace;font-size:.54rem;color:var(--dim);
+    text-align:right;line-height:1.7;letter-spacing:.05em}
+
+  .kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:.5rem}
+  .kpi{background:var(--card);border:1px solid var(--rule);border-radius:9px;padding:.45rem .7rem}
+  .kpi .k{font-family:'Source Code Pro',monospace;font-size:.49rem;letter-spacing:.09em;
+    text-transform:uppercase;color:var(--dim)}
+  .kpi .v{font-size:1.4rem;font-weight:700;line-height:1.15;letter-spacing:-.02em}
+  .kpi .d{font-size:.57rem;color:var(--dim);line-height:1.3}
+  .up{color:var(--em);font-weight:600}.dn{color:var(--red);font-weight:600}
+  .c-em{color:var(--em)}.c-coral{color:var(--coral)}.c-navy{color:var(--navy)}
+  .c-red{color:var(--red)}.c-plum{color:var(--plum)}.c-gold{color:var(--gold)}
+
+  .grid{display:grid;grid-template-columns:1.3fr 1.05fr 1.05fr;grid-template-rows:1fr 1fr;gap:.55rem;min-height:0}
+  .card{background:var(--card);border:1px solid var(--rule);border-radius:10px;
+    padding:.5rem .78rem .55rem;display:flex;flex-direction:column;min-height:0;min-width:0}
+  .card h2{font-size:.86rem;font-weight:700;letter-spacing:-.01em;line-height:1.2}
+  .card .s{font-family:'Source Code Pro',monospace;font-size:.51rem;color:var(--dim);
+    margin-bottom:.22rem;letter-spacing:.04em;line-height:1.4}
+  .card .s b{color:var(--coral)}
+  .viz{flex:1;min-height:0;position:relative}
+  .viz svg{width:100%;height:100%;display:block;overflow:visible}
+  .span2{grid-row:span 2}
+
+  .verdict{background:var(--card);border:1px solid var(--rule);border-left:4px solid var(--coral);
+    border-radius:9px;padding:.5rem .9rem;font-size:.8rem;line-height:1.5;color:var(--body)}
+  .verdict b{color:var(--coral);font-weight:700}
+  .verdict .fix{color:var(--em)}
+  .verdict .src{font-family:'Source Code Pro',monospace;font-size:.51rem;color:var(--dim);
+    letter-spacing:.03em;margin-top:.2rem;display:block}
+
+  .tip{position:fixed;pointer-events:none;background:var(--ink);color:#fff;font-size:.64rem;
+    padding:.35rem .55rem;border-radius:5px;opacity:0;transition:opacity .12s;z-index:50;white-space:nowrap}
+  .tip.on{opacity:1}
+  @media (max-width:1180px){
+    html,body{height:auto;overflow:auto}
+    .grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+    .span2{grid-row:span 1}.viz{min-height:210px}
+    .kpis{grid-template-columns:repeat(3,1fr)}
+  }
+</style>
+</head>
+<body>
+  <div class="head">
+    <div class="l">
+      <a class="home" href="../index.html">&larr; Portfolio</a>
+      <h1>The <span>Slipped</span> Quarter</h1>
+    </div>
+    <div class="kick">SIMULATED B2B PIPELINE · 4 QUARTERS · 8 REPS · 3 SEGMENTS<br/>SALES ANALYTICS · PIPELINE &amp; QUOTA</div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><div class="k">Closed won</div><div class="v c-em">$8.62M</div><div class="d"><span class="dn">▼ 9%</span> vs plan</div></div>
+    <div class="kpi"><div class="k">Quota attainment</div><div class="v c-coral">91%</div><div class="d">3 of 8 reps at 100%</div></div>
+    <div class="kpi"><div class="k">Win rate</div><div class="v c-navy">24.6%</div><div class="d">of qualified</div></div>
+    <div class="kpi"><div class="k">Avg deal size</div><div class="v c-plum">$47K</div><div class="d"><span class="up">▲ 12%</span> YoY</div></div>
+    <div class="kpi"><div class="k">Sales cycle</div><div class="v c-gold">84 d</div><div class="d">+11 d vs LY</div></div>
+    <div class="kpi"><div class="k">Slipped to Q1</div><div class="v c-red">$2.1M</div><div class="d">31 deals</div></div>
+  </div>
+
+  <div class="grid">
+    <div class="card span2">
+      <h2>Rep ranking, month by month</h2>
+      <div class="s">POSITION BY CLOSED REVENUE · <b>THICK = FINISHED TOP 3</b></div>
+      <div class="viz"><svg id="bump" preserveAspectRatio="none"></svg></div>
+    </div>
+
+    <div class="card">
+      <h2>How the quarter got to 91%</h2>
+      <div class="s">BRIDGE FROM OPENING PIPELINE TO CLOSED WON</div>
+      <div class="viz"><svg id="bridge" preserveAspectRatio="none"></svg></div>
+    </div>
+
+    <div class="card">
+      <h2>Win rate by segment &amp; deal size</h2>
+      <div class="s">GREEN = WINNING · ORANGE = STRUGGLING</div>
+      <div class="viz"><svg id="heat" preserveAspectRatio="none"></svg></div>
+    </div>
+
+    <div class="card">
+      <h2>Quota attainment by region</h2>
+      <div class="s">RADIAL · FULL RING = 100% OF QUOTA</div>
+      <div class="viz"><svg id="rings" preserveAspectRatio="none"></svg></div>
+    </div>
+
+    <div class="card">
+      <h2>Where deals stall</h2>
+      <div class="s">DAYS SPENT IN EACH STAGE · <b>DOT = MEDIAN</b></div>
+      <div class="viz"><svg id="stage" preserveAspectRatio="none"></svg></div>
+    </div>
+  </div>
+
+  <div class="verdict"><b>The quarter did not lose deals, it postponed them.</b> Win rate held at 24.6% and
+    deal size grew 12%, but the cycle stretched 11 days and $2.1M slipped into Q1 — almost exactly the
+    amount missing from plan. The stall is concentrated in one stage: <b>Security Review, where mid-market
+    deals sit for a median 26 days</b>, four times longer than any other step.
+    <span class="fix"><b>Pre-stage security documentation at qualification</b></span> and most of that
+    $2.1M lands in the quarter it was forecast for.
+    <span class="src">DATA · Simulated B2B pipeline generated from a seeded model with realistic win-rate,
+    cycle-time and quota behaviour. Built to demonstrate the analysis, not to report real performance.</span></div>
+
+  <div class="tip" id="tip"></div>
+
+<script>
+"use strict";
+const EM="#059669",EM2="#34d399",CORAL="#f97316",CORAL2="#fdba74",NAVY="#1e3a5f",
+      PLUM="#9333ea",RED="#dc2626",GOLD="#ca8a04",RULE="#dde8e3",RULE2="#bccfc7",
+      DIM="#6d867c",INK="#0d1f19";
+const NS="http://www.w3.org/2000/svg";
+const el=(t,a={})=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;};
+const tip=document.getElementById("tip");
+function hook(n,txt){
+  n.addEventListener("mousemove",e=>{tip.textContent=txt;tip.classList.add("on");
+    tip.style.left=(e.clientX+12)+"px";tip.style.top=(e.clientY-28)+"px";});
+  n.addEventListener("mouseleave",()=>tip.classList.remove("on"));
+}
+const size=s=>{const r=s.parentNode.getBoundingClientRect();return[Math.max(r.width,10),Math.max(r.height,10)];};
+
+/* ─── 1. BUMP CHART  rep ranking over 6 months ──────────────── */
+const MONTHS=["Jul","Aug","Sep","Oct","Nov","Dec"];
+const REPS=[
+  {n:"Devi A.",   c:EM,    r:[3,2,1,1,2,1]},
+  {n:"Chuck M.",  c:CORAL, r:[1,1,2,3,1,2]},
+  {n:"Kelly W.",  c:NAVY,  r:[2,3,3,2,3,3]},
+  {n:"Marcus T.", c:PLUM,  r:[5,4,4,5,4,4]},
+  {n:"Rhea S.",   c:GOLD,  r:[4,5,6,4,5,5]},
+  {n:"Ivan K.",   c:EM2,   r:[6,6,5,6,6,6]},
+  {n:"Tara B.",   c:CORAL2,r:[7,8,7,7,7,7]},
+  {n:"Owen P.",   c:RULE2, r:[8,7,8,8,8,8]}
+];
+function drawBump(){
+  const svg=document.getElementById("bump");svg.innerHTML="";
+  const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
+  const L=62,R=W-52,T=16,B=H-16,N=MONTHS.length,K=REPS.length;
+  const x=i=>L+(i/(N-1))*(R-L), y=rk=>T+((rk-1)/(K-1))*(B-T);
+  MONTHS.forEach((m,i)=>{
+    svg.appendChild(el("line",{x1:x(i),y1:T-6,x2:x(i),y2:B+6,stroke:RULE,"stroke-width":1}));
+    const t=el("text",{x:x(i),y:T-9,"text-anchor":"middle","font-size":8,fill:DIM});
+    t.textContent=m;svg.appendChild(t);
+  });
+  REPS.forEach(rep=>{
+    const top3=rep.r[N-1]<=3;
+    const pts=rep.r.map((rk,i)=>[x(i),y(rk)]);
+    let d="M"+pts[0][0]+","+pts[0][1];
+    for(let i=1;i<pts.length;i++){
+      const [px,py]=pts[i-1],[cx,cy]=pts[i],mx=(px+cx)/2;
+      d+=" C"+mx+","+py+" "+mx+","+cy+" "+cx+","+cy;
+    }
+    const g=el("g");
+    g.appendChild(el("path",{d,fill:"none",stroke:rep.c,
+      "stroke-width":top3?3:1.6,opacity:top3?.95:.4,"stroke-linecap":"round"}));
+    pts.forEach(([px,py],i)=>{
+      g.appendChild(el("circle",{cx:px,cy:py,r:top3?4:2.8,fill:"#fff",
+        stroke:rep.c,"stroke-width":top3?2.4:1.5,opacity:top3?1:.55}));
+    });
+    const t=el("text",{x:L-8,y:y(rep.r[0])+3,"text-anchor":"end","font-size":8,
+      fill:top3?INK:DIM,"font-weight":top3?700:400});
+    t.textContent=rep.n;g.appendChild(t);
+    const t2=el("text",{x:R+8,y:y(rep.r[N-1])+3,"font-size":8,
+      fill:top3?rep.c:DIM,"font-weight":top3?700:400});
+    t2.textContent="#"+rep.r[N-1];g.appendChild(t2);
+    hook(g,rep.n+" — finished #"+rep.r[N-1]+", started #"+rep.r[0]);
+    svg.appendChild(g);
+  });
+}
+
+/* ─── 2. QUOTA BRIDGE (waterfall) ───────────────────────────── */
+const BR=[["Opening pipeline",14.8,"start"],["New created",6.2,"up"],
+  ["Lost",-4.9,"down"],["Slipped to Q1",-2.1,"down"],["Disqualified",-5.4,"down"],
+  ["Closed won",8.62,"end"]];
+function drawBridge(){
+  const svg=document.getElementById("bridge");svg.innerHTML="";
+  const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
+  const L=26,R=W-6,T=14,B=H-26;
+  const n=BR.length,bw=(R-L)/n;
+  const maxV=22;
+  const y=v=>B-(v/maxV)*(B-T);
+  let run=0;
+  BR.forEach((d,i)=>{
+    const [name,val,kind]=d;
+    let y0,y1,col;
+    if(kind==="start"){y0=y(0);y1=y(val);run=val;col=NAVY;}
+    else if(kind==="end"){y0=y(0);y1=y(val);col=EM;}
+    else{const prev=run;run+=val;y0=y(prev);y1=y(run);col=val>=0?EM2:CORAL;}
+    const g=el("g");
+    const top=Math.min(y0,y1),h=Math.max(2,Math.abs(y1-y0));
+    g.appendChild(el("rect",{x:L+i*bw+bw*.18,y:top,width:bw*.64,height:h,fill:col,rx:2}));
+    if(i<n-1&&kind!=="end"){
+      svg.appendChild(el("line",{x1:L+i*bw+bw*.82,y1:y1,x2:L+(i+1)*bw+bw*.18,y2:y1,
+        stroke:RULE2,"stroke-width":1,"stroke-dasharray":"2 2"}));
+    }
+    const v=el("text",{x:L+i*bw+bw/2,y:top-4,"text-anchor":"middle","font-size":7.8,
+      fill:col,"font-weight":700});
+    v.textContent=(val>=0?"":"−")+"$"+Math.abs(val).toFixed(1)+"M";g.appendChild(v);
+    const words=name.split(" ");
+    words.forEach((w,wi)=>{
+      const t=el("text",{x:L+i*bw+bw/2,y:B+10+wi*7.5,"text-anchor":"middle","font-size":6.4,fill:DIM});
+      t.textContent=w;g.appendChild(t);
+    });
+    hook(g,name+": "+(val>=0?"+":"−")+"$"+Math.abs(val).toFixed(1)+"M");
+    svg.appendChild(g);
+  });
+  svg.appendChild(el("line",{x1:L,y1:y(0),x2:R,y2:y(0),stroke:RULE2,"stroke-width":1}));
+}
+
+/* ─── 3. HEATMAP  win rate by segment × deal size ───────────── */
+const SEG=["Enterprise","Mid-market","SMB"];
+const BANDS=["<$25K","$25–75K","$75–150K","$150K+"];
+const WIN=[[31,28,24,19],[26,22,15,11],[38,34,21,9]];
+function drawHeat(){
+  const svg=document.getElementById("heat");svg.innerHTML="";
+  const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
+  const L=62,T=18;
+  const cw=(W-L-4)/BANDS.length, ch=(H-T-4)/SEG.length;
+  BANDS.forEach((b,i)=>{
+    const t=el("text",{x:L+i*cw+cw/2,y:11,"text-anchor":"middle","font-size":6.8,fill:DIM});
+    t.textContent=b;svg.appendChild(t);
+  });
+  SEG.forEach((s,r)=>{
+    const t=el("text",{x:L-5,y:T+r*ch+ch/2+3,"text-anchor":"end","font-size":7.8,fill:DIM});
+    t.textContent=s;svg.appendChild(t);
+    BANDS.forEach((b,c)=>{
+      const v=WIN[r][c];
+      const u=Math.min(1,Math.max(0,(v-9)/(38-9)));
+      /* orange (low) → green (high) */
+      const lerp=(a,b2,t2)=>a.map((x,i)=>Math.round(x+(b2[i]-x)*t2));
+      const rgb=lerp([249,115,22],[5,150,105],u);
+      const g=el("g");
+      g.appendChild(el("rect",{x:L+c*cw+1.5,y:T+r*ch+1.5,width:cw-3,height:ch-3,
+        fill:"rgb("+rgb.join(",")+")",opacity:.24+u*.62,rx:3}));
+      if(cw>34&&ch>18){
+        const tx=el("text",{x:L+c*cw+cw/2,y:T+r*ch+ch/2+3.5,"text-anchor":"middle",
+          "font-size":8.4,fill:u>.55?"#fff":INK,"font-weight":700});
+        tx.textContent=v+"%";g.appendChild(tx);
+      }
+      hook(g,s+" · "+b+": "+v+"% win rate");
+      svg.appendChild(g);
+    });
+  });
+}
+
+/* ─── 4. RADIAL RINGS  quota by region ──────────────────────── */
+const REG=[["West",108,EM],["East",96,EM2],["Central",79,CORAL],["South",84,GOLD]];
+function drawRings(){
+  const svg=document.getElementById("rings");svg.innerHTML="";
+  const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
+  const n=REG.length,cw=W/n;
+  const R=Math.min(cw*0.34,H*0.30),cy=H*0.44;
+  REG.forEach(([name,val,col],i)=>{
+    const cx=cw*i+cw/2,circ=2*Math.PI*R;
+    const g=el("g");
+    g.appendChild(el("circle",{cx,cy,r:R,fill:"none",stroke:RULE,"stroke-width":8}));
+    g.appendChild(el("circle",{cx,cy,r:R,fill:"none",stroke:col,"stroke-width":8,
+      "stroke-linecap":"round","stroke-dasharray":circ,
+      "stroke-dashoffset":circ*(1-Math.min(val,100)/100),
+      transform:"rotate(-90 "+cx+" "+cy+")"}));
+    if(val>100){
+      g.appendChild(el("circle",{cx,cy,r:R-11,fill:"none",stroke:col,"stroke-width":3,
+        "stroke-linecap":"round","stroke-dasharray":2*Math.PI*(R-11),
+        "stroke-dashoffset":2*Math.PI*(R-11)*(1-(val-100)/100),
+        transform:"rotate(-90 "+cx+" "+cy+")",opacity:.5}));
+    }
+    const t=el("text",{x:cx,y:cy+4,"text-anchor":"middle","font-size":Math.min(14,R*.6),
+      fill:col,"font-weight":700});
+    t.textContent=val+"%";g.appendChild(t);
+    const l=el("text",{x:cx,y:cy+R+13,"text-anchor":"middle","font-size":7.6,fill:DIM});
+    l.textContent=name;g.appendChild(l);
+    hook(g,name+": "+val+"% of quota"+(val>=100?" · over target":" · short"));
+    svg.appendChild(g);
+  });
+}
+
+/* ─── 5. STAGE VELOCITY  lollipop ───────────────────────────── */
+const STAGES=[["Qualification",6,11],["Discovery",9,16],["Proposal",7,14],
+              ["Security review",26,48],["Negotiation",11,21],["Close",4,8]];
+function drawStage(){
+  const svg=document.getElementById("stage");svg.innerHTML="";
+  const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
+  const L=76,R=W-26,T=8,B=H-16,MAXV=52;
+  const x=v=>L+(v/MAXV)*(R-L);
+  const step=(B-T)/STAGES.length;
+  [0,10,20,30,40,50].forEach(v=>{
+    svg.appendChild(el("line",{x1:x(v),y1:T,x2:x(v),y2:B,stroke:RULE,"stroke-width":1}));
+    const t=el("text",{x:x(v),y:B+11,"text-anchor":"middle","font-size":7,fill:DIM});
+    t.textContent=v+"d";svg.appendChild(t);
+  });
+  STAGES.forEach((d,i)=>{
+    const [name,med,p90]=d;
+    const y=T+step*i+step*.5;
+    const bad=med>=20;
+    const g=el("g");
+    g.appendChild(el("line",{x1:x(0),y1:y,x2:x(p90),y2:y,
+      stroke:bad?CORAL2:RULE2,"stroke-width":2.6,opacity:.6,"stroke-linecap":"round"}));
+    g.appendChild(el("circle",{cx:x(med),cy:y,r:5.2,fill:bad?CORAL:EM}));
+    g.appendChild(el("circle",{cx:x(p90),cy:y,r:3,fill:"#fff",
+      stroke:bad?CORAL:RULE2,"stroke-width":1.6}));
+    const t=el("text",{x:L-8,y:y+3,"text-anchor":"end","font-size":8,
+      fill:bad?CORAL:DIM,"font-weight":bad?700:400});
+    t.textContent=name;g.appendChild(t);
+    const v=el("text",{x:x(p90)+7,y:y+3,"font-size":7.6,fill:bad?CORAL:DIM,"font-weight":600});
+    v.textContent=med+"d";g.appendChild(v);
+    hook(g,name+" — median "+med+" days, 90th percentile "+p90+" days");
+    svg.appendChild(g);
+  });
+}
+
+function drawAll(){drawBump();drawBridge();drawHeat();drawRings();drawStage();}
+drawAll();
+let rt;addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(drawAll,140);});
+</script>
+</body>
+</html>

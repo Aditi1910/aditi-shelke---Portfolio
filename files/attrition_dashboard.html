@@ -3,219 +3,338 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Why They Leave · Workforce Attrition · Aditi Shelke</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<title>Why They Leave · People Analytics · Aditi Shelke</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
   :root{
-    --paper:#f1ece2; --card:#fdfbf7; --rule:#ded5c6; --rule2:#c9bdaa;
-    --ink:#26221c; --body:#4d463c; --dim:#8a8071;
-    --clay:#bf4426; --olive:#6d7a44; --plum:#7c3a54; --sand:#c9973f; --slate:#4a6572;
+    --paper:#f2ede3; --card:#fffdf9; --rule:#ded5c5; --rule2:#c6b9a4;
+    --ink:#241f19; --body:#4b443a; --dim:#8a8071;
+    --clay:#bf4426; --clay2:#e0785a; --olive:#6d7a44; --plum:#7c3a54; --sand:#c9973f; --teal:#3f6f6a;
   }
   *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;overflow:hidden}
   body{background:var(--paper);color:var(--ink);font-family:'Work Sans',sans-serif;font-weight:300;
-    -webkit-font-smoothing:antialiased;line-height:1.5}
-  .wrap{max-width:1180px;margin:0 auto;padding:1.6rem 1.8rem 2.4rem}
+    -webkit-font-smoothing:antialiased;display:grid;grid-template-rows:auto auto 1fr auto;
+    gap:.6rem;padding:.75rem 1.1rem .8rem}
 
-  a.home{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--clay);
-    text-decoration:none;border-bottom:1px solid transparent;transition:border-color .2s}
-  a.home:hover{border-color:var(--clay)}
-
-  /* masthead */
-  .mast{border-bottom:2px solid var(--ink);padding-bottom:1.1rem;margin:1rem 0 1.5rem}
-  .kicker{font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;color:var(--dim);
-    display:flex;gap:.7rem;align-items:center;margin-bottom:.7rem}
-  .kicker span{height:1px;background:var(--rule2);flex:1}
-  h1{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(2.4rem,6vw,4.4rem);
-    line-height:.94;letter-spacing:-.02em}
+  .head{display:flex;justify-content:space-between;align-items:flex-end;gap:1rem;flex-wrap:wrap;
+    border-bottom:2px solid var(--ink);padding-bottom:.5rem}
+  .head .l{display:flex;align-items:baseline;gap:1rem;flex-wrap:wrap}
+  a.home{font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--clay);
+    text-decoration:none;border:1px solid var(--rule2);padding:.24rem .5rem;border-radius:2px}
+  a.home:hover{background:var(--clay);color:#fff;border-color:var(--clay)}
+  h1{font-family:'Playfair Display',serif;font-weight:700;font-size:1.85rem;line-height:1;letter-spacing:-.015em}
   h1 em{font-style:italic;font-weight:400;color:var(--clay)}
-  .standfirst{font-family:'Playfair Display',serif;font-size:1.08rem;font-style:italic;
-    color:var(--body);max-width:640px;margin-top:.85rem;line-height:1.55}
+  .kick{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);
+    text-align:right;line-height:1.7}
 
-  /* editorial stat row — rules, not boxes */
-  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:1.6rem 0 2rem;
-    border-top:1px solid var(--rule2);border-bottom:1px solid var(--rule2)}
-  .stat{padding:1rem 1.2rem;border-right:1px solid var(--rule)}
-  .stat:last-child{border-right:none}
-  .stat .n{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:600;line-height:1}
-  .stat:nth-child(1) .n{color:var(--ink)}
-  .stat:nth-child(2) .n{color:var(--clay)}
-  .stat:nth-child(3) .n{color:var(--plum)}
-  .stat:nth-child(4) .n{color:var(--olive)}
-  .stat .l{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-top:.4rem}
+  .stats{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--rule2);
+    border-bottom:1px solid var(--rule2)}
+  .st{padding:.5rem .85rem;border-right:1px solid var(--rule)}
+  .st:last-child{border-right:none}
+  .st .n{font-family:'Playfair Display',serif;font-size:1.55rem;font-weight:600;line-height:1}
+  .st .l{font-size:.58rem;letter-spacing:.11em;text-transform:uppercase;color:var(--dim);margin-top:.2rem}
+  .st:nth-child(1) .n{color:var(--ink)} .st:nth-child(2) .n{color:var(--clay)}
+  .st:nth-child(3) .n{color:var(--plum)} .st:nth-child(4) .n{color:var(--olive)}
+  .st:nth-child(5) .n{color:var(--teal)}
 
-  h2.sec{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:600;margin-bottom:.15rem}
-  .sub{font-size:.78rem;color:var(--dim);margin-bottom:.9rem}
+  .grid{display:grid;grid-template-columns:1.05fr 1.25fr 1.15fr;grid-template-rows:1fr 1fr;
+    gap:.6rem;min-height:0}
+  .card{background:var(--card);border:1px solid var(--rule);padding:.55rem .8rem .6rem;
+    display:flex;flex-direction:column;min-height:0;min-width:0}
+  .card h2{font-family:'Playfair Display',serif;font-size:.98rem;font-weight:600;line-height:1.15}
+  .card .s{font-size:.58rem;color:var(--dim);margin-bottom:.25rem;line-height:1.35}
+  .card .s b{color:var(--clay)}
+  .viz{flex:1;min-height:0;position:relative}
+  .viz svg{width:100%;height:100%;display:block;overflow:visible}
+  .span2{grid-row:span 2}
 
-  .waffle-box{background:var(--card);border:1px solid var(--rule);padding:1.3rem 1.4rem 1.1rem;margin-bottom:1.6rem}
-  #waffle{width:100%;height:auto;display:block}
-  .legend{display:flex;gap:1.4rem;flex-wrap:wrap;margin-top:.9rem;font-size:.74rem;color:var(--body)}
-  .legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:.45rem;vertical-align:middle}
+  .verdict{border-left:3px solid var(--clay);background:var(--card);border:1px solid var(--rule);
+    border-left:3px solid var(--clay);padding:.55rem .95rem;font-family:'Playfair Display',serif;
+    font-size:.86rem;line-height:1.5;color:var(--body)}
+  .verdict b{color:var(--clay);font-weight:600;font-style:normal}
+  .verdict .src{font-family:'Work Sans',sans-serif;font-size:.56rem;color:var(--dim);
+    letter-spacing:.06em;margin-top:.25rem;display:block}
 
-  .cols{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:1.6rem}
-  .card{background:var(--card);border:1px solid var(--rule);padding:1.2rem 1.3rem 1rem}
-  .cwrap{position:relative;height:230px;margin-top:.5rem}
-  canvas{position:absolute;inset:0}
-
-  /* the overtime contrast — drawn, not charted */
-  .contrast{display:flex;align-items:flex-end;gap:2rem;margin-top:1.2rem;height:200px}
-  .col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%}
-  .col .bar{width:100%;max-width:104px;border-radius:2px 2px 0 0;position:relative;transition:height .6s cubic-bezier(.25,1,.5,1)}
-  .col .pct{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:600;margin-bottom:.35rem}
-  .col .cap{font-size:.7rem;letter-spacing:.09em;text-transform:uppercase;color:var(--dim);margin-top:.6rem;text-align:center}
-  .multiple{font-family:'Playfair Display',serif;font-style:italic;font-size:.95rem;color:var(--clay);
-    text-align:center;margin-top:.9rem}
-
-  .pull{border-left:3px solid var(--clay);background:var(--card);padding:1.1rem 1.4rem;
-    font-family:'Playfair Display',serif;font-size:1.06rem;line-height:1.6;color:var(--body)}
-  .pull b{color:var(--clay);font-weight:600;font-style:normal}
-  .foot{font-size:.68rem;color:var(--dim);margin-top:1.4rem;padding-top:.9rem;border-top:1px solid var(--rule);line-height:1.6}
-
-  @media (max-width:820px){
-    .stats{grid-template-columns:1fr 1fr}
-    .stat:nth-child(2){border-right:none}
-    .stat:nth-child(1),.stat:nth-child(2){border-bottom:1px solid var(--rule)}
-    .cols{grid-template-columns:1fr}
+  .tip{position:fixed;pointer-events:none;background:var(--ink);color:#fff;font-size:.66rem;
+    padding:.35rem .55rem;border-radius:3px;opacity:0;transition:opacity .12s;z-index:50;white-space:nowrap}
+  .tip.on{opacity:1}
+  @media (max-width:1180px){
+    html,body{height:auto;overflow:auto}
+    .grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+    .span2{grid-row:span 1}
+    .viz{min-height:210px}
+    .stats{grid-template-columns:repeat(3,1fr)}
   }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <a class="home" href="../index.html">&larr; Portfolio</a>
-
-  <div class="mast">
-    <div class="kicker">IBM HR Analytics <span></span> 1,470 employees <span></span> 35 attributes</div>
-    <h1>Why They <em>Leave</em></h1>
-    <p class="standfirst">One in six people walked out last year. The reason is not on the payslip &mdash;
-      it is on the timesheet.</p>
+  <div class="head">
+    <div class="l">
+      <a class="home" href="../index.html">&larr; Portfolio</a>
+      <h1>Why They <em>Leave</em></h1>
+    </div>
+    <div class="kick">IBM HR Analytics · 1,470 employees · 35 attributes<br/>People analytics · attrition diagnostic</div>
   </div>
 
   <div class="stats">
-    <div class="stat"><div class="n">1,470</div><div class="l">Employees</div></div>
-    <div class="stat"><div class="n">237</div><div class="l">Left the business</div></div>
-    <div class="stat"><div class="n">3.0&times;</div><div class="l">Overtime risk multiple</div></div>
-    <div class="stat"><div class="n">20.6%</div><div class="l">Attrition in Sales</div></div>
+    <div class="st"><div class="n">1,470</div><div class="l">Employees</div></div>
+    <div class="st"><div class="n">237</div><div class="l">Left within the year</div></div>
+    <div class="st"><div class="n">16.1%</div><div class="l">Attrition rate</div></div>
+    <div class="st"><div class="n">3.0×</div><div class="l">Overtime risk multiple</div></div>
+    <div class="st"><div class="n">39.8%</div><div class="l">Worst role · Sales Rep</div></div>
   </div>
 
-  <div class="waffle-box">
-    <h2 class="sec">Every dot is one employee</h2>
-    <div class="sub">1,470 people. The 237 in clay left within the year.</div>
-    <svg id="waffle" viewBox="0 0 1000 232" role="img"
-         aria-label="Unit chart of 1,470 employees with 237 highlighted as leavers"></svg>
-    <div class="legend">
-      <span><i style="background:#bf4426"></i>Left the business &middot; 237</span>
-      <span><i style="background:#c9bdaa"></i>Stayed &middot; 1,233</span>
-    </div>
-  </div>
-
-  <div class="cols">
-    <div class="card">
-      <h2 class="sec">The overtime effect</h2>
-      <div class="sub">The single strongest lever in the dataset</div>
-      <div class="contrast">
-        <div class="col">
-          <div class="pct" style="color:var(--olive)">10.4%</div>
-          <div class="bar" style="height:34%;background:var(--olive)"></div>
-          <div class="cap">No overtime<br/>1,054 people</div>
-        </div>
-        <div class="col">
-          <div class="pct" style="color:var(--clay)">30.5%</div>
-          <div class="bar" style="height:100%;background:var(--clay)"></div>
-          <div class="cap">Works overtime<br/>416 people</div>
-        </div>
-      </div>
-      <div class="multiple">Three times the odds of walking</div>
+  <div class="grid">
+    <div class="card span2">
+      <h2>Every dot is one person</h2>
+      <div class="s">1,470 employees &middot; the <b>237</b> in clay walked</div>
+      <div class="viz"><svg id="waffle" preserveAspectRatio="xMidYMid meet"></svg></div>
     </div>
 
     <div class="card">
-      <h2 class="sec">Where it hurts</h2>
-      <div class="sub">Attrition rate by department &middot; hover for headcount</div>
-      <div class="cwrap"><canvas id="cDept"></canvas></div>
+      <h2>Who stays, who goes</h2>
+      <div class="s">Headcount flowing from department to outcome &middot; band width = people</div>
+      <div class="viz"><svg id="sankey" preserveAspectRatio="none"></svg></div>
+    </div>
+
+    <div class="card">
+      <h2>Attrition by job role</h2>
+      <div class="s">Box size = headcount &middot; colour = attrition rate</div>
+      <div class="viz"><svg id="treemap" preserveAspectRatio="none"></svg></div>
+    </div>
+
+    <div class="card">
+      <h2>The overtime effect</h2>
+      <div class="s">Same department, split by whether they work overtime</div>
+      <div class="viz"><svg id="dumbbell" preserveAspectRatio="none"></svg></div>
+    </div>
+
+    <div class="card">
+      <h2>Risk is front-loaded</h2>
+      <div class="s">Attrition by years served &middot; area = share of all exits</div>
+      <div class="viz"><svg id="tenure" preserveAspectRatio="none"></svg></div>
     </div>
   </div>
 
-  <div class="card" style="margin-bottom:1.6rem">
-    <h2 class="sec">Risk is front-loaded</h2>
-    <div class="sub">Attrition rate by years at the company &mdash; year one does most of the damage</div>
-    <div class="cwrap" style="height:210px"><canvas id="cTenure"></canvas></div>
-  </div>
+  <div class="verdict"><b>Attrition is not spread evenly and it is not about pay.</b> It concentrates in people
+    working overtime, in customer-facing roles, in their first two years. Fix workload and onboarding for that
+    one overlapping group and you address roughly half of all exits without touching the salary bill.
+    <span class="src">DATA · IBM HR Analytics Employee Attrition &amp; Performance, public practice dataset.
+    Department, job-role and overtime splits are the dataset's published figures and reconcile to all 237 exits.</span></div>
 
-  <div class="pull"><b>The finding:</b> attrition is not spread evenly and it is not about pay. It concentrates
-    in people working overtime, in Sales, in their first year. Fix the workload and the onboarding for that
-    one overlapping group and you address roughly <b>half of all exits</b> without touching the salary bill.</div>
-
-  <div class="foot"><b>Data:</b> IBM HR Analytics Employee Attrition &amp; Performance, a public
-    practice dataset of 1,470 records. Headline figures shown as published: 16.1% overall attrition,
-    20.6% / 19.0% / 13.8% by department, 30.5% versus 10.4% by overtime status.</div>
-</div>
+  <div class="tip" id="tip"></div>
 
 <script>
 "use strict";
-const CLAY="#bf4426",OLIVE="#6d7a44",PLUM="#7c3a54",SAND="#c9973f",
-      RULE="#ded5c6",RULE2="#c9bdaa",DIM="#8a8071",INK="#26221c";
+const CLAY="#bf4426",CLAY2="#e0785a",OLIVE="#6d7a44",PLUM="#7c3a54",SAND="#c9973f",
+      TEAL="#3f6f6a",RULE="#ded5c5",RULE2="#c6b9a4",DIM="#8a8071",INK="#241f19",CARD="#fffdf9";
+const NS="http://www.w3.org/2000/svg";
+const el=(t,a={})=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;};
+const tip=document.getElementById("tip");
+function hook(node,text){
+  node.addEventListener("mousemove",e=>{tip.textContent=text;tip.classList.add("on");
+    tip.style.left=(e.clientX+12)+"px";tip.style.top=(e.clientY-28)+"px";});
+  node.addEventListener("mouseleave",()=>tip.classList.remove("on"));
+}
+const size=svg=>{const r=svg.parentNode.getBoundingClientRect();return[Math.max(r.width,10),Math.max(r.height,10)];};
 
-/* ── unit chart: 1,470 dots, 237 highlighted ── */
-(function(){
-  const svg=document.getElementById("waffle");
-  const TOTAL=1470, LEAVERS=237, COLS=70, ROWS=Math.ceil(TOTAL/COLS); /* 70 x 21 */
-  const W=1000, gap=W/COLS, r=gap*0.34, top=r+2;
-  svg.setAttribute("viewBox","0 0 "+W+" "+(ROWS*gap+top));
-  const ns="http://www.w3.org/2000/svg";
-  let frag=document.createDocumentFragment();
+/* ─── 1. UNIT CHART ─────────────────────────────────────────── */
+function drawWaffle(){
+  const svg=document.getElementById("waffle"); svg.innerHTML="";
+  const [W,H]=size(svg);
+  const TOTAL=1470,LEAVERS=237;
+  const cols=Math.max(20,Math.round(Math.sqrt(TOTAL*W/H)));
+  const rows=Math.ceil(TOTAL/cols);
+  const cw=W/cols, ch=H/rows, r=Math.max(1.2,Math.min(cw,ch)*0.33);
+  svg.setAttribute("viewBox","0 0 "+W+" "+H);
+  const g=el("g");
   for(let i=0;i<TOTAL;i++){
-    const row=Math.floor(i/COLS), col=i%COLS;
-    const c=document.createElementNS(ns,"circle");
-    c.setAttribute("cx",(col*gap+gap/2).toFixed(2));
-    c.setAttribute("cy",(row*gap+top).toFixed(2));
-    c.setAttribute("r",r.toFixed(2));
-    c.setAttribute("fill", i<LEAVERS?CLAY:RULE2);
-    if(i<LEAVERS){c.setAttribute("opacity","0");
-      c.innerHTML="<animate attributeName='opacity' to='1' dur='0.5s' begin='"+(i*1.6)+"ms' fill='freeze'/>";}
-    frag.appendChild(c);
+    const row=Math.floor(i/cols),col=i%cols;
+    g.appendChild(el("circle",{cx:(col*cw+cw/2).toFixed(1),cy:(row*ch+ch/2).toFixed(1),
+      r:r.toFixed(2),fill:i<LEAVERS?CLAY:RULE2}));
   }
-  svg.appendChild(frag);
-})();
+  svg.appendChild(g);
+  hook(svg,"1,470 employees · 237 left (16.1%)");
+}
 
-/* ── charts, styled as print, not dashboard ── */
-Chart.defaults.font.family="Work Sans";
-Chart.defaults.font.size=11;
-Chart.defaults.color=DIM;
-Chart.defaults.maintainAspectRatio=false;
-Chart.defaults.plugins.tooltip.backgroundColor="#26221c";
-Chart.defaults.plugins.tooltip.padding=9;
-Chart.defaults.plugins.tooltip.cornerRadius=2;
-Chart.defaults.plugins.tooltip.titleFont={family:"Playfair Display",size:12};
+/* ─── 2. SANKEY  department → outcome ───────────────────────── */
+function drawSankey(){
+  const svg=document.getElementById("sankey"); svg.innerHTML="";
+  const [W,H]=size(svg); svg.setAttribute("viewBox","0 0 "+W+" "+H);
+  const pad=4, nodeW=11, x0=58, x1=W-58;
+  const left=[{n:"R & D",t:961,l:133,c:OLIVE},{n:"Sales",t:446,l:92,c:CLAY},{n:"HR",t:63,l:12,c:PLUM}];
+  const total=1470, leftTotal=237;
+  const scale=(H-pad*4)/total;
+  /* left node positions */
+  let y=pad;
+  left.forEach(d=>{d.h=d.t*scale;d.y=y;y+=d.h+pad;});
+  /* right nodes: stayed, left */
+  const right=[{n:"Stayed",t:total-leftTotal,c:RULE2},{n:"Left",t:leftTotal,c:CLAY}];
+  let ry=pad;
+  right.forEach(d=>{d.h=d.t*scale;d.y=ry;ry+=d.h+pad*2;});
+  const cursorR={Stayed:right[0].y,Left:right[1].y};
+  left.forEach(d=>{
+    let cy=d.y;
+    [["Stayed",d.t-d.l,RULE2],["Left",d.l,CLAY]].forEach(([key,val,col])=>{
+      const h=val*scale;
+      const sy=cy, ty=cursorR[key];
+      const path=el("path",{d:
+        "M"+(x0+nodeW)+","+sy+" C"+((x0+x1)/2)+","+sy+" "+((x0+x1)/2)+","+ty+" "+x1+","+ty+
+        " L"+x1+","+(ty+h)+" C"+((x0+x1)/2)+","+(ty+h)+" "+((x0+x1)/2)+","+(sy+h)+" "+(x0+nodeW)+","+(sy+h)+" Z",
+        fill:col,opacity:key==="Left"?.62:.30});
+      path.addEventListener("mouseenter",()=>path.setAttribute("opacity",key==="Left"?.85:.5));
+      path.addEventListener("mouseleave",()=>path.setAttribute("opacity",key==="Left"?.62:.30));
+      hook(path,d.n+" → "+key+": "+val+" people ("+(val/d.t*100).toFixed(1)+"%)");
+      svg.appendChild(path);
+      cy+=h; cursorR[key]+=h;
+    });
+  });
+  left.forEach(d=>{
+    svg.appendChild(el("rect",{x:x0,y:d.y,width:nodeW,height:d.h,fill:d.c,rx:1}));
+    const t=el("text",{x:x0-6,y:d.y+d.h/2+3,"text-anchor":"end","font-size":9.5,fill:INK});
+    t.textContent=d.n; svg.appendChild(t);
+    const t2=el("text",{x:x0-6,y:d.y+d.h/2+14,"text-anchor":"end","font-size":8,fill:DIM});
+    t2.textContent=d.t; svg.appendChild(t2);
+  });
+  right.forEach(d=>{
+    svg.appendChild(el("rect",{x:x1,y:d.y,width:nodeW,height:d.h,fill:d.c,rx:1}));
+    const t=el("text",{x:x1+nodeW+6,y:d.y+d.h/2+3,"font-size":9.5,
+      fill:d.n==="Left"?CLAY:INK,"font-weight":d.n==="Left"?600:400});
+    t.textContent=d.n; svg.appendChild(t);
+    const t2=el("text",{x:x1+nodeW+6,y:d.y+d.h/2+14,"font-size":8,fill:DIM});
+    t2.textContent=d.t; svg.appendChild(t2);
+  });
+}
 
-const dep=[["Sales",20.6,446],["Human Resources",19.0,63],["R & D",13.8,961]];
-new Chart(document.getElementById("cDept"),{
-  type:"bar",
-  data:{labels:dep.map(d=>d[0]),
-    datasets:[{data:dep.map(d=>d[1]),backgroundColor:[CLAY,PLUM,SAND],
-      borderRadius:1,barPercentage:.62}]},
-  options:{indexAxis:"y",layout:{padding:{left:2,right:16}},
-    plugins:{legend:{display:false},tooltip:{callbacks:{
-      label:c=>c.raw+"% left · "+dep[c.dataIndex][2]+" employees"}}},
-    scales:{
-      x:{grid:{color:RULE,drawTicks:false},border:{display:false},
-        ticks:{callback:v=>v+"%",font:{size:10}},suggestedMax:24,beginAtZero:true},
-      y:{grid:{display:false},border:{color:RULE2},
-        ticks:{font:{size:11},crossAlign:"far",padding:6},afterFit:s=>{s.width=112;}}}}
-});
+/* ─── 3. TREEMAP  job role ──────────────────────────────────── */
+const ROLES=[
+  ["Sales Executive",326,17.5],["Research Scientist",292,16.1],["Laboratory Technician",259,23.9],
+  ["Manufacturing Director",145,6.9],["Healthcare Rep",131,6.9],["Manager",102,4.9],
+  ["Sales Representative",83,39.8],["Research Director",80,2.5],["Human Resources",52,23.1]];
+function heat(rate){
+  /* olive (low) → sand → clay (high) */
+  const t=Math.min(1,Math.max(0,(rate-2.5)/(39.8-2.5)));
+  const lerp=(a,b,u)=>a.map((v,i)=>Math.round(v+(b[i]-v)*u));
+  const A=[109,122,68],B=[201,151,63],C=[191,68,38];
+  const rgb=t<.5?lerp(A,B,t*2):lerp(B,C,(t-.5)*2);
+  return "rgb("+rgb.join(",")+")";
+}
+function squarify(items,x,y,w,h,out){
+  if(!items.length)return out;
+  if(items.length===1){out.push({...items[0],x,y,w,h});return out;}
+  const total=items.reduce((s,d)=>s+d.v,0);
+  let best=1,bestRatio=Infinity;
+  for(let i=1;i<items.length;i++){
+    const part=items.slice(0,i).reduce((s,d)=>s+d.v,0)/total;
+    const horiz=w>=h;
+    const aw=horiz?w*part:w, ah=horiz?h:h*part;
+    const ratio=Math.max(aw/ah,ah/aw);
+    if(ratio<bestRatio){bestRatio=ratio;best=i;}
+  }
+  const part=items.slice(0,best).reduce((s,d)=>s+d.v,0)/total;
+  if(w>=h){
+    squarify(items.slice(0,best),x,y,w*part,h,out);
+    squarify(items.slice(best),x+w*part,y,w*(1-part),h,out);
+  }else{
+    squarify(items.slice(0,best),x,y,w,h*part,out);
+    squarify(items.slice(best),x,y+h*part,w,h*(1-part),out);
+  }
+  return out;
+}
+function drawTreemap(){
+  const svg=document.getElementById("treemap"); svg.innerHTML="";
+  const [W,H]=size(svg); svg.setAttribute("viewBox","0 0 "+W+" "+H);
+  const items=ROLES.map(([n,v,r])=>({n,v,r})).sort((a,b)=>b.v-a.v);
+  const cells=squarify(items,0,0,W,H,[]);
+  cells.forEach(c=>{
+    const g=el("g");
+    g.appendChild(el("rect",{x:c.x+.7,y:c.y+.7,width:Math.max(0,c.w-1.4),height:Math.max(0,c.h-1.4),
+      fill:heat(c.r),rx:2}));
+    if(c.w>52&&c.h>26){
+      const words=c.n.split(" ");
+      const t=el("text",{x:c.x+6,y:c.y+15,"font-size":Math.min(10,c.w/8),fill:"#fff","font-weight":500});
+      t.textContent=words.length>1&&c.w<96?words[0]:c.n; g.appendChild(t);
+      const t2=el("text",{x:c.x+6,y:c.y+27,"font-size":9,fill:"rgba(255,255,255,.85)"});
+      t2.textContent=c.r+"%  ·  n="+c.v; g.appendChild(t2);
+    }
+    hook(g,c.n+": "+c.r+"% attrition of "+c.v+" staff ("+Math.round(c.v*c.r/100)+" left)");
+    svg.appendChild(g);
+  });
+}
 
-const ten=[["<1 yr",35.2],["1–2",21.4],["3–5",14.6],["6–10",10.1],["10+",8.3]];
-new Chart(document.getElementById("cTenure"),{
-  type:"line",
-  data:{labels:ten.map(t=>t[0]),
-    datasets:[{data:ten.map(t=>t[1]),borderColor:CLAY,borderWidth:2,
-      backgroundColor:"rgba(191,68,38,.10)",fill:true,tension:.32,
-      pointRadius:4,pointBackgroundColor:"#fdfbf7",pointBorderColor:CLAY,pointBorderWidth:2}]},
-  options:{plugins:{legend:{display:false},tooltip:{callbacks:{
-      title:c=>c[0].label+" at the company",label:c=>c.raw+"% attrition"}}},
-    scales:{
-      x:{grid:{display:false},border:{color:RULE2},ticks:{font:{size:11}}},
-      y:{grid:{color:RULE,drawTicks:false},border:{display:false},
-        ticks:{callback:v=>v+"%",font:{size:10}},beginAtZero:true,suggestedMax:40}}}
-});
+/* ─── 4. DUMBBELL  overtime effect ──────────────────────────── */
+function drawDumbbell(){
+  const svg=document.getElementById("dumbbell"); svg.innerHTML="";
+  const [W,H]=size(svg); svg.setAttribute("viewBox","0 0 "+W+" "+H);
+  const rows=[["Sales",13.2,38.4],["R & D",8.9,27.1],["Human Resources",10.5,33.3],["All staff",10.4,30.5]];
+  const L=88,R=W-30,maxV=42;
+  const x=v=>L+(v/maxV)*(R-L);
+  const step=H/(rows.length+.6);
+  /* axis */
+  [0,10,20,30,40].forEach(v=>{
+    svg.appendChild(el("line",{x1:x(v),y1:6,x2:x(v),y2:H-16,stroke:RULE,"stroke-width":1}));
+    const t=el("text",{x:x(v),y:H-4,"text-anchor":"middle","font-size":8,fill:DIM});
+    t.textContent=v+"%"; svg.appendChild(t);
+  });
+  rows.forEach((d,i)=>{
+    const y=step*(i+.75);
+    const g=el("g");
+    g.appendChild(el("line",{x1:x(d[1]),y1:y,x2:x(d[2]),y2:y,stroke:CLAY2,"stroke-width":2.5,opacity:.55}));
+    g.appendChild(el("circle",{cx:x(d[1]),cy:y,r:5,fill:OLIVE}));
+    g.appendChild(el("circle",{cx:x(d[2]),cy:y,r:5,fill:CLAY}));
+    const t=el("text",{x:L-8,y:y+3.5,"text-anchor":"end","font-size":9,
+      fill:d[0]==="All staff"?INK:DIM,"font-weight":d[0]==="All staff"?600:400});
+    t.textContent=d[0]; g.appendChild(t);
+    const t2=el("text",{x:x(d[2])+9,y:y+3.5,"font-size":8.5,fill:CLAY,"font-weight":600});
+    t2.textContent=d[2]+"%"; g.appendChild(t2);
+    hook(g,d[0]+" — no overtime "+d[1]+"% vs overtime "+d[2]+"%");
+    svg.appendChild(g);
+  });
+  /* legend */
+  const lg=el("g");
+  lg.appendChild(el("circle",{cx:L+2,cy:6,r:4,fill:OLIVE}));
+  const a=el("text",{x:L+11,y:9,"font-size":8,fill:DIM}); a.textContent="no overtime"; lg.appendChild(a);
+  lg.appendChild(el("circle",{cx:L+82,cy:6,r:4,fill:CLAY}));
+  const b=el("text",{x:L+91,y:9,"font-size":8,fill:DIM}); b.textContent="overtime"; lg.appendChild(b);
+  svg.appendChild(lg);
+}
+
+/* ─── 5. TENURE  stepped area ───────────────────────────────── */
+function drawTenure(){
+  const svg=document.getElementById("tenure"); svg.innerHTML="";
+  const [W,H]=size(svg); svg.setAttribute("viewBox","0 0 "+W+" "+H);
+  const d=[["<1 yr",35.2],["1–2",21.4],["3–5",14.6],["6–10",10.1],["10+",8.3]];
+  const L=30,R=W-8,T=8,B=H-18, maxV=40;
+  const bw=(R-L)/d.length;
+  const y=v=>B-(v/maxV)*(B-T);
+  [0,10,20,30,40].forEach(v=>{
+    svg.appendChild(el("line",{x1:L,y1:y(v),x2:R,y2:y(v),stroke:RULE,"stroke-width":1}));
+    const t=el("text",{x:L-5,y:y(v)+3,"text-anchor":"end","font-size":7.5,fill:DIM});
+    t.textContent=v+"%"; svg.appendChild(t);
+  });
+  /* stepped area */
+  let path="M"+L+","+B;
+  d.forEach((s,i)=>{path+=" L"+(L+i*bw)+","+y(s[1])+" L"+(L+(i+1)*bw)+","+y(s[1]);});
+  path+=" L"+R+","+B+" Z";
+  svg.appendChild(el("path",{d:path,fill:"rgba(191,68,38,.16)",stroke:CLAY,"stroke-width":2,
+    "stroke-linejoin":"round"}));
+  d.forEach((s,i)=>{
+    const cx=L+i*bw+bw/2;
+    const g=el("g");
+    g.appendChild(el("circle",{cx,cy:y(s[1]),r:3.5,fill:CARD,stroke:CLAY,"stroke-width":2}));
+    const t=el("text",{x:cx,y:H-5,"text-anchor":"middle","font-size":8,fill:DIM});
+    t.textContent=s[0]; g.appendChild(t);
+    const v=el("text",{x:cx,y:y(s[1])-7,"text-anchor":"middle","font-size":8.5,fill:CLAY,"font-weight":600});
+    v.textContent=s[1]+"%"; g.appendChild(v);
+    hook(g,s[0]+" at the company — "+s[1]+"% attrition");
+    svg.appendChild(g);
+  });
+}
+
+function drawAll(){drawWaffle();drawSankey();drawTreemap();drawDumbbell();drawTenure();}
+drawAll();
+let rt; addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(drawAll,140);});
 </script>
 </body>
 </html>

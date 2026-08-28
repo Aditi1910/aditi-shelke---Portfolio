@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Breaking the Chain · Supply Chain Analytics · Aditi Shelke</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root{
+    --bg:#eceef0; --card:#ffffff; --rule:#d8dce0; --rule2:#b6bdc4;
+    --ink:#16202a; --body:#3a4650; --dim:#6d7983;
+    --orange:#e8590c; --orange2:#fd9a63; --steel:#1f5f8b; --steel2:#5fa3cc;
+    --amber:#c79000; --green:#2f7d4f; --red:#c1352b; --slate:#495a68;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;overflow:hidden}
+  body{background:var(--bg);color:var(--ink);font-family:'Archivo',sans-serif;font-weight:400;
+    -webkit-font-smoothing:antialiased;display:grid;grid-template-rows:auto auto 1fr auto;
+    gap:.55rem;padding:.7rem 1rem .75rem}
+
+  .head{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;
+    background:var(--ink);color:#fff;padding:.5rem .9rem;border-radius:4px}
+  .head .l{display:flex;align-items:center;gap:.9rem;flex-wrap:wrap}
+  a.home{font-family:'Roboto Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--orange2);text-decoration:none;border:1px solid rgba(253,154,99,.4);padding:.22rem .5rem;border-radius:2px}
+  a.home:hover{background:var(--orange);color:#fff;border-color:var(--orange)}
+  h1{font-size:1.35rem;font-weight:700;letter-spacing:-.02em;line-height:1;text-transform:uppercase}
+  h1 span{color:var(--orange2)}
+  .kick{font-family:'Roboto Mono',monospace;font-size:.54rem;color:#9fb0bd;text-align:right;
+    line-height:1.7;letter-spacing:.06em}
+
+  .kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:.5rem}
+  .kpi{background:var(--card);border:1px solid var(--rule);border-radius:3px;padding:.45rem .7rem;
+    border-top:3px solid var(--rule2)}
+  .kpi.warn{border-top-color:var(--orange)} .kpi.bad{border-top-color:var(--red)}
+  .kpi.ok{border-top-color:var(--green)} .kpi.info{border-top-color:var(--steel)}
+  .kpi .k{font-family:'Roboto Mono',monospace;font-size:.49rem;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--dim)}
+  .kpi .v{font-size:1.4rem;font-weight:700;line-height:1.15;letter-spacing:-.02em}
+  .kpi .d{font-family:'Roboto Mono',monospace;font-size:.55rem;color:var(--dim);line-height:1.3}
+  .c-orange{color:var(--orange)}.c-red{color:var(--red)}.c-green{color:var(--green)}
+  .c-steel{color:var(--steel)}.c-amber{color:var(--amber)}
+
+  .grid{display:grid;grid-template-columns:1.3fr 1.1fr 1.05fr;grid-template-rows:1fr 1fr;gap:.55rem;min-height:0}
+  .card{background:var(--card);border:1px solid var(--rule);border-radius:3px;
+    padding:.5rem .75rem .55rem;display:flex;flex-direction:column;min-height:0;min-width:0}
+  .card h2{font-size:.85rem;font-weight:600;letter-spacing:-.01em;line-height:1.2;text-transform:uppercase}
+  .card .s{font-family:'Roboto Mono',monospace;font-size:.52rem;color:var(--dim);
+    margin-bottom:.22rem;letter-spacing:.05em;line-height:1.4}
+  .card .s b{color:var(--orange)}
+  .viz{flex:1;min-height:0;position:relative}
+  .viz svg{width:100%;height:100%;display:block;overflow:visible}
+  .span2{grid-row:span 2}
+
+  .verdict{background:var(--card);border:1px solid var(--rule);border-left:4px solid var(--orange);
+    border-radius:3px;padding:.5rem .9rem;font-size:.8rem;line-height:1.5;color:var(--body)}
+  .verdict b{color:var(--orange);font-weight:600}
+  .verdict .src{font-family:'Roboto Mono',monospace;font-size:.52rem;color:var(--dim);
+    letter-spacing:.04em;margin-top:.2rem;display:block}
+
+  .tip{position:fixed;pointer-events:none;background:var(--ink);color:#fff;font-size:.65rem;
+    padding:.35rem .55rem;border-radius:2px;opacity:0;transition:opacity .12s;z-index:50;white-space:nowrap}
+  .tip.on{opacity:1}
+  @media (max-width:1180px){
+    html,body{height:auto;overflow:auto}
+    .grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+    .span2{grid-row:span 1}.viz{min-height:210px}
+    .kpis{grid-template-columns:repeat(3,1fr)}
+  }
+</style>
+</head>
+<body>
+  <div class="head">
+    <div class="l">
+      <a class="home" href="../index.html">&larr; Portfolio</a>
+      <h1>Breaking the <span>Chain</span></h1>
+    </div>
+    <div class="kick">SIMULATED DISTRIBUTION NETWORK · 12 MONTHS · 6 SUPPLIERS · 4 DCs<br/>SUPPLY CHAIN · OTIF &amp; LEAD-TIME RELIABILITY</div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi bad"><div class="k">OTIF</div><div class="v c-red">87.4%</div><div class="d">target 95%</div></div>
+    <div class="kpi warn"><div class="k">Avg lead time</div><div class="v c-orange">18.6 d</div><div class="d">+3.1 d YoY</div></div>
+    <div class="kpi warn"><div class="k">Lead-time variance</div><div class="v c-orange">±6.2 d</div><div class="d">the real problem</div></div>
+    <div class="kpi info"><div class="k">Inventory</div><div class="v c-steel">$14.2M</div><div class="d">61 days cover</div></div>
+    <div class="kpi bad"><div class="k">Stockout cost</div><div class="v c-red">$2.4M</div><div class="d">lost margin</div></div>
+    <div class="kpi ok"><div class="k">Perfect-order</div><div class="v c-green">81.9%</div><div class="d">all 4 criteria</div></div>
+  </div>
+
+  <div class="grid">
+    <div class="card span2">
+      <h2>Where volume flows &mdash; and fails</h2>
+      <div class="s">SUPPLIER → DC → DELIVERY OUTCOME · BAND = UNITS · <b>RED = LATE OR SHORT</b></div>
+      <div class="viz"><svg id="sankey" preserveAspectRatio="none"></svg></div>
+    </div>
+
+    <div class="card">
+      <h2>Lead time by lane</h2>
+      <div class="s">DAYS FROM PO TO DOCK · DARKER = SLOWER</div>
+      <div class="viz"><svg id="heat" preserveAspectRatio="none"></svg></div>
+    </div>
+
+    <div class="card">
+      <h2>OTIF against target</h2>
+      <div class="s">BULLET · BAR = ACTUAL, NOTCH = 95% TARGET</div>
+      <div class="viz"><svg id="bullet" preserveAspectRatio="none"></svg></div>
+    </div>
+
+    <div class="card">
+      <h2>Reliability vs cost</h2>
+      <div class="s">CHEAPEST SUPPLIERS ARE THE LEAST RELIABLE · BUBBLE = SPEND</div>
+      <div class="viz"><svg id="scatter" preserveAspectRatio="none"></svg></div>
+    </div>
+
+    <div class="card">
+      <h2>Delay reasons</h2>
+      <div class="s">SHARE OF ALL LATE SHIPMENTS · PARETO</div>
+      <div class="viz"><svg id="pareto" preserveAspectRatio="none"></svg></div>
+    </div>
+  </div>
+
+  <div class="verdict"><b>The problem is variance, not speed.</b> Average lead time of 18.6 days is workable;
+    a swing of ±6.2 days is not, and it is what forces $14.2M of inventory to sit as buffer. Two suppliers,
+    Meridian and Northgate, generate 54% of all late shipments while being the two cheapest on unit price.
+    <b>Dual-source those two lanes and hold them to a variance SLA — that releases roughly $3.1M of safety
+    stock without touching service levels.</b>
+    <span class="src">DATA · Simulated distribution network generated from a seeded model with realistic
+    OTIF, lead-time and supplier-reliability behaviour. Built to demonstrate the analysis, not to report a real network.</span></div>
+
+  <div class="tip" id="tip"></div>
+
+<script>
+"use strict";
+const ORANGE="#e8590c",ORANGE2="#fd9a63",STEEL="#1f5f8b",STEEL2="#5fa3cc",AMBER="#c79000",
+      GREEN="#2f7d4f",RED="#c1352b",SLATE="#495a68",RULE="#d8dce0",RULE2="#b6bdc4",
+      DIM="#6d7983",INK="#16202a";
+const NS="http://www.w3.org/2000/svg";
+const el=(t,a={})=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;};
+const tip=document.getElementById("tip");
+function hook(n,txt){
+  n.addEventListener("mousemove",e=>{tip.textContent=txt;tip.classList.add("on");
+    tip.style.left=(e.clientX+12)+"px";tip.style.top=(e.clientY-28)+"px";});
+  n.addEventListener("mouseleave",()=>tip.classList.remove("on"));
+}
+const size=s=>{const r=s.parentNode.getBoundingClientRect();return[Math.max(r.width,10),Math.max(r.height,10)];};
+
+/* ─── 1. SANKEY  supplier → DC → outcome ────────────────────── */
+const SUP=[["Meridian",42000,.79],["Northgate",31000,.82],["Calder",28000,.93],
+           ["Vantage",22000,.95],["Orbis",15000,.91],["Lumen",9000,.96]];
+const DCS=[["DC North",.30],["DC South",.26],["DC East",.24],["DC West",.20]];
+function drawSankey(){
+  const svg=document.getElementById("sankey");svg.innerHTML="";
+  const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
+  const total=SUP.reduce((s,d)=>s+d[1],0);
+  const pad=3,nw=9;
+  const x0=56,x1=W*0.52,x2=W-74;
+  const scale=(H-pad*(SUP.length+1))/total;
+
+  let y=pad;
+  const sup=SUP.map(([n,v,otif])=>{const o={n,v,otif,y,h:v*scale};y+=o.h+pad;return o;});
+  let dy=pad;
+  const dcs=DCS.map(([n,share])=>{const v=total*share;const o={n,v,y:dy,h:v*scale};dy+=o.h+pad*2;return o;});
+  const out=[{n:"On time & in full",c:GREEN},{n:"Late or short",c:RED}];
+  const otifTotal=sup.reduce((s,d)=>s+d.v*d.otif,0);
+  out[0].v=otifTotal;out[1].v=total-otifTotal;
+  let oy=pad;out.forEach(o=>{o.h=o.v*scale;o.y=oy;oy+=o.h+pad*4;});
+
+  const dcCur=dcs.map(d=>d.y);
+  const outCur=[out[0].y,out[1].y];
+
+  /* supplier → DC (proportional split) */
+  sup.forEach(s=>{
+    let cy=s.y;
+    dcs.forEach((d,di)=>{
+      const val=s.v*DCS[di][1], h=val*scale, sy=cy, ty=dcCur[di], mx=(x0+x1)/2;
+      const p=el("path",{d:"M"+(x0+nw)+","+sy+" C"+mx+","+sy+" "+mx+","+ty+" "+x1+","+ty+
+        " L"+x1+","+(ty+h)+" C"+mx+","+(ty+h)+" "+mx+","+(sy+h)+" "+(x0+nw)+","+(sy+h)+" Z",
+        fill:s.otif<.85?ORANGE:STEEL2,opacity:.24});
+      p.addEventListener("mouseenter",()=>p.setAttribute("opacity",.5));
+      p.addEventListener("mouseleave",()=>p.setAttribute("opacity",.24));
+      hook(p,s.n+" → "+d.n+": "+Math.round(val).toLocaleString()+" units");
+      svg.appendChild(p);cy+=h;dcCur[di]+=h;
+    });
+  });
+  /* DC → outcome */
+  const dcOtif=dcs.map(()=>otifTotal/total);
+  dcs.forEach((d,di)=>{
+    let cy=d.y;
+    [[0,d.v*dcOtif[di]],[1,d.v*(1-dcOtif[di])]].forEach(([oi,val])=>{
+      const h=val*scale,sy=cy,ty=outCur[oi],mx=(x1+x2)/2;
+      const p=el("path",{d:"M"+(x1+nw)+","+sy+" C"+mx+","+sy+" "+mx+","+ty+" "+x2+","+ty+
+        " L"+x2+","+(ty+h)+" C"+mx+","+(ty+h)+" "+mx+","+(sy+h)+" "+(x1+nw)+","+(sy+h)+" Z",
+        fill:out[oi].c,opacity:oi===1?.5:.2});
+      p.addEventListener("mouseenter",()=>p.setAttribute("opacity",oi===1?.75:.38));
+      p.addEventListener("mouseleave",()=>p.setAttribute("opacity",oi===1?.5:.2));
+      hook(p,d.n+" → "+out[oi].n+": "+Math.round(val).toLocaleString()+" units");
+      svg.appendChild(p);cy+=h;outCur[oi]+=h;
+    });
+  });
+  /* nodes */
+  sup.forEach(s=>{
+    svg.appendChild(el("rect",{x:x0,y:s.y,width:nw,height:s.h,
+      fill:s.otif<.85?ORANGE:SLATE,rx:1}));
+    const t=el("text",{x:x0-5,y:s.y+s.h/2+3,"text-anchor":"end","font-size":8.5,
+      fill:s.otif<.85?ORANGE:INK,"font-weight":s.otif<.85?600:400});
+    t.textContent=s.n;svg.appendChild(t);
+    hook(t,s.n+": "+(s.otif*100).toFixed(0)+"% OTIF · "+s.v.toLocaleString()+" units");
+  });
+  dcs.forEach(d=>{
+    svg.appendChild(el("rect",{x:x1,y:d.y,width:nw,height:d.h,fill:STEEL,rx:1}));
+    const t=el("text",{x:x1+nw+4,y:d.y+d.h/2+3,"font-size":8,fill:DIM});
+    t.textContent=d.n;svg.appendChild(t);
+  });
+  out.forEach(o=>{
+    svg.appendChild(el("rect",{x:x2,y:o.y,width:nw,height:o.h,fill:o.c,rx:1}));
+    const t=el("text",{x:x2+nw+4,y:o.y+o.h/2,"font-size":8.5,fill:o.c,"font-weight":600});
+    t.textContent=o.n;svg.appendChild(t);
+    const t2=el("text",{x:x2+nw+4,y:o.y+o.h/2+11,"font-size":7.5,fill:DIM});
+    t2.textContent=(o.v/total*100).toFixed(1)+"%";svg.appendChild(t2);
+  });
+}
+
+/* ─── 2. HEATMAP  lead time by lane ─────────────────────────── */
+const LANES=["DC North","DC South","DC East","DC West"];
+const SUPN=["Meridian","Northgate","Calder","Vantage","Orbis","Lumen"];
+const LT=[[26,24,22,25],[23,25,21,22],[16,15,17,16],[13,14,12,13],[18,19,17,18],[11,12,11,10]];
+function drawHeat(){
+  const svg=document.getElementById("heat");svg.innerHTML="";
+  const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
+  const L=54,T=18;
+  const cw=(W-L-4)/LANES.length, ch=(H-T-4)/SUPN.length;
+  LANES.forEach((l,i)=>{
+    const t=el("text",{x:L+i*cw+cw/2,y:11,"text-anchor":"middle","font-size":7.2,fill:DIM});
+    t.textContent=l.replace("DC ","");svg.appendChild(t);
+  });
+  SUPN.forEach((s,r)=>{
+    const t=el("text",{x:L-5,y:T+r*ch+ch/2+3,"text-anchor":"end","font-size":7.8,fill:DIM});
+    t.textContent=s;svg.appendChild(t);
+    LANES.forEach((l,c)=>{
+      const v=LT[r][c];
+      const u=Math.min(1,Math.max(0,(v-10)/(26-10)));
+      const col="rgba(232,89,12,"+(0.10+u*0.85).toFixed(3)+")";
+      const g=el("g");
+      g.appendChild(el("rect",{x:L+c*cw+1,y:T+r*ch+1,width:cw-2,height:ch-2,fill:col,rx:2}));
+      if(cw>28&&ch>14){
+        const tx=el("text",{x:L+c*cw+cw/2,y:T+r*ch+ch/2+3,"text-anchor":"middle","font-size":7.6,
+          fill:u>.5?"#fff":INK,"font-weight":500});
+        tx.textContent=v;g.appendChild(tx);
+      }
+      hook(g,s+" → "+l+": "+v+" days");
+      svg.appendChild(g);
+    });
+  });
+}
+
+/* ─── 3. BULLET  OTIF vs 95% target ─────────────────────────── */
+const OTIF=[["Meridian",79],["Northgate",82],["Orbis",91],["Calder",93],["Vantage",95],["Lumen",96]];
+function drawBullet(){
+  const svg=document.getElementById("bullet");svg.innerHTML="";
+  const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
+  const L=58,R=W-30,T=6,B=H-14;
+  const x=v=>L+((v-70)/30)*(R-L);
+  const step=(B-T)/OTIF.length;
+  /* qualitative bands */
+  [[70,85,"#f0d5cd"],[85,95,"#f6ecd6"],[95,100,"#dcecdf"]].forEach(([a,b,c])=>{
+    svg.appendChild(el("rect",{x:x(a),y:T,width:x(b)-x(a),height:B-T,fill:c}));
+  });
+  [70,80,90,100].forEach(v=>{
+    const t=el("text",{x:x(v),y:B+10,"text-anchor":"middle","font-size":7.2,fill:DIM});
+    t.textContent=v+"%";svg.appendChild(t);
+  });
+  OTIF.forEach((d,i)=>{
+    const y=T+step*i+step*.28, h=step*.44;
+    const g=el("g");
+    const col=d[1]<85?RED:d[1]<95?ORANGE:GREEN;
+    g.appendChild(el("rect",{x:x(70),y,width:Math.max(0,x(d[1])-x(70)),height:h,fill:col,rx:1}));
+    const t=el("text",{x:L-5,y:y+h/2+3,"text-anchor":"end","font-size":7.8,fill:INK});
+    t.textContent=d[0];g.appendChild(t);
+    const v=el("text",{x:x(d[1])+4,y:y+h/2+3,"font-size":7.8,fill:col,"font-weight":600});
+    v.textContent=d[1]+"%";g.appendChild(v);
+    hook(g,d[0]+": "+d[1]+"% OTIF · target 95%");
+    svg.appendChild(g);
+  });
+  /* target notch */
+  svg.appendChild(el("line",{x1:x(95),y1:T,x2:x(95),y2:B,stroke:INK,"stroke-width":1.6,
+    "stroke-dasharray":"3 2"}));
+}
+
+/* ─── 4. SCATTER  unit cost vs reliability ──────────────────── */
+const REL=[["Meridian",4.10,79,42],["Northgate",4.35,82,31],["Orbis",5.20,91,15],
+           ["Calder",5.60,93,28],["Vantage",6.05,95,22],["Lumen",6.60,96,9]];
+function drawScatter(){
+  const svg=document.getElementById("scatter");svg.innerHTML="";
+  const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
+  const L=32,R=W-12,T=10,B=H-18;
+  const x=v=>L+((v-3.8)/3.2)*(R-L), y=v=>B-((v-75)/25)*(B-T);
+  [4,5,6,7].forEach(v=>{
+    svg.appendChild(el("line",{x1:x(v),y1:T,x2:x(v),y2:B,stroke:RULE,"stroke-width":1}));
+    const t=el("text",{x:x(v),y:B+10,"text-anchor":"middle","font-size":7.2,fill:DIM});
+    t.textContent="$"+v;svg.appendChild(t);
+  });
+  [80,90,100].forEach(v=>{
+    svg.appendChild(el("line",{x1:L,y1:y(v),x2:R,y2:y(v),stroke:RULE,"stroke-width":1}));
+    const t=el("text",{x:L-4,y:y(v)+3,"text-anchor":"end","font-size":7.2,fill:DIM});
+    t.textContent=v+"%";svg.appendChild(t);
+  });
+  svg.appendChild(el("line",{x1:L,y1:y(95),x2:R,y2:y(95),stroke:GREEN,"stroke-width":1.2,
+    "stroke-dasharray":"4 3"}));
+  REL.forEach(([n,cost,otif,spend])=>{
+    const g=el("g");
+    const r=5+Math.sqrt(spend)*1.15;
+    const col=otif<85?RED:otif<95?ORANGE:GREEN;
+    g.appendChild(el("circle",{cx:x(cost),cy:y(otif),r,fill:col,opacity:.55,stroke:col,"stroke-width":1.6}));
+    const t=el("text",{x:x(cost),y:y(otif)-r-4,"text-anchor":"middle","font-size":7.6,fill:INK});
+    t.textContent=n;g.appendChild(t);
+    hook(g,n+": $"+cost.toFixed(2)+"/unit · "+otif+"% OTIF · "+spend+"K units");
+    svg.appendChild(g);
+  });
+}
+
+/* ─── 5. PARETO  delay reasons ──────────────────────────────── */
+const REASONS=[["Supplier capacity",31],["Port congestion",22],["Customs hold",16],
+               ["Carrier capacity",12],["Quality reject",10],["Other",9]];
+function drawPareto(){
+  const svg=document.getElementById("pareto");svg.innerHTML="";
+  const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
+  const L=8,R=W-30,T=10,B=H-24;
+  const bw=(R-L)/REASONS.length;
+  const y=v=>B-(v/35)*(B-T);
+  const yc=v=>B-(v/100)*(B-T);
+  let cum=0;const pts=[];
+  REASONS.forEach((d,i)=>{
+    const g=el("g");
+    const col=i===0?ORANGE:i===1?ORANGE2:SLATE;
+    const h=B-y(d[1]);
+    g.appendChild(el("rect",{x:L+i*bw+bw*.16,y:y(d[1]),width:bw*.68,height:h,fill:col,rx:1,opacity:.9}));
+    const t=el("text",{x:L+i*bw+bw/2,y:B+9,"text-anchor":"middle","font-size":6.4,fill:DIM});
+    t.textContent=d[0].split(" ")[0];g.appendChild(t);
+    const t2=el("text",{x:L+i*bw+bw/2,y:B+17,"text-anchor":"middle","font-size":6.4,fill:DIM});
+    t2.textContent=d[0].split(" ")[1]||"";g.appendChild(t2);
+    const v=el("text",{x:L+i*bw+bw/2,y:y(d[1])-3,"text-anchor":"middle","font-size":7.6,
+      fill:col,"font-weight":600});
+    v.textContent=d[1]+"%";g.appendChild(v);
+    hook(g,d[0]+": "+d[1]+"% of late shipments");
+    svg.appendChild(g);
+    cum+=d[1];pts.push([L+i*bw+bw/2,yc(cum),cum]);
+  });
+  svg.appendChild(el("polyline",{points:pts.map(p=>p[0].toFixed(1)+","+p[1].toFixed(1)).join(" "),
+    fill:"none",stroke:INK,"stroke-width":1.6}));
+  pts.forEach(p=>{
+    const c=el("circle",{cx:p[0],cy:p[1],r:2.6,fill:"#fff",stroke:INK,"stroke-width":1.4});
+    hook(c,"Cumulative "+p[2]+"%");svg.appendChild(c);
+  });
+  /* 80% reference */
+  svg.appendChild(el("line",{x1:L,y1:yc(80),x2:R,y2:yc(80),stroke:RED,"stroke-width":1,
+    "stroke-dasharray":"3 3"}));
+  const t80=el("text",{x:R+3,y:yc(80)+3,"font-size":7,fill:RED});t80.textContent="80%";
+  svg.appendChild(t80);
+}
+
+function drawAll(){drawSankey();drawHeat();drawBullet();drawScatter();drawPareto();}
+drawAll();
+let rt;addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(drawAll,140);});
+</script>
+</body>
+</html>

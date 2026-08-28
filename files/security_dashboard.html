@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dwell Time · Security Operations · Aditi Shelke</title>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<style>
+  :root{
+    --bg:#0a0c0b; --pan:#111614; --pan2:#161d1a; --edge:#1f2a25; --edge2:#2c3b34;
+    --txt:#e6f0ea; --dim:#8ba095; --faint:#5d726a;
+    --lime:#a3e635; --lime2:#65a30d; --red:#ef4444; --amb:#f59e0b;
+    --mag:#e879f9; --ice:#94a3b8;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;overflow:hidden}
+  body{background:
+      radial-gradient(900px 420px at 12% -6%, #12251a 0%, transparent 60%),
+      radial-gradient(700px 380px at 96% 4%, #1d1226 0%, transparent 58%), var(--bg);
+    color:var(--txt);font-family:'Chakra Petch',sans-serif;font-weight:400;
+    -webkit-font-smoothing:antialiased;display:grid;grid-template-rows:auto auto 1fr auto;
+    gap:.55rem;padding:.7rem 1rem .75rem}
+
+  .head{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:.5rem}
+  .head .l{display:flex;align-items:center;gap:.9rem;flex-wrap:wrap}
+  a.home{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--lime);text-decoration:none;
+    border:1px solid var(--edge2);padding:.22rem .5rem;border-radius:3px}
+  a.home:hover{background:var(--lime);color:#0a0c0b;border-color:var(--lime)}
+  h1{font-size:1.45rem;font-weight:700;letter-spacing:.02em;line-height:1;text-transform:uppercase}
+  h1 span{color:var(--lime)}
+  .stat-live{font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.16em;
+    color:var(--red);display:inline-flex;align-items:center;gap:.35rem;text-transform:uppercase}
+  .stat-live i{width:6px;height:6px;border-radius:50%;background:var(--red);animation:bl 1.4s infinite}
+  @keyframes bl{0%,100%{opacity:1}50%{opacity:.25}}
+  .kick{font-family:'JetBrains Mono',monospace;font-size:.53rem;color:var(--faint);
+    text-align:right;line-height:1.7;letter-spacing:.06em}
+
+  .kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:.5rem}
+  .kpi{background:var(--pan);border:1px solid var(--edge);border-radius:5px;padding:.45rem .7rem;
+    position:relative;overflow:hidden}
+  .kpi::after{content:'';position:absolute;right:-14px;top:-14px;width:38px;height:38px;
+    border-radius:50%;opacity:.13}
+  .kpi.k1::after{background:var(--red)}.kpi.k2::after{background:var(--amb)}
+  .kpi.k3::after{background:var(--lime)}.kpi.k4::after{background:var(--mag)}
+  .kpi.k5::after{background:var(--ice)}.kpi.k6::after{background:var(--lime)}
+  .kpi .k{font-family:'JetBrains Mono',monospace;font-size:.48rem;letter-spacing:.11em;
+    text-transform:uppercase;color:var(--faint)}
+  .kpi .v{font-size:1.42rem;font-weight:700;line-height:1.15}
+  .kpi .d{font-family:'JetBrains Mono',monospace;font-size:.53rem;color:var(--faint);line-height:1.3}
+  .c-red{color:var(--red)}.c-amb{color:var(--amb)}.c-lime{color:var(--lime)}
+  .c-mag{color:var(--mag)}.c-ice{color:var(--ice)}
+
+  .grid{display:grid;grid-template-columns:1.35fr 1fr 1.05fr;grid-template-rows:1fr 1fr;gap:.55rem;min-height:0}
+  .card{background:var(--pan);border:1px solid var(--edge);border-radius:6px;
+    padding:.5rem .75rem .55rem;display:flex;flex-direction:column;min-height:0;min-width:0}
+  .card h2{font-size:.85rem;font-weight:600;letter-spacing:.03em;text-transform:uppercase;line-height:1.2}
+  .card .s{font-family:'JetBrains Mono',monospace;font-size:.51rem;color:var(--faint);
+    margin-bottom:.22rem;letter-spacing:.05em;line-height:1.4}
+  .card .s b{color:var(--red)}
+  .viz{flex:1;min-height:0;position:relative}
+  .viz svg{width:100%;height:100%;display:block;overflow:visible}
+  .span2{grid-row:span 2}
+
+  .verdict{background:linear-gradient(90deg,rgba(239,68,68,.12),rgba(239,68,68,.02));
+    border:1px solid rgba(239,68,68,.3);border-left:3px solid var(--red);border-radius:5px;
+    padding:.5rem .9rem;font-size:.79rem;line-height:1.5;color:#cddbd3}
+  .verdict b{color:var(--red);font-weight:600}
+  .verdict .fix{color:var(--lime)}
+  .verdict .src{font-family:'JetBrains Mono',monospace;font-size:.5rem;color:var(--faint);
+    letter-spacing:.04em;margin-top:.2rem;display:block}
+
+  .tip{position:fixed;pointer-events:none;background:#050706;border:1px solid var(--edge2);
+    color:var(--txt);font-size:.64rem;padding:.35rem .55rem;border-radius:3px;opacity:0;
+    transition:opacity .12s;z-index:50;white-space:nowrap;font-family:'JetBrains Mono',monospace}
+  .tip.on{opacity:1}
+  @media (max-width:1180px){
+    html,body{height:auto;overflow:auto}
+    .grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+    .span2{grid-row:span 1}.viz{min-height:210px}
+    .kpis{grid-template-columns:repeat(3,1fr)}
+  }
+</style>
+</head>
+<body>
+  <div class="head">
+    <div class="l">
+      <a class="home" href="../index.html">&larr; Portfolio</a>
+      <h1>Dwell <span>Time</span></h1>
+      <span class="stat-live"><i></i>3 open critical</span>
+    </div>
+    <div class="kick">SIMULATED SOC TELEMETRY · 90 DAYS · 6 ASSET CLASSES<br/>SECURITY OPERATIONS · DETECTION &amp; RESPONSE</div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi k1"><div class="k">Mean dwell time</div><div class="v c-red">5.4 d</div><div class="d">detect → contain</div></div>
+    <div class="kpi k2"><div class="k">MTTR</div><div class="v c-amb">71 min</div><div class="d">first response</div></div>
+    <div class="kpi k3"><div class="k">Detection rate</div><div class="v c-lime">73.1%</div><div class="d">of known TTPs</div></div>
+    <div class="kpi k4"><div class="k">Patch compliance</div><div class="v c-mag">88.8%</div><div class="d">target 95%</div></div>
+    <div class="kpi k5"><div class="k">Open cases</div><div class="v c-ice">33</div><div class="d">11 over SLA</div></div>
+    <div class="kpi k6"><div class="k">Uptime</div><div class="v c-lime">96.4%</div><div class="d">monitored estate</div></div>
+  </div>
+
+  <div class="grid">
+    <div class="card span2">
+      <h2>Attack path — where intrusions actually travel</h2>
+      <div class="s">NODE = ASSET CLASS · EDGE WEIGHT = OBSERVED LATERAL MOVEMENTS · <b>RED = UNMONITORED HOP</b></div>
+      <div class="viz"><svg id="graph" preserveAspectRatio="none"></svg></div>
+    </div>
+
+    <div class="card">
+      <h2>Incident calendar</h2>
+      <div class="s">ALERTS PER DAY · 13 WEEKS · DARKER = BUSIER</div>
+      <div class="viz"><svg id="cal" preserveAspectRatio="none"></svg></div>
+    </div>
+
+    <div class="card">
+      <h2>Control posture</h2>
+      <div class="s">RADIAL · ACTUAL VS 95% TARGET RING</div>
+      <div class="viz"><svg id="gauges" preserveAspectRatio="none"></svg></div>
+    </div>
+
+    <div class="card">
+      <h2>Time to contain, by severity</h2>
+      <div class="s">BOX = IQR · WHISKER = P5–P95 · LINE = MEDIAN</div>
+      <div class="viz"><svg id="box" preserveAspectRatio="none"></svg></div>
+    </div>
+
+    <div class="card">
+      <h2>Alert volume by severity</h2>
+      <div class="s">STACKED · 12 WEEKS · CRITICAL RISING</div>
+      <div class="viz"><svg id="area" preserveAspectRatio="none"></svg></div>
+    </div>
+  </div>
+
+  <div class="verdict"><b>Detection is not the bottleneck — containment is.</b> The team finds 73% of known
+    techniques and responds in 71 minutes, but mean dwell time is still 5.4 days. Every long-dwell incident
+    routed through the same unmonitored hop: build servers to domain controllers, a path carrying 31 observed
+    lateral movements with no EDR coverage.
+    <span class="fix"><b>Instrument that one edge and enforce patch SLA on build infrastructure</b></span> —
+    it closes the path behind 6 of the 9 critical incidents this quarter.
+    <span class="src">DATA · Simulated SOC telemetry generated from a seeded model with realistic alert,
+    dwell-time and lateral-movement behaviour. Built to demonstrate the analysis, not to report a real environment.</span></div>
+
+  <div class="tip" id="tip"></div>
+
+<script>
+"use strict";
+const LIME="#a3e635",LIME2="#65a30d",RED="#ef4444",AMB="#f59e0b",MAG="#e879f9",ICE="#94a3b8",
+      EDGE="#1f2a25",EDGE2="#2c3b34",DIM="#8ba095",FAINT="#5d726a",TXT="#e6f0ea",PAN="#111614";
+const NS="http://www.w3.org/2000/svg";
+const el=(t,a={})=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;};
+const tip=document.getElementById("tip");
+function hook(n,txt){
+  n.addEventListener("mousemove",e=>{tip.textContent=txt;tip.classList.add("on");
+    tip.style.left=(e.clientX+12)+"px";tip.style.top=(e.clientY-28)+"px";});
+  n.addEventListener("mouseleave",()=>tip.classList.remove("on"));
+}
+const size=s=>{const r=s.parentNode.getBoundingClientRect();return[Math.max(r.width,10),Math.max(r.height,10)];};
+
+/* ─── 1. ATTACK PATH GRAPH ──────────────────────────────────── */
+const NODES=[
+  {id:"phish", n:"Phishing entry", x:.10,y:.22, r:17, c:AMB,  v:48},
+  {id:"user",  n:"User endpoint",  x:.33,y:.15, r:22, c:AMB,  v:112},
+  {id:"vpn",   n:"VPN / remote",   x:.16,y:.72, r:16, c:ICE,  v:37},
+  {id:"build", n:"Build servers",  x:.55,y:.48, r:20, c:RED,  v:64},
+  {id:"file",  n:"File shares",    x:.56,y:.85, r:15, c:ICE,  v:29},
+  {id:"dc",    n:"Domain ctrl",    x:.86,y:.36, r:24, c:RED,  v:31},
+  {id:"db",    n:"Data stores",    x:.85,y:.80, r:18, c:MAG,  v:22}
+];
+const EDGES=[
+  ["phish","user",22,false],["user","build",26,false],["vpn","build",14,false],
+  ["build","dc",31,true],["user","file",18,false],["file","db",12,false],
+  ["dc","db",16,true],["vpn","file",9,false]
+];
+function drawGraph(){
+  const svg=document.getElementById("graph");svg.innerHTML="";
+  const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
+  const P=n=>[24+n.x*(W-70), 14+n.y*(H-42)];
+  const map={};NODES.forEach(n=>map[n.id]=n);
+  EDGES.forEach(([a,b,w,unmon])=>{
+    const [x1,y1]=P(map[a]),[x2,y2]=P(map[b]);
+    const mx=(x1+x2)/2,my=(y1+y2)/2-Math.abs(x2-x1)*0.14;
+    const g=el("g");
+    g.appendChild(el("path",{d:"M"+x1+","+y1+" Q"+mx+","+my+" "+x2+","+y2,fill:"none",
+      stroke:unmon?RED:EDGE2,"stroke-width":Math.max(1.2,w/7),
+      opacity:unmon?.85:.55,"stroke-dasharray":unmon?"6 3":"none"}));
+    if(unmon){
+      const t=el("text",{x:mx,y:my-5,"text-anchor":"middle","font-size":7.6,fill:RED,
+        "font-family":"JetBrains Mono"});
+      t.textContent=w+" hops · no EDR";g.appendChild(t);
+    }
+    hook(g,map[a].n+" → "+map[b].n+": "+w+" lateral movements"+(unmon?" · UNMONITORED":""));
+    svg.appendChild(g);
+  });
+  NODES.forEach(n=>{
+    const [x,y]=P(n);
+    const g=el("g");
+    g.appendChild(el("circle",{cx:x,cy:y,r:n.r+5,fill:n.c,opacity:.10}));
+    g.appendChild(el("circle",{cx:x,cy:y,r:n.r,fill:PAN,stroke:n.c,"stroke-width":2}));
+    const v=el("text",{x,y:y+4,"text-anchor":"middle","font-size":10,fill:n.c,"font-weight":700,
+      "font-family":"JetBrains Mono"});
+    v.textContent=n.v;g.appendChild(v);
+    const t=el("text",{x,y:y+n.r+11,"text-anchor":"middle","font-size":8,fill:DIM});
+    t.textContent=n.n;g.appendChild(t);
+    hook(g,n.n+": "+n.v+" events observed");
+    svg.appendChild(g);
+  });
+}
+
+/* ─── 2. CALENDAR HEATMAP ───────────────────────────────────── */
+function drawCal(){
+  const svg=document.getElementById("cal");svg.innerHTML="";
+  const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
+  const WK=13,DAYS=7,L=20,T=12;
+  const cw=(W-L-4)/WK, ch=(H-T-6)/DAYS;
+  const s=Math.min(cw,ch)-2;
+  let seed=7;const rnd=()=>{seed=(seed*1103515245+12345)&0x7fffffff;return seed/0x7fffffff;};
+  ["M","","W","","F","",""].forEach((d,i)=>{
+    if(!d)return;
+    const t=el("text",{x:L-5,y:T+i*ch+s/2+3,"text-anchor":"end","font-size":6.6,fill:FAINT});
+    t.textContent=d;svg.appendChild(t);
+  });
+  for(let w=0;w<WK;w++){
+    for(let d=0;d<DAYS;d++){
+      const weekend=d>=5;
+      const base=weekend?rnd()*3:rnd()*11;
+      const spike=(w===9||w===10)&&!weekend?rnd()*9:0;
+      const v=Math.round(base+spike);
+      const u=Math.min(1,v/16);
+      const col=v===0?"#141a17":"rgba(163,230,53,"+(0.14+u*0.8).toFixed(3)+")";
+      const g=el("g");
+      g.appendChild(el("rect",{x:L+w*cw,y:T+d*ch,width:s,height:s,fill:col,rx:1.5}));
+      hook(g,"Week "+(w+1)+" · "+["Mon","Tue","Wed","Thu","Fri","Sat","Sun"][d]+": "+v+" alerts");
+      svg.appendChild(g);
+    }
+  }
+  const lg=el("text",{x:L,y:H-1,"font-size":6.4,fill:FAINT,"font-family":"JetBrains Mono"});
+  lg.textContent="13 WEEKS · WEEK 10–11 SPIKE = CREDENTIAL STUFFING CAMPAIGN";
+  svg.appendChild(lg);
+}
+
+/* ─── 3. RADIAL GAUGES ──────────────────────────────────────── */
+const GAUGES=[["Patch",88.8,MAG],["Detection",73.1,LIME],["Uptime",96.4,LIME],["MFA cover",91.2,AMB]];
+function drawGauges(){
+  const svg=document.getElementById("gauges");svg.innerHTML="";
+  const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
+  const n=GAUGES.length,cw=W/n;
+  const R=Math.min(cw*0.36,H*0.30), cyv=H*0.44;
+  GAUGES.forEach(([name,val,col],i)=>{
+    const cx=cw*i+cw/2;
+    const g=el("g");
+    const circ=2*Math.PI*R;
+    g.appendChild(el("circle",{cx,cy:cyv,r:R,fill:"none",stroke:EDGE,"stroke-width":7}));
+    /* 95% target tick */
+    const ang=(-90+0.95*360)*Math.PI/180;
+    g.appendChild(el("line",{x1:cx+Math.cos(ang)*(R-6),y1:cyv+Math.sin(ang)*(R-6),
+      x2:cx+Math.cos(ang)*(R+6),y2:cyv+Math.sin(ang)*(R+6),stroke:ICE,"stroke-width":1.4}));
+    const arc=el("circle",{cx,cy:cyv,r:R,fill:"none",stroke:col,"stroke-width":7,
+      "stroke-linecap":"round","stroke-dasharray":circ,
+      "stroke-dashoffset":circ*(1-val/100),
+      transform:"rotate(-90 "+cx+" "+cyv+")"});
+    g.appendChild(arc);
+    const t=el("text",{x:cx,y:cyv+4,"text-anchor":"middle","font-size":Math.min(15,R*0.62),
+      fill:col,"font-weight":700,"font-family":"JetBrains Mono"});
+    t.textContent=val.toFixed(1);g.appendChild(t);
+    const l=el("text",{x:cx,y:cyv+R+13,"text-anchor":"middle","font-size":7.6,fill:DIM});
+    l.textContent=name;g.appendChild(l);
+    hook(g,name+": "+val+"% · target 95%"+(val<95?" · BELOW TARGET":""));
+    svg.appendChild(g);
+  });
+}
+
+/* ─── 4. BOX PLOT  containment time ─────────────────────────── */
+const BOX=[["Critical",2,6,11,19,34,RED],["High",3,8,14,24,41,AMB],
+           ["Medium",5,14,26,44,72,ICE],["Low",8,26,52,96,168,FAINT]];
+function drawBox(){
+  const svg=document.getElementById("box");svg.innerHTML="";
+  const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
+  const L=52,R=W-14,T=8,B=H-16,MAXV=170;
+  const x=v=>L+(v/MAXV)*(R-L);
+  const step=(B-T)/BOX.length;
+  [0,50,100,150].forEach(v=>{
+    svg.appendChild(el("line",{x1:x(v),y1:T,x2:x(v),y2:B,stroke:EDGE,"stroke-width":1}));
+    const t=el("text",{x:x(v),y:B+11,"text-anchor":"middle","font-size":7,fill:FAINT});
+    t.textContent=v+"h";svg.appendChild(t);
+  });
+  BOX.forEach((d,i)=>{
+    const [name,p5,q1,med,q3,p95,col]=d;
+    const y=T+step*i+step*.5, h=Math.min(15,step*.42);
+    const g=el("g");
+    g.appendChild(el("line",{x1:x(p5),y1:y,x2:x(p95),y2:y,stroke:col,"stroke-width":1.2,opacity:.65}));
+    [p5,p95].forEach(v=>g.appendChild(el("line",{x1:x(v),y1:y-h/3,x2:x(v),y2:y+h/3,
+      stroke:col,"stroke-width":1.2,opacity:.8})));
+    g.appendChild(el("rect",{x:x(q1),y:y-h/2,width:Math.max(1,x(q3)-x(q1)),height:h,
+      fill:col,opacity:.28,stroke:col,"stroke-width":1.2,rx:1}));
+    g.appendChild(el("line",{x1:x(med),y1:y-h/2,x2:x(med),y2:y+h/2,stroke:col,"stroke-width":2.4}));
+    const t=el("text",{x:L-6,y:y+3,"text-anchor":"end","font-size":8,fill:col,"font-weight":600});
+    t.textContent=name;g.appendChild(t);
+    hook(g,name+" — median "+med+"h · IQR "+q1+"–"+q3+"h · P95 "+p95+"h");
+    svg.appendChild(g);
+  });
+}
+
+/* ─── 5. STACKED AREA  alert volume ─────────────────────────── */
+const SER=[
+  {n:"Critical",c:RED, d:[4,5,4,6,5,7,6,8,7,9,11,9]},
+  {n:"High",    c:AMB, d:[18,20,17,22,19,24,21,26,23,28,31,27]},
+  {n:"Medium",  c:LIME2,d:[42,45,40,48,44,52,47,55,50,58,62,57]},
+  {n:"Low",     c:EDGE2,d:[70,74,68,78,72,84,76,88,80,92,96,88]}
+];
+function drawArea(){
+  const svg=document.getElementById("area");svg.innerHTML="";
+  const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
+  const L=26,R=W-8,T=8,B=H-16,N=12;
+  const totals=[];for(let i=0;i<N;i++)totals.push(SER.reduce((s,x)=>s+x.d[i],0));
+  const MAXV=Math.max(...totals)*1.06;
+  const x=i=>L+(i/(N-1))*(R-L), y=v=>B-(v/MAXV)*(B-T);
+  [0,50,100,150].forEach(v=>{
+    if(v>MAXV)return;
+    svg.appendChild(el("line",{x1:L,y1:y(v),x2:R,y2:y(v),stroke:EDGE,"stroke-width":1}));
+    const t=el("text",{x:L-4,y:y(v)+3,"text-anchor":"end","font-size":7,fill:FAINT});
+    t.textContent=v;svg.appendChild(t);
+  });
+  const base=new Array(N).fill(0);
+  SER.slice().reverse().forEach(s=>{
+    const top=base.map((b,i)=>b+s.d[i]);
+    let p="M"+x(0)+","+y(base[0]);
+    for(let i=0;i<N;i++)p+=" L"+x(i)+","+y(top[i]);
+    for(let i=N-1;i>=0;i--)p+=" L"+x(i)+","+y(base[i]);
+    p+=" Z";
+    const path=el("path",{d:p,fill:s.c,opacity:s.n==="Critical"?.85:.5});
+    hook(path,s.n+": "+s.d[N-1]+" alerts last week (from "+s.d[0]+")");
+    svg.appendChild(path);
+    for(let i=0;i<N;i++)base[i]=top[i];
+  });
+  const lg=el("g");
+  SER.forEach((s,i)=>{
+    lg.appendChild(el("rect",{x:L+i*54,y:T-6,width:7,height:7,fill:s.c,rx:1}));
+    const t=el("text",{x:L+i*54+10,y:T+1,"font-size":7,fill:FAINT});
+    t.textContent=s.n;lg.appendChild(t);
+  });
+  svg.appendChild(lg);
+}
+
+function drawAll(){drawGraph();drawCal();drawGauges();drawBox();drawArea();}
+drawAll();
+let rt;addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(drawAll,140);});
+</script>
+</body>
+</html>

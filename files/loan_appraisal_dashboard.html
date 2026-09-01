@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Two Ceilings · Credit Appraisal · Aditi Shelke</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet"/>
+<style>
+  :root{
+    --bg:#f7f4ee; --card:#fffdf9; --card2:#f3efe6;
+    --rule:#e0d8c9; --rule2:#c9bda6;
+    --ink:#1c2321; --body:#4a534f; --dim:#7d857f; --faint:#9a9a90;
+    --teal:#0f5257; --teal2:#3f8b8f; --brass:#a9762f; --brass2:#d8a95c;
+    --ok:#1a7a5e; --refer:#b8860b; --no:#9b2c2c; --plum:#6b4570;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;overflow:hidden}
+  body{background:var(--bg);color:var(--ink);font-family:'IBM Plex Sans',sans-serif;font-weight:400;
+    -webkit-font-smoothing:antialiased;display:flex;flex-direction:column}
+
+  /* ── header ──────────────────────────────────────────────── */
+  .head{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;
+    padding:.5rem 1.1rem;border-bottom:1px solid var(--rule2);background:var(--card);flex:0 0 auto}
+  .head .l{display:flex;align-items:baseline;gap:.9rem;flex-wrap:wrap}
+  a.home{font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--teal);text-decoration:none;
+    border:1px solid var(--rule2);padding:.22rem .5rem;border-radius:2px}
+  a.home:hover{background:var(--teal);color:#fff;border-color:var(--teal)}
+  h1{font-family:'Newsreader',serif;font-size:1.5rem;font-weight:600;letter-spacing:-.01em;line-height:1}
+  h1 em{font-style:italic;color:var(--brass)}
+  .kick{font-family:'IBM Plex Mono',monospace;font-size:.52rem;color:var(--dim);
+    text-align:right;line-height:1.7;letter-spacing:.05em}
+
+  .shell{display:grid;grid-template-columns:250px 1fr;gap:.6rem;padding:.6rem 1.1rem .7rem;
+    flex:1;min-height:0}
+
+  /* ── applicant form rail ─────────────────────────────────── */
+  .rail{background:var(--card);border:1px solid var(--rule);border-radius:4px;
+    padding:.7rem .8rem;overflow-y:auto;min-height:0}
+  .rail::-webkit-scrollbar{width:6px}
+  .rail::-webkit-scrollbar-thumb{background:var(--rule2);border-radius:3px}
+  .rail h2{font-family:'IBM Plex Mono',monospace;font-size:.55rem;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--teal);margin:0 0 .55rem;
+    display:flex;align-items:center;gap:.4rem}
+  .rail h2::after{content:'';flex:1;height:1px;background:var(--rule)}
+  .rail h2.mt{margin-top:.95rem}
+  .fg{margin-bottom:.6rem}
+  .fl{font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.04em;
+    color:var(--dim);margin-bottom:.24rem;display:flex;justify-content:space-between;
+    align-items:baseline;gap:.4rem}
+  .fl .v{color:var(--ink);font-weight:600;font-size:.66rem}
+  .fl .v.warn{color:var(--no)}
+  select{width:100%;font-family:'IBM Plex Sans',sans-serif;font-size:.68rem;padding:.34rem .4rem;
+    border:1px solid var(--rule2);border-radius:3px;background:#fff;color:var(--ink);cursor:pointer}
+  select:focus{outline:1.5px solid var(--teal);outline-offset:1px}
+  input[type=range]{width:100%;accent-color:var(--teal);cursor:pointer;height:3px;margin-top:.1rem}
+  .fg.policy{background:rgba(169,118,47,.08);border:1px solid rgba(169,118,47,.3);
+    border-radius:3px;padding:.45rem .5rem}
+  .fg.policy .fl{color:var(--brass)}
+  .fg.policy .fl .v{color:var(--brass)}
+  .fg.policy input[type=range]{accent-color:var(--brass)}
+  .hint{font-family:'IBM Plex Mono',monospace;font-size:.52rem;color:var(--faint);
+    line-height:1.45;margin-top:.25rem}
+  .btn-reset{width:100%;font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.12em;
+    text-transform:uppercase;background:transparent;color:var(--no);border:1px solid var(--no);
+    border-radius:3px;padding:.42rem;cursor:pointer;margin-top:.5rem}
+  .btn-reset:hover{background:var(--no);color:#fff}
+
+  .main{display:grid;grid-template-rows:auto 1fr;gap:.6rem;min-width:0;min-height:0}
+
+  /* ── term sheet: decision stamp + ruled terms (the KPI block) ── */
+  .sheet{display:flex;gap:.85rem;background:var(--card);border:1px solid var(--rule);
+    border-radius:4px;padding:.6rem .85rem;align-items:stretch}
+  .stamp{flex:0 0 148px;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;gap:.2rem;border:2.5px solid var(--ok);border-radius:4px;
+    padding:.42rem .3rem;transform:rotate(-1.6deg);position:relative}
+  .stamp .word{font-family:'Newsreader',serif;font-size:1.32rem;font-weight:600;
+    letter-spacing:.04em;text-transform:uppercase;line-height:1;color:var(--ok)}
+  .stamp .sub{font-family:'IBM Plex Mono',monospace;font-size:.48rem;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--ok);opacity:.85;text-align:center;line-height:1.35}
+  .stamp.refer{border-color:var(--refer)}
+  .stamp.refer .word,.stamp.refer .sub{color:var(--refer)}
+  .stamp.no{border-color:var(--no)}
+  .stamp.no .word,.stamp.no .sub{color:var(--no)}
+
+  .terms{flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:0;min-width:0}
+  .term{padding:.1rem .7rem;border-left:1px solid var(--rule);min-width:0}
+  .term:nth-child(4n+1){border-left:none;padding-left:.2rem}
+  .term:nth-child(n+5){border-top:1px solid var(--rule);padding-top:.34rem;margin-top:.3rem}
+  .term .k{font-family:'IBM Plex Mono',monospace;font-size:.475rem;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--dim)}
+  .term .v{font-family:'Newsreader',serif;font-size:1.16rem;font-weight:600;line-height:1.18;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .term .d{font-family:'IBM Plex Mono',monospace;font-size:.485rem;color:var(--faint);
+    line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+  /* ── panels ──────────────────────────────────────────────── */
+  .grid{display:grid;grid-template-columns:1.25fr 1.08fr .92fr;grid-template-rows:1fr 1fr;
+    gap:.6rem;min-height:0}
+  .card{background:var(--card);border:1px solid var(--rule);border-radius:4px;
+    padding:.45rem .75rem .5rem;display:flex;flex-direction:column;min-height:0;min-width:0}
+  .card h3{font-family:'Newsreader',serif;font-size:.95rem;font-weight:600;line-height:1.2}
+  .card .s{font-family:'IBM Plex Mono',monospace;font-size:.5rem;color:var(--faint);
+    margin-bottom:.22rem;letter-spacing:.05em;line-height:1.4;text-transform:uppercase}
+  .card .s b{color:var(--brass)}
+  .viz{flex:1;min-height:0;position:relative}
+  .viz svg{width:100%;height:100%;display:block;overflow:visible}
+  .span2{grid-row:span 2}
+  .scrollY{flex:1;min-height:0;overflow-y:auto}
+  .scrollY::-webkit-scrollbar{width:5px}
+  .scrollY::-webkit-scrollbar-thumb{background:var(--rule2);border-radius:3px}
+
+  /* rule trace table */
+  table{width:100%;border-collapse:collapse;font-size:.63rem}
+  th{font-family:'IBM Plex Mono',monospace;font-size:.475rem;letter-spacing:.09em;
+    text-transform:uppercase;color:var(--faint);text-align:left;padding:.3rem .28rem;
+    border-bottom:1px solid var(--rule2);font-weight:400;position:sticky;top:0;background:var(--card)}
+  th:last-child{text-align:right}
+  td{padding:.3rem .28rem;border-bottom:1px solid var(--rule);color:var(--body);vertical-align:top}
+  td.num{font-family:'IBM Plex Mono',monospace;font-size:.57rem;text-align:right;white-space:nowrap}
+  tr.fail td{background:rgba(155,44,44,.055)}
+  .flag{font-family:'IBM Plex Mono',monospace;font-size:.5rem;font-weight:600;
+    letter-spacing:.08em;padding:.1rem .28rem;border-radius:2px;white-space:nowrap}
+  .flag.p{color:var(--ok);background:rgba(26,122,94,.12)}
+  .flag.f{color:var(--no);background:rgba(155,44,44,.12)}
+
+  .tip{position:fixed;pointer-events:none;background:var(--ink);color:#fff;font-size:.64rem;
+    padding:.35rem .55rem;border-radius:3px;opacity:0;transition:opacity .12s;z-index:50;
+    white-space:nowrap;font-family:'IBM Plex Sans',sans-serif}
+  .tip.on{opacity:1}
+
+  @media (max-width:1180px){
+    html,body{height:auto;overflow:auto}
+    body{display:block}
+    .shell{grid-template-columns:1fr}
+    .rail{overflow-y:visible;max-height:none}
+    .grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+    .span2{grid-row:span 1}.viz{min-height:220px}
+    .terms{grid-template-columns:repeat(2,1fr)}
+    .term:nth-child(4n+1){border-left:1px solid var(--rule);padding-left:.7rem}
+    .term:nth-child(odd){border-left:none;padding-left:.2rem}
+    .term:nth-child(n+3){border-top:1px solid var(--rule);padding-top:.34rem;margin-top:.3rem}
+  }
+  @media (max-width:640px){
+    .sheet{flex-direction:column}.stamp{flex:0 0 auto;transform:none}
+    .grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+  <div class="head">
+    <div class="l">
+      <a class="home" href="../index.html">&larr; Portfolio</a>
+      <h1>Two <em>Ceilings</em></h1>
+    </div>
+    <div class="kick">CREDIT APPRAISAL &middot; LOAN ORIGINATION &middot; INDIAN RETAIL LENDING<br/>
+      RBI-ALIGNED LTV SLABS &middot; FOIR POLICY &middot; RISK-BASED PRICING</div>
+  </div>
+
+  <div class="shell">
+    <aside class="rail">
+      <h2>Facility</h2>
+      <div class="fg">
+        <div class="fl"><span>Loan type</span></div>
+        <select id="fType">
+          <option value="home">Home loan</option>
+          <option value="lap">Loan against property</option>
+          <option value="car">Car loan</option>
+          <option value="personal">Personal loan</option>
+          <option value="business">Business loan</option>
+        </select>
+      </div>
+      <div class="fg" id="gAsset">
+        <div class="fl"><span id="lAsset">Property value</span><span class="v" id="vAsset">—</span></div>
+        <input type="range" id="fAsset"/>
+      </div>
+      <div class="fg">
+        <div class="fl"><span>Loan requested</span><span class="v" id="vReq">—</span></div>
+        <input type="range" id="fReq"/>
+      </div>
+      <div class="fg">
+        <div class="fl"><span>Tenure</span><span class="v" id="vTen">—</span></div>
+        <input type="range" id="fTen" min="1" max="30" step="1" value="20"/>
+        <div class="hint" id="hTen"></div>
+      </div>
+
+      <h2 class="mt">Applicant</h2>
+      <div class="fg">
+        <div class="fl"><span>Employment</span></div>
+        <select id="fEmp">
+          <option value="sal">Salaried</option>
+          <option value="sep">Self-employed professional</option>
+          <option value="senp">Self-employed (non-professional)</option>
+        </select>
+      </div>
+      <div class="fg">
+        <div class="fl"><span>Age</span><span class="v" id="vAge">—</span></div>
+        <input type="range" id="fAge" min="21" max="65" step="1" value="34"/>
+      </div>
+      <div class="fg">
+        <div class="fl"><span>Net monthly income</span><span class="v" id="vInc">—</span></div>
+        <input type="range" id="fInc" min="15000" max="1000000" step="5000" value="145000"/>
+      </div>
+      <div class="fg">
+        <div class="fl"><span>Co-applicant income</span><span class="v" id="vCo">—</span></div>
+        <input type="range" id="fCo" min="0" max="500000" step="5000" value="0"/>
+      </div>
+      <div class="fg">
+        <div class="fl"><span>Existing EMIs</span><span class="v" id="vEx">—</span></div>
+        <input type="range" id="fEx" min="0" max="300000" step="1000" value="18000"/>
+      </div>
+      <div class="fg">
+        <div class="fl"><span>CIBIL score</span><span class="v" id="vCib">—</span></div>
+        <input type="range" id="fCib" min="550" max="900" step="1" value="762"/>
+        <div class="hint" id="hCib"></div>
+      </div>
+
+      <h2 class="mt">Lender policy</h2>
+      <div class="fg policy">
+        <div class="fl"><span>FOIR appetite</span><span class="v" id="vFoir">—</span></div>
+        <input type="range" id="fFoir" min="-12" max="12" step="1" value="0"/>
+        <div class="hint" id="hFoir"></div>
+      </div>
+      <div class="fg policy">
+        <div class="fl"><span>Rate spread</span><span class="v" id="vSpr">—</span></div>
+        <input type="range" id="fSpr" min="-50" max="200" step="5" value="0"/>
+        <div class="hint">Basis points on top of the risk-based card rate.</div>
+      </div>
+      <button class="btn-reset" id="reset">Reset application</button>
+    </aside>
+
+    <div class="main">
+      <div class="sheet">
+        <div class="stamp" id="stamp">
+          <div class="word" id="stampWord">—</div>
+          <div class="sub" id="stampSub">—</div>
+        </div>
+        <div class="terms" id="terms"></div>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <h3>The two ceilings</h3>
+          <div class="s" id="sCeil">WHAT CAPS THIS DEAL &mdash; COLLATERAL OR AFFORDABILITY</div>
+          <div class="viz"><svg id="ceil" preserveAspectRatio="none"></svg></div>
+        </div>
+
+        <div class="card">
+          <h3>Where the money goes</h3>
+          <div class="s" id="sAmort">PRINCIPAL vs INTEREST PER YEAR &middot; LINE = OUTSTANDING</div>
+          <div class="viz"><svg id="amort" preserveAspectRatio="none"></svg></div>
+        </div>
+
+        <div class="card span2">
+          <h3>Policy rule trace</h3>
+          <div class="s" id="sRules">EVERY UNDERWRITING GATE, CHECKED LIVE</div>
+          <div class="scrollY">
+            <table id="tRules">
+              <thead><tr><th>Rule</th><th>Required</th><th>Actual</th><th></th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Eligibility surface</h3>
+          <div class="s">MAX SANCTION BY TENURE &times; CIBIL BAND &middot; RING = THIS APPLICANT</div>
+          <div class="viz"><svg id="surface" preserveAspectRatio="none"></svg></div>
+        </div>
+
+        <div class="card">
+          <h3>What moves the number</h3>
+          <div class="s">CHANGE IN MAX SANCTION, ONE LEVER AT A TIME</div>
+          <div class="viz"><svg id="tornado" preserveAspectRatio="none"></svg></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip" id="tip"></div>
+
+<script>
+"use strict";
+const TEAL="#0f5257",TEAL2="#3f8b8f",BRASS="#a9762f",BRASS2="#d8a95c",OK="#1a7a5e",
+      REFER="#b8860b",NO="#9b2c2c",PLUM="#6b4570",RULE="#e0d8c9",RULE2="#c9bda6",
+      DIM="#7d857f",FAINT="#9a9a90",INK="#1c2321";
+const NS="http://www.w3.org/2000/svg";
+const el=(t,a={})=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;};
+const tip=document.getElementById("tip");
+function hook(n,txt){
+  n.addEventListener("mousemove",e=>{tip.textContent=txt;tip.classList.add("on");
+    tip.style.left=(e.clientX+12)+"px";tip.style.top=(e.clientY-28)+"px";});
+  n.addEventListener("mouseleave",()=>tip.classList.remove("on"));
+}
+const size=s=>{const r=s.parentNode.getBoundingClientRect();return[Math.max(r.width,10),Math.max(r.height,10)];};
+const clear=id=>{const s=document.getElementById(id);s.innerHTML="";return s;};
+
+/* ── Indian money formatting: lakh / crore ─────────────────── */
+const inr=v=>{
+  v=Math.round(v);
+  if(!isFinite(v))return "no cap";
+  if(Math.abs(v)>=1e7)return "₹"+(v/1e7).toFixed(2)+" Cr";
+  if(Math.abs(v)>=1e5)return "₹"+(v/1e5).toFixed(2)+" L";
+  return "₹"+v.toLocaleString("en-IN");
+};
+const inrFull=v=>"₹"+Math.round(v).toLocaleString("en-IN");
+
+/* ══ 1. PRODUCT & POLICY BOOK ═════════════════════════════════
+   LTV slabs follow the RBI retail-lending norms banks actually
+   quote; the income multiple is the second, softer cap most
+   lenders layer on top.                                        */
+const TYPES={
+  home:{n:"Home loan",base:8.35,maxT:30,secured:true,mult:72,
+    slabs:[[3000000,.90],[7500000,.80],[Infinity,.75]],
+    assetLabel:"Property value",
+    asset:{min:1500000,max:60000000,step:100000,def:9500000},
+    req:{min:500000,max:50000000,step:100000,def:7800000}},
+  lap:{n:"Loan against property",base:9.75,maxT:15,secured:true,mult:60,
+    slabs:[[Infinity,.60]],
+    assetLabel:"Property value",
+    asset:{min:2500000,max:100000000,step:250000,def:18000000},
+    req:{min:500000,max:60000000,step:250000,def:9000000}},
+  car:{n:"Car loan",base:9.10,maxT:7,secured:true,mult:30,
+    slabs:[[Infinity,.85]],
+    assetLabel:"On-road price",
+    asset:{min:400000,max:10000000,step:25000,def:1800000},
+    req:{min:200000,max:8000000,step:25000,def:1450000}},
+  personal:{n:"Personal loan",base:11.50,maxT:5,secured:false,mult:15,
+    slabs:[],assetLabel:"—",
+    asset:{min:0,max:0,step:1,def:0},
+    req:{min:100000,max:5000000,step:50000,def:1200000}},
+  business:{n:"Business loan",base:12.00,maxT:10,secured:true,mult:24,
+    slabs:[[Infinity,.65]],
+    assetLabel:"Collateral value",
+    asset:{min:1000000,max:80000000,step:250000,def:12000000},
+    req:{min:500000,max:40000000,step:250000,def:6000000}}
+};
+const EMP={
+  sal :{n:"Salaried",                     adj:0.00,retire:60},
+  sep :{n:"Self-employed professional",   adj:0.25,retire:65},
+  senp:{n:"Self-employed non-professional",adj:0.55,retire:65}
+};
+const BANDS=[
+  {lo:800,hi:900,n:"800+",   adj:-0.25},
+  {lo:750,hi:799,n:"750-799",adj: 0.00},
+  {lo:700,hi:749,n:"700-749",adj: 0.45},
+  {lo:650,hi:699,n:"650-699",adj: 1.10},
+  {lo:600,hi:649,n:"600-649",adj: 2.10},
+  {lo:  0,hi:599,n:"<600",   adj: 3.50}
+];
+const bandOf=s=>BANDS.find(b=>s>=b.lo&&s<=b.hi)||BANDS[BANDS.length-1];
+/* FOIR ceiling rises with income — a 45k earner cannot give up 60% */
+const FOIR_BANDS=[[30000,40],[50000,45],[100000,50],[200000,55],[Infinity,60]];
+const foirBandOf=inc=>FOIR_BANDS.find(b=>inc<b[0])[1];
+const MIN_INCOME=25000, MIN_RESIDUAL=15000, MIN_CIBIL=600, PREF_CIBIL=650;
+
+/* ── annuity maths ─────────────────────────────────────────── */
+const emiOf=(P,annual,months)=>{
+  if(months<=0||P<=0)return 0;
+  const r=annual/1200;
+  return r<=0?P/months:P*r/(1-Math.pow(1+r,-months));
+};
+const pvOf=(E,annual,months)=>{
+  if(months<=0||E<=0)return 0;
+  const r=annual/1200;
+  return r<=0?E*months:E*(1-Math.pow(1+r,-months))/r;
+};
+
+/* ══ 2. THE APPRAISAL ENGINE ══════════════════════════════════
+   Three ceilings sit over every application — collateral (LTV),
+   affordability (FOIR) and the income multiple. The sanction is
+   the lowest of the three, and which one binds is the whole
+   point of the screen.                                          */
+function appraise(o){
+  const T=TYPES[o.type], emp=EMP[o.emp], band=bandOf(o.cibil);
+  const rate=T.base+band.adj+emp.adj+o.spread/100;
+  const maxTenure=Math.max(0,Math.min(T.maxT,emp.retire-o.age));
+  const tenure=Math.max(0,Math.min(o.tenure,maxTenure));
+  const n=Math.round(tenure*12);
+  const income=o.income+o.co;
+  const foirBand=foirBandOf(income);
+  const foirCap=Math.max(20,Math.min(75,foirBand+o.foirAdj));
+  const availEMI=income*foirCap/100-o.existing;
+
+  const capFOIR=Math.max(0,pvOf(availEMI,rate,n));
+  const capMULT=income*T.mult;
+  /* The LTV slab is keyed off the sanction, and the sanction depends on the
+     slab — iterating oscillates at a boundary and can settle on a figure that
+     contradicts its own slab (a ₹76 L sanction quoted at the 80% rate that
+     only applies up to ₹75 L). So price every slab, clamp each candidate to
+     that slab's own ceiling, and keep the largest self-consistent answer. */
+  let capLTV=Infinity,ltvPct=null,eligible;
+  if(T.secured){
+    let best=-1,bestLtv=T.slabs[T.slabs.length-1][1],bestCap=0;
+    T.slabs.forEach(([hi,ltv])=>{
+      const collateral=o.asset*ltv;
+      const cand=Math.min(o.requested,capFOIR,capMULT,collateral,hi);
+      if(cand>best){best=cand;bestLtv=ltv;bestCap=Math.min(collateral,hi);}
+    });
+    ltvPct=bestLtv;capLTV=bestCap;eligible=Math.max(0,best);
+  }else{
+    eligible=Math.max(0,Math.min(o.requested,capFOIR,capMULT));
+  }
+
+  /* which ceiling actually binds */
+  const ceilings=[
+    {k:"Requested",  v:o.requested,col:TEAL2},
+    {k:"Affordability (FOIR)",v:capFOIR,col:BRASS},
+    {k:"Income multiple",     v:capMULT,col:PLUM}
+  ];
+  if(T.secured)ceilings.splice(1,0,{k:"Collateral (LTV)",v:capLTV,col:TEAL});
+  const binding=ceilings.slice().sort((a,b)=>a.v-b.v)[0];
+
+  const emi=emiOf(eligible,rate,n);
+  const foirNow=income?(o.existing+emi)/income*100:0;
+  const ltvNow=(T.secured&&o.asset)?eligible/o.asset*100:null;
+  const residual=income-o.existing-emi;
+  const totalPaid=emi*n, interest=Math.max(0,totalPaid-eligible);
+  const ageAtEnd=o.age+tenure;
+
+  /* ── the underwriting gates ── */
+  const rules=[
+    {n:"Minimum credit score",req:"≥ "+MIN_CIBIL,act:String(o.cibil),
+     pass:o.cibil>=MIN_CIBIL,
+     why:"Below "+MIN_CIBIL+" the file cannot be scored on the retail card."},
+    {n:"Preferred score band",req:"≥ "+PREF_CIBIL,act:o.cibil+" ("+band.n+")",
+     pass:o.cibil>=PREF_CIBIL,
+     why:"Between "+MIN_CIBIL+" and "+PREF_CIBIL+" the file goes to manual referral."},
+    {n:"Minimum net income",req:"≥ "+inr(MIN_INCOME),act:inr(o.income),
+     pass:o.income>=MIN_INCOME,why:"Programme floor on the primary applicant."},
+    {n:"Age at maturity",req:"≤ "+emp.retire+" yrs",act:ageAtEnd.toFixed(0)+" yrs",
+     pass:ageAtEnd<=emp.retire,
+     why:"Tenure is clipped so the loan closes before retirement at "+emp.retire+"."},
+    {n:"Tenure within product",req:"≤ "+T.maxT+" yrs",act:tenure+" yrs",
+     pass:tenure<=T.maxT&&tenure>=1,why:T.n+" caps out at "+T.maxT+" years."},
+    {n:"FOIR within appetite",req:"≤ "+foirCap.toFixed(0)+"%",act:foirNow.toFixed(1)+"%",
+     pass:foirNow<=foirCap+0.5,
+     why:"Band for "+inr(income)+" income is "+foirBand+"%, adjusted "+
+       (o.foirAdj>=0?"+":"")+o.foirAdj+" pts by appetite."},
+    T.secured
+      ? {n:"LTV within slab",req:"≤ "+(ltvPct*100).toFixed(0)+"%",
+         act:ltvNow===null?"n/a":ltvNow.toFixed(1)+"%",
+         pass:ltvNow===null||ltvNow<=ltvPct*100+0.5,
+         why:"Slab set by sanction size on "+inr(o.asset)+" of security."}
+      : {n:"Unsecured exposure",req:"≤ "+T.mult+"× income",
+         act:(income?(eligible/income).toFixed(1):"0")+"×",
+         pass:income>0&&eligible<=capMULT+1,
+         why:"No collateral, so the income multiple is the hard cap."},
+    {n:"Residual income",req:"≥ "+inr(MIN_RESIDUAL),act:inr(residual),
+     pass:residual>=MIN_RESIDUAL,
+     why:"What is left each month after every obligation is served."},
+    {n:"Sanction meets request",req:inr(o.requested),act:inr(eligible),
+     pass:eligible>=o.requested-1,
+     why:"Shortfall is offered as a counter-proposal, not a decline."}
+  ];
+  const hardFail=!rules[0].pass||!rules[2].pass||!rules[3].pass||!rules[7].pass||
+                 eligible<=0||n<=0;
+  const shortfall=eligible<o.requested-1;
+  let decision,dsub;
+  if(hardFail||eligible<o.requested*0.5){
+    decision="Decline";
+    dsub=hardFail?"policy gate failed":"sanction under half the ask";
+  }else if(shortfall||o.cibil<PREF_CIBIL){
+    decision="Refer";
+    dsub=shortfall?"counter-offer "+inr(eligible):"manual review, score band";
+  }else{
+    decision="Approve";
+    dsub="clean on every gate";
+  }
+  return{T,emp,band,rate,tenure,maxTenure,n,income,foirBand,foirCap,availEMI,
+    capFOIR,capMULT,capLTV,ltvPct,eligible,ceilings,binding,emi,foirNow,ltvNow,
+    residual,interest,totalPaid,ageAtEnd,rules,decision,dsub,shortfall,
+    downPayment:T.secured?Math.max(0,o.asset-eligible):0,o};
+}
+
+/* ══ 3. STATE + FORM WIRING ═══════════════════════════════════ */
+const DEF={type:"home",emp:"sal",age:34,income:145000,co:0,existing:18000,
+           cibil:762,tenure:20,foirAdj:0,spread:0};
+const S=Object.assign({},DEF);
+const $=id=>document.getElementById(id);
+
+function applyTypeRanges(reset){
+  const T=TYPES[S.type];
+  const a=$("fAsset"),r=$("fReq");
+  a.min=T.asset.min;a.max=T.asset.max;a.step=T.asset.step;
+  r.min=T.req.min;  r.max=T.req.max;  r.step=T.req.step;
+  if(reset){S.asset=T.asset.def;S.requested=T.req.def;}
+  S.asset=Math.min(Math.max(S.asset,T.asset.min),T.asset.max||1);
+  S.requested=Math.min(Math.max(S.requested,T.req.min),T.req.max);
+  a.value=S.asset;r.value=S.requested;
+  $("lAsset").textContent=T.assetLabel;
+  $("gAsset").style.display=T.secured?"":"none";
+  const t=$("fTen");t.max=T.maxT;
+  S.tenure=Math.min(S.tenure,T.maxT);t.value=S.tenure;
+}
+function syncLabels(A){
+  $("vAsset").textContent=inr(S.asset);
+  $("vReq").textContent=inr(S.requested);
+  $("vTen").textContent=S.tenure+" yr"+(S.tenure===1?"":"s");
+  $("vAge").textContent=S.age;
+  $("vInc").textContent=inr(S.income);
+  $("vCo").textContent=S.co?inr(S.co):"none";
+  $("vEx").textContent=S.existing?inr(S.existing):"none";
+  $("vCib").textContent=S.cibil;
+  $("vFoir").textContent=A.foirCap.toFixed(0)+"%";
+  $("vSpr").textContent=(S.spread>=0?"+":"")+S.spread+" bps";
+  const clipped=S.tenure>A.maxTenure;
+  const tl=$("vTen");tl.className="v"+(clipped?" warn":"");
+  $("hTen").innerHTML=clipped
+    ? "Clipped to <b>"+A.maxTenure+" yrs</b> — loan must close by age "+A.emp.retire+"."
+    : "Product max "+A.T.maxT+" yrs · age allows "+A.maxTenure+".";
+  $("hCib").textContent="Band "+A.band.n+" · "+
+    (A.band.adj>=0?"+":"")+(A.band.adj*100).toFixed(0)+" bps on the card rate.";
+  $("hFoir").textContent="Policy band for "+inr(A.income)+" is "+A.foirBand+"%.";
+}
+$("fType").onchange=e=>{S.type=e.target.value;applyTypeRanges(true);render();};
+$("fEmp").onchange=e=>{S.emp=e.target.value;render();};
+const bind=(id,key,fn)=>$(id).addEventListener("input",e=>{
+  S[key]=fn?fn(+e.target.value):+e.target.value;render();});
+bind("fAsset","asset");bind("fReq","requested");bind("fTen","tenure");
+bind("fAge","age");bind("fInc","income");bind("fCo","co");
+bind("fEx","existing");bind("fCib","cibil");
+bind("fFoir","foirAdj");bind("fSpr","spread");
+/* A wheel over a range input rewrites its value, which would silently
+   corrupt the application while someone is only scrolling the rail.
+   Swallow the value change and pass the scroll to the rail instead. */
+(function guardWheel(){
+  const rail=document.querySelector(".rail");
+  document.querySelectorAll('input[type=range]').forEach(r=>{
+    r.addEventListener("wheel",e=>{
+      e.preventDefault();
+      if(rail&&rail.scrollHeight>rail.clientHeight)rail.scrollTop+=e.deltaY;
+      else window.scrollBy(0,e.deltaY);
+    },{passive:false});
+  });
+})();
+$("reset").onclick=()=>{
+  Object.assign(S,DEF);
+  $("fType").value=S.type;$("fEmp").value=S.emp;
+  applyTypeRanges(true);
+  $("fTen").value=S.tenure;$("fAge").value=S.age;$("fInc").value=S.income;
+  $("fCo").value=S.co;$("fEx").value=S.existing;$("fCib").value=S.cibil;
+  $("fFoir").value=S.foirAdj;$("fSpr").value=S.spread;
+  render();};
+
+/* ══ 4. TERM SHEET ════════════════════════════════════════════ */
+function drawSheet(A){
+  const st=$("stamp");
+  st.className="stamp"+(A.decision==="Approve"?"":A.decision==="Refer"?" refer":" no");
+  $("stampWord").textContent=A.decision;
+  $("stampSub").textContent=A.dsub;
+  const terms=[
+    {k:"Sanctioned",v:inr(A.eligible),
+     d:A.shortfall?"vs "+inr(S.requested)+" asked":"full request met"},
+    {k:"Monthly EMI",v:inr(A.emi),d:A.n+" instalments"},
+    {k:"Interest rate",v:A.rate.toFixed(2)+"%",
+     d:A.T.base.toFixed(2)+" card "+(A.band.adj>=0?"+":"")+(A.band.adj*100).toFixed(0)+
+       " score "+(A.emp.adj?"+"+(A.emp.adj*100).toFixed(0)+" emp ":"")+
+       (S.spread?(S.spread>=0?"+":"")+S.spread+" spread":"")},
+    {k:"Tenure",v:A.tenure+" yrs",d:"matures at age "+A.ageAtEnd.toFixed(0)},
+    {k:"FOIR",v:A.foirNow.toFixed(1)+"%",d:"cap "+A.foirCap.toFixed(0)+"% · band "+A.foirBand+"%",
+     col:A.foirNow>A.foirCap?NO:A.foirNow>A.foirCap-5?REFER:OK},
+    {k:A.T.secured?"LTV":"Income multiple",
+     v:A.T.secured?(A.ltvNow===null?"n/a":A.ltvNow.toFixed(1)+"%")
+                  :(A.income?(A.eligible/A.income).toFixed(1)+"×":"0×"),
+     d:A.T.secured?"slab cap "+(A.ltvPct*100).toFixed(0)+"%":"cap "+A.T.mult+"×",
+     col:A.T.secured?(A.ltvNow>A.ltvPct*100+0.5?NO:TEAL):TEAL},
+    {k:A.T.secured?"Own contribution":"Residual income",
+     v:A.T.secured?inr(A.downPayment):inr(A.residual),
+     d:A.T.secured?"margin money upfront":"after every obligation"},
+    {k:"Total interest",v:inr(A.interest),
+     d:A.eligible?(A.interest/A.eligible*100).toFixed(0)+"% of principal":"—"}
+  ];
+  const box=$("terms");box.innerHTML="";
+  terms.forEach(t=>{
+    const d=document.createElement("div");d.className="term";
+    d.innerHTML='<div class="k">'+t.k+'</div>'+
+      '<div class="v" style="color:'+(t.col||INK)+'">'+t.v+'</div>'+
+      '<div class="d">'+t.d+'</div>';
+    hook(d,t.k+": "+t.v+" — "+t.d);
+    box.appendChild(d);
+  });
+}
+
+/* ══ 5. THE TWO CEILINGS ══════════════════════════════════════ */
+function drawCeilings(A){
+  const svg=clear("ceil");
+  $("sCeil").innerHTML="BINDING CONSTRAINT: <b>"+A.binding.k.toUpperCase()+"</b> AT "+inr(A.binding.v);
+  const rows=A.ceilings.map(c=>({...c,v:isFinite(c.v)?c.v:0}));
+  const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
+  const L=104,R=W-58,T=8,B=H-16;
+  const max=Math.max(...rows.map(r=>r.v),A.eligible,1)*1.08;
+  const x=v=>L+(v/max)*(R-L);
+  const step=(B-T)/rows.length;
+  const raw=max/4, mag=Math.pow(10,Math.floor(Math.log10(raw))), norm=raw/mag;
+  const gs=(norm>=5?5:norm>=2?2:1)*mag;
+  for(let v=0;v<=max;v+=gs){
+    svg.appendChild(el("line",{x1:x(v),y1:T,x2:x(v),y2:B,stroke:RULE,"stroke-width":1}));
+    const t=el("text",{x:x(v),y:B+11,"text-anchor":"middle","font-size":6.8,fill:FAINT,
+      "font-family":"IBM Plex Mono"});
+    t.textContent=v===0?"0":inr(v);svg.appendChild(t);
+  }
+  rows.forEach((r,i)=>{
+    const y=T+step*i+step*.24, h=step*.5;
+    const bind=r.k===A.binding.k;
+    const g=el("g");
+    g.appendChild(el("rect",{x:L,y,width:Math.max(1.5,x(r.v)-L),height:h,
+      fill:r.col,opacity:bind?.95:.35,rx:2}));
+    if(bind)g.appendChild(el("rect",{x:L-1,y:y-1.5,width:Math.max(3,x(r.v)-L+2),height:h+3,
+      fill:"none",stroke:r.col,"stroke-width":1.4,rx:3}));
+    const t=el("text",{x:L-7,y:y+h/2+3,"text-anchor":"end","font-size":7.6,
+      fill:bind?INK:DIM,"font-weight":bind?600:400,"font-family":"IBM Plex Sans"});
+    t.textContent=r.k;g.appendChild(t);
+    const v=el("text",{x:x(r.v)+5,y:y+h/2+3,"font-size":7.4,fill:r.col,"font-weight":600,
+      "font-family":"IBM Plex Mono"});
+    v.textContent=inr(r.v);g.appendChild(v);
+    hook(g,r.k+": "+inrFull(r.v)+(bind?"  ← this is what caps the deal":""));
+    svg.appendChild(g);
+  });
+  /* the sanction line cuts across every ceiling */
+  svg.appendChild(el("line",{x1:x(A.eligible),y1:T-2,x2:x(A.eligible),y2:B+2,
+    stroke:INK,"stroke-width":1.6,"stroke-dasharray":"4 3"}));
+  const sl=el("text",{x:x(A.eligible),y:T-2,"text-anchor":"middle","font-size":6.6,
+    fill:INK,"font-family":"IBM Plex Mono"});
+  sl.textContent="SANCTION "+inr(A.eligible);svg.appendChild(sl);
+}
+
+/* ══ 6. AMORTISATION ══════════════════════════════════════════ */
+function drawAmort(A){
+  const svg=clear("amort");
+  if(A.eligible<=0||A.n<=0){$("sAmort").textContent="NO SCHEDULE — NOTHING SANCTIONED";return;}
+  $("sAmort").innerHTML="PRINCIPAL vs INTEREST PER YEAR &middot; TOTAL INTEREST <b>"+inr(A.interest)+"</b>";
+  const r=A.rate/1200;
+  let bal=A.eligible;const years=[];
+  for(let y=0;y<A.tenure;y++){
+    let p=0,i=0;
+    for(let m=0;m<12&&bal>0;m++){
+      const iy=bal*r, py=Math.min(bal,A.emi-iy);
+      i+=iy;p+=py;bal-=py;
+    }
+    years.push({y:y+1,p,i,bal:Math.max(0,bal)});
+  }
+  const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
+  const L=34,R=W-32,T=10,B=H-16;
+  const maxBar=Math.max(...years.map(d=>d.p+d.i),1);
+  const bw=(R-L)/years.length;
+  const y0=v=>B-(v/maxBar)*(B-T);
+  const yb=v=>B-(v/A.eligible)*(B-T);
+  years.forEach((d,i)=>{
+    const g=el("g");
+    const xx=L+i*bw+bw*.16, w=bw*.68;
+    const hp=B-y0(d.p), hi=B-y0(d.p+d.i)-hp;
+    g.appendChild(el("rect",{x:xx,y:y0(d.p),width:w,height:Math.max(0,hp),fill:TEAL,opacity:.85}));
+    g.appendChild(el("rect",{x:xx,y:y0(d.p+d.i),width:w,height:Math.max(0,hi),fill:BRASS,opacity:.7}));
+    hook(g,"Year "+d.y+": principal "+inr(d.p)+" · interest "+inr(d.i)+
+      " · outstanding "+inr(d.bal));
+    svg.appendChild(g);
+  });
+  const pts=years.map((d,i)=>[L+i*bw+bw/2,yb(d.bal)]);
+  svg.appendChild(el("polyline",{points:pts.map(p=>p[0].toFixed(1)+","+p[1].toFixed(1)).join(" "),
+    fill:"none",stroke:INK,"stroke-width":1.5,opacity:.75}));
+  [0,Math.floor(years.length/2),years.length-1].forEach(i=>{
+    if(i<0||i>=years.length)return;
+    const t=el("text",{x:L+i*bw+bw/2,y:B+11,"text-anchor":"middle","font-size":6.8,
+      fill:FAINT,"font-family":"IBM Plex Mono"});
+    t.textContent="Y"+years[i].y;svg.appendChild(t);
+  });
+  const lg=el("g");
+  [["Principal",TEAL],["Interest",BRASS]].forEach(([n,c],i)=>{
+    lg.appendChild(el("rect",{x:L+i*62,y:T-8,width:7,height:7,fill:c,rx:1}));
+    const t=el("text",{x:L+i*62+10,y:T-1.5,"font-size":6.8,fill:FAINT,
+      "font-family":"IBM Plex Mono"});
+    t.textContent=n;lg.appendChild(t);
+  });
+  svg.appendChild(lg);
+  const bl=el("text",{x:R+3,y:yb(0)+3,"font-size":6.6,fill:INK,"font-family":"IBM Plex Mono"});
+  bl.textContent="closed";svg.appendChild(bl);
+}
+
+/* ══ 7. RULE TRACE ════════════════════════════════════════════ */
+function drawRules(A){
+  const tb=document.querySelector("#tRules tbody");tb.innerHTML="";
+  const failed=A.rules.filter(r=>!r.pass).length;
+  $("sRules").innerHTML=failed
+    ? "<b>"+failed+" OF "+A.rules.length+" GATES FAILING</b>"
+    : "ALL "+A.rules.length+" GATES CLEAR";
+  A.rules.forEach(r=>{
+    const tr=document.createElement("tr");
+    if(!r.pass)tr.className="fail";
+    tr.innerHTML="<td>"+r.n+"</td><td class='num'>"+r.req+"</td>"+
+      "<td class='num'>"+r.act+"</td>"+
+      "<td class='num'><span class='flag "+(r.pass?"p":"f")+"'>"+
+      (r.pass?"PASS":"FAIL")+"</span></td>";
+    hook(tr,r.n+" — "+r.why);
+    tb.appendChild(tr);
+  });
+}
+
+/* ══ 8. ELIGIBILITY SURFACE  tenure × score ═══════════════════ */
+function drawSurface(A){
+  const svg=clear("surface");
+  const T=TYPES[S.type];
+  const tenures=[3,5,7,10,15,20,25,30].filter(t=>t<=T.maxT);
+  const bands=BANDS.slice().reverse();          /* low score → high */
+  const cells=[];
+  tenures.forEach((tn,ri)=>bands.forEach((b,ci)=>{
+    const probe=Math.min(tn,Math.max(0,Math.min(T.maxT,EMP[S.emp].retire-S.age)));
+    const v=probe<1?0:appraise({...S,tenure:tn,cibil:Math.min(b.hi,Math.max(b.lo,760))}).eligible;
+    cells.push({ri,ci,tn,b,v,dead:probe<1});
+  }));
+  const vals=cells.map(c=>c.v),hi=Math.max(...vals,1);
+  const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
+  const L=34,T0=20;
+  const cw=(W-L-4)/bands.length, ch=(H-T0-4)/tenures.length;
+  bands.forEach((b,i)=>{
+    const t=el("text",{x:L+i*cw+cw/2,y:8,"text-anchor":"middle","font-size":6,fill:FAINT,
+      "font-family":"IBM Plex Mono"});
+    t.textContent=b.n;svg.appendChild(t);
+  });
+  const hd=el("text",{x:L+(W-L-4)/2,y:16,"text-anchor":"middle","font-size":5.6,fill:FAINT,
+    "font-family":"IBM Plex Mono"});
+  hd.textContent="CIBIL BAND →";svg.appendChild(hd);
+  tenures.forEach((tn,i)=>{
+    const t=el("text",{x:L-5,y:T0+i*ch+ch/2+3,"text-anchor":"end","font-size":6.8,fill:FAINT,
+      "font-family":"IBM Plex Mono"});
+    t.textContent=tn+"y";svg.appendChild(t);
+  });
+  const myBand=bands.findIndex(b=>b===A.band);
+  const myTen=tenures.indexOf(tenures.slice().reverse().find(t=>t<=A.tenure));
+  cells.forEach(c=>{
+    const g=el("g");
+    const u=c.v/hi;
+    g.appendChild(el("rect",{x:L+c.ci*cw+1,y:T0+c.ri*ch+1,width:cw-2,height:ch-2,
+      fill:c.v<=0?"#efe9dc":"rgba(15,82,87,"+(0.10+u*0.8).toFixed(3)+")",rx:2}));
+    if(cw>34&&ch>15&&c.v>0){
+      const t=el("text",{x:L+c.ci*cw+cw/2,y:T0+c.ri*ch+ch/2+3,"text-anchor":"middle",
+        "font-size":6.4,fill:u>.5?"#fff":INK,"font-family":"IBM Plex Mono","font-weight":500});
+      t.textContent=inr(c.v).replace("₹","");g.appendChild(t);
+    }
+    hook(g,c.tn+"-year tenure at CIBIL "+c.b.n+": max sanction "+inrFull(c.v));
+    svg.appendChild(g);
+  });
+  if(myBand>=0&&myTen>=0){
+    svg.appendChild(el("rect",{x:L+myBand*cw+1,y:T0+myTen*ch+1,width:cw-2,height:ch-2,
+      fill:"none",stroke:BRASS,"stroke-width":2,rx:2}));
+  }
+}
+
+/* ══ 9. TORNADO  what moves the number ═══════════════════════ */
+function drawTornado(A){
+  const svg=clear("tornado");
+  const T=TYPES[S.type];
+  const base=A.eligible;
+  const levers=[
+    {n:"CIBIL +50",      o:{cibil:Math.min(900,S.cibil+50)}},
+    {n:"Tenure +5 yrs",  o:{tenure:Math.min(T.maxT,S.tenure+5)}},
+    {n:"Income +₹20k",o:{income:S.income+20000}},
+    {n:"Clear ₹10k EMI",o:{existing:Math.max(0,S.existing-10000)}},
+    {n:"Co-applicant ₹40k",o:{co:S.co+40000}},
+    T.secured?{n:"Security +"+inr(T.asset.step*10),
+               o:{asset:Math.min(T.asset.max,S.asset+T.asset.step*10)}}
+             :{n:"FOIR +5 pts",o:{foirAdj:Math.min(12,S.foirAdj+5)}}
+  ];
+  const data=levers.map(l=>({n:l.n,d:appraise({...S,...l.o}).eligible-base}))
+    .sort((a,b)=>Math.abs(b.d)-Math.abs(a.d));
+  const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
+  const L=92,R=W-46,T0=8,B=H-14;
+  const max=Math.max(...data.map(d=>Math.abs(d.d)),1);
+  const x=v=>L+(v/max)*(R-L);
+  const step=(B-T0)/data.length;
+  svg.appendChild(el("line",{x1:L,y1:T0,x2:L,y2:B,stroke:RULE2,"stroke-width":1}));
+  data.forEach((d,i)=>{
+    const y=T0+step*i+step*.26, h=step*.48;
+    const g=el("g");
+    const w=Math.max(1,x(Math.abs(d.d))-L);
+    const col=d.d>0?OK:d.d<0?NO:RULE2;
+    g.appendChild(el("rect",{x:L,y,width:w,height:h,fill:col,opacity:.8,rx:2}));
+    const t=el("text",{x:L-6,y:y+h/2+3,"text-anchor":"end","font-size":7.2,fill:DIM,
+      "font-family":"IBM Plex Sans"});
+    t.textContent=d.n;g.appendChild(t);
+    const v=el("text",{x:L+w+5,y:y+h/2+3,"font-size":7,fill:col,"font-weight":600,
+      "font-family":"IBM Plex Mono"});
+    v.textContent=(d.d>0?"+":d.d<0?"−":"")+inr(Math.abs(d.d));
+    g.appendChild(v);
+    hook(g,d.n+": sanction moves "+(d.d>=0?"up ":"down ")+inrFull(Math.abs(d.d))+
+      (Math.abs(d.d)<1?" — another ceiling is binding":""));
+    svg.appendChild(g);
+  });
+  const note=el("text",{x:L,y:B+10,"font-size":6.2,fill:FAINT,"font-family":"IBM Plex Mono"});
+  note.textContent="FLAT BAR = A DIFFERENT CEILING IS ALREADY BINDING";
+  svg.appendChild(note);
+}
+
+/* ══ 10. RENDER ══════════════════════════════════════════════ */
+function render(){
+  const A=appraise(S);
+  syncLabels(A);
+  drawSheet(A);drawCeilings(A);drawAmort(A);drawRules(A);drawSurface(A);drawTornado(A);
+}
+applyTypeRanges(true);
+$("fType").value=S.type;$("fEmp").value=S.emp;
+render();
+let rt;addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(render,140);});
+</script>
+</body>
+</html>

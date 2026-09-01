@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 420" width="1000" height="420" role="img" aria-label="Loan appraisal cover: four eligibility ceilings with affordability binding the sanction">
+  <defs>
+    <style>
+      .lbl{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:19px;fill:#7d857f;letter-spacing:.05em}
+      .bindlbl{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:19px;fill:#1c2321;font-weight:600;letter-spacing:.05em}
+      .val{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:18px;font-weight:600}
+      .stampw{font-family:Georgia,'Newsreader',serif;font-size:40px;font-weight:600;fill:#b8860b;letter-spacing:.05em}
+      .stamps{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:13px;fill:#b8860b;letter-spacing:.15em}
+      .cap{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:15px;fill:#9a9a90;letter-spacing:.13em}
+      .note{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:14px;fill:#7d857f;letter-spacing:.04em}
+      .axv{font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:13px;fill:#b3ab9e;letter-spacing:.04em}
+    </style>
+  </defs>
+
+  <rect width="1000" height="420" fill="#f7f4ee"/>
+  <rect x="0" y="0" width="1000" height="4" fill="#0f5257"/>
+
+  <text class="cap" x="52" y="50">CREDIT APPRAISAL · WHICH CEILING BINDS?</text>
+
+  <!-- ── decision stamp, own column: x 52–280 ── -->
+  <g transform="translate(52,86) rotate(-1.6)">
+    <rect x="0" y="0" width="212" height="100" rx="5" fill="none" stroke="#b8860b" stroke-width="3.5"/>
+    <text class="stampw" x="106" y="50" text-anchor="middle">REFER</text>
+    <text class="stamps" x="106" y="76" text-anchor="middle">COUNTER-OFFER</text>
+  </g>
+  <text class="note" x="52" y="248">₹78.00 L asked</text>
+  <text class="note" x="52" y="272">₹71.94 L offered</text>
+  <text class="note" x="52" y="302" fill="#a9762f">Affordability is the</text>
+  <text class="note" x="52" y="322" fill="#a9762f">constraint, not the property.</text>
+
+  <!-- ── gridlines: bars run 538 → 920 ── -->
+  <g stroke="#e0d8c9" stroke-width="1">
+    <line x1="611" y1="76" x2="611" y2="332"/>
+    <line x1="684" y1="76" x2="684" y2="332"/>
+    <line x1="758" y1="76" x2="758" y2="332"/>
+    <line x1="831" y1="76" x2="831" y2="332"/>
+    <line x1="904" y1="76" x2="904" y2="332"/>
+  </g>
+
+  <!-- Requested -->
+  <text class="lbl" x="520" y="107" text-anchor="end">Requested</text>
+  <rect x="538" y="88" width="285" height="26" rx="3" fill="#3f8b8f" opacity=".35"/>
+  <text class="val" x="835" y="107" fill="#3f8b8f">₹78.00 L</text>
+
+  <!-- Collateral / LTV -->
+  <text class="lbl" x="520" y="167" text-anchor="end">Collateral (LTV)</text>
+  <rect x="538" y="148" width="278" height="26" rx="3" fill="#0f5257" opacity=".35"/>
+  <text class="val" x="828" y="167" fill="#0f5257">₹76.00 L</text>
+
+  <!-- Affordability / FOIR — binding -->
+  <text class="bindlbl" x="520" y="227" text-anchor="end">Affordability (FOIR)</text>
+  <rect x="536.5" y="206.5" width="266" height="29" rx="4" fill="none" stroke="#a9762f" stroke-width="2"/>
+  <rect x="538" y="208" width="263" height="26" rx="3" fill="#a9762f" opacity=".95"/>
+  <text class="val" x="813" y="227" fill="#a9762f">₹71.94 L</text>
+
+  <!-- Income multiple -->
+  <text class="lbl" x="520" y="287" text-anchor="end">Income multiple</text>
+  <rect x="538" y="268" width="382" height="26" rx="3" fill="#6b4570" opacity=".32"/>
+  <text class="val" x="910" y="287" fill="#4a2f4e" text-anchor="end">₹1.04 Cr</text>
+
+  <!-- sanction line -->
+  <line x1="801" y1="80" x2="801" y2="328" stroke="#1c2321" stroke-width="2" stroke-dasharray="6 4"/>
+  <text class="cap" x="801" y="70" text-anchor="middle" fill="#1c2321">SANCTION ₹71.94 L</text>
+
+  <!-- axis -->
+  <line x1="538" y1="332" x2="920" y2="332" stroke="#c9bda6" stroke-width="1"/>
+  <text class="axv" x="538" y="350" text-anchor="middle">0</text>
+  <text class="axv" x="684" y="350" text-anchor="middle">₹40 L</text>
+  <text class="axv" x="831" y="350" text-anchor="middle">₹80 L</text>
+
+  <!-- footer terms strip -->
+  <line x1="52" y1="366" x2="948" y2="366" stroke="#c9bda6" stroke-width="1"/>
+  <text class="cap" x="52"  y="396">EMI ₹61,750</text>
+  <text class="cap" x="248" y="396">RATE 8.35%</text>
+  <text class="cap" x="424" y="396">FOIR 55.0%</text>
+  <text class="cap" x="600" y="396">LTV 75.7%</text>
+  <text class="cap" x="776" y="396">TENURE 20 YRS</text>
+</svg>

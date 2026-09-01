@@ -15,8 +15,8 @@
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%;overflow:hidden}
   body{background:var(--bg);color:var(--ink);font-family:'Manrope',sans-serif;font-weight:400;
-    -webkit-font-smoothing:antialiased;display:grid;grid-template-rows:auto auto 1fr auto;
-    gap:.55rem;padding:.7rem 1rem .75rem}
+    -webkit-font-smoothing:antialiased;display:grid;grid-template-rows:auto auto auto 1fr auto;
+    gap:.5rem;padding:.6rem 1rem .7rem}
 
   .head{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
   .head .l{display:flex;align-items:center;gap:.9rem;flex-wrap:wrap}
@@ -24,38 +24,76 @@
     text-transform:uppercase;color:var(--em);text-decoration:none;
     border:1px solid var(--rule2);padding:.24rem .55rem;border-radius:5px}
   a.home:hover{background:var(--em);color:#fff;border-color:var(--em)}
-  h1{font-size:1.5rem;font-weight:800;letter-spacing:-.03em;line-height:1}
+  h1{font-size:1.45rem;font-weight:800;letter-spacing:-.03em;line-height:1}
   h1 span{color:var(--coral)}
-  .kick{font-family:'Source Code Pro',monospace;font-size:.54rem;color:var(--dim);
+  .kick{font-family:'Source Code Pro',monospace;font-size:.53rem;color:var(--dim);
     text-align:right;line-height:1.7;letter-spacing:.05em}
 
+  /* ── control bar ─────────────────────────────────────────── */
+  .bar{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;
+    background:var(--card);border:1px solid var(--rule);border-radius:9px;padding:.38rem .7rem}
+  .fg{display:flex;align-items:center;gap:.35rem}
+  .fg > label{font-family:'Source Code Pro',monospace;font-size:.5rem;letter-spacing:.09em;
+    text-transform:uppercase;color:var(--dim);white-space:nowrap}
+  .chips{display:flex;gap:.2rem}
+  .chip{font-family:'Source Code Pro',monospace;font-size:.55rem;padding:.2rem .42rem;
+    border:1px solid var(--rule2);background:transparent;color:var(--dim);
+    border-radius:4px;cursor:pointer;transition:all .14s}
+  .chip:hover{border-color:var(--em);color:var(--ink)}
+  .chip.on{background:var(--em);border-color:var(--em);color:#fff;font-weight:600}
+  select{font-family:'Source Code Pro',monospace;font-size:.55rem;padding:.2rem .3rem;
+    border:1px solid var(--rule2);border-radius:4px;background:#fff;color:var(--ink);cursor:pointer}
+  select:focus{outline:1.5px solid var(--em);outline-offset:1px}
+  .par{display:flex;align-items:center;gap:.4rem;background:rgba(249,115,22,.07);
+    border:1px solid rgba(249,115,22,.3);border-radius:6px;padding:.2rem .5rem}
+  .par label{font-family:'Source Code Pro',monospace;font-size:.5rem;letter-spacing:.07em;
+    text-transform:uppercase;color:var(--coral);white-space:nowrap;font-weight:600}
+  .par input[type=range]{width:88px;accent-color:var(--coral);height:3px;cursor:pointer}
+  .par .out{font-family:'Source Code Pro',monospace;font-size:.58rem;font-weight:600;
+    color:var(--coral);min-width:44px}
+  .reset{font-family:'Source Code Pro',monospace;font-size:.52rem;letter-spacing:.09em;
+    text-transform:uppercase;background:transparent;border:1px solid var(--rule2);
+    color:var(--dim);border-radius:4px;padding:.24rem .5rem;cursor:pointer}
+  .reset:hover{border-color:var(--red);color:var(--red)}
+  .scope{font-family:'Source Code Pro',monospace;font-size:.52rem;color:var(--dim);margin-left:auto}
+  .scope b{color:var(--em);font-weight:600}
+
+  /* ── KPI: progress-to-target tiles (unique to this dashboard) ── */
   .kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:.5rem}
-  .kpi{background:var(--card);border:1px solid var(--rule);border-radius:9px;padding:.45rem .7rem}
-  .kpi .k{font-family:'Source Code Pro',monospace;font-size:.49rem;letter-spacing:.09em;
+  .kpi{background:var(--card);border:1px solid var(--rule);border-radius:9px;
+    padding:.4rem .65rem .45rem;display:flex;flex-direction:column;gap:.14rem}
+  .kpi .k{font-family:'Source Code Pro',monospace;font-size:.47rem;letter-spacing:.09em;
     text-transform:uppercase;color:var(--dim)}
-  .kpi .v{font-size:1.4rem;font-weight:700;line-height:1.15;letter-spacing:-.02em}
-  .kpi .d{font-size:.57rem;color:var(--dim);line-height:1.3}
+  .kpi .row{display:flex;align-items:baseline;justify-content:space-between;gap:.3rem}
+  .kpi .v{font-size:1.3rem;font-weight:700;line-height:1.1;letter-spacing:-.02em}
+  .kpi .pct{font-family:'Source Code Pro',monospace;font-size:.55rem;font-weight:600}
+  .kpi .track{position:relative;height:4px;background:#eef4f1;border-radius:2px;overflow:visible}
+  .kpi .track i{position:absolute;left:0;top:0;bottom:0;border-radius:2px;transition:width .25s}
+  .kpi .track u{position:absolute;top:-2px;bottom:-2px;width:1.5px;background:var(--ink);opacity:.55}
+  .kpi .d{font-family:'Source Code Pro',monospace;font-size:.5rem;color:var(--dim);line-height:1.25}
   .up{color:var(--em);font-weight:600}.dn{color:var(--red);font-weight:600}
   .c-em{color:var(--em)}.c-coral{color:var(--coral)}.c-navy{color:var(--navy)}
   .c-red{color:var(--red)}.c-plum{color:var(--plum)}.c-gold{color:var(--gold)}
 
-  .grid{display:grid;grid-template-columns:1.3fr 1.05fr 1.05fr;grid-template-rows:1fr 1fr;gap:.55rem;min-height:0}
+  .grid{display:grid;grid-template-columns:1.3fr 1.05fr 1.05fr;grid-template-rows:1fr 1fr;gap:.5rem;min-height:0}
   .card{background:var(--card);border:1px solid var(--rule);border-radius:10px;
-    padding:.5rem .78rem .55rem;display:flex;flex-direction:column;min-height:0;min-width:0}
-  .card h2{font-size:.86rem;font-weight:700;letter-spacing:-.01em;line-height:1.2}
-  .card .s{font-family:'Source Code Pro',monospace;font-size:.51rem;color:var(--dim);
-    margin-bottom:.22rem;letter-spacing:.04em;line-height:1.4}
+    padding:.45rem .75rem .5rem;display:flex;flex-direction:column;min-height:0;min-width:0}
+  .card h2{font-size:.83rem;font-weight:700;letter-spacing:-.01em;line-height:1.2}
+  .card .s{font-family:'Source Code Pro',monospace;font-size:.49rem;color:var(--dim);
+    margin-bottom:.2rem;letter-spacing:.04em;line-height:1.4}
   .card .s b{color:var(--coral)}
   .viz{flex:1;min-height:0;position:relative}
   .viz svg{width:100%;height:100%;display:block;overflow:visible}
   .span2{grid-row:span 2}
+  .empty{font-family:'Source Code Pro',monospace;font-size:.6rem;color:var(--dim);
+    display:flex;align-items:center;justify-content:center;height:100%;text-align:center}
 
   .verdict{background:var(--card);border:1px solid var(--rule);border-left:4px solid var(--coral);
-    border-radius:9px;padding:.5rem .9rem;font-size:.8rem;line-height:1.5;color:var(--body)}
+    border-radius:9px;padding:.45rem .9rem;font-size:.76rem;line-height:1.5;color:var(--body)}
   .verdict b{color:var(--coral);font-weight:700}
   .verdict .fix{color:var(--em)}
-  .verdict .src{font-family:'Source Code Pro',monospace;font-size:.51rem;color:var(--dim);
-    letter-spacing:.03em;margin-top:.2rem;display:block}
+  .verdict .src{font-family:'Source Code Pro',monospace;font-size:.49rem;color:var(--dim);
+    letter-spacing:.03em;margin-top:.18rem;display:block}
 
   .tip{position:fixed;pointer-events:none;background:var(--ink);color:#fff;font-size:.64rem;
     padding:.35rem .55rem;border-radius:5px;opacity:0;transition:opacity .12s;z-index:50;white-space:nowrap}
@@ -65,7 +103,9 @@
     .grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}
     .span2{grid-row:span 1}.viz{min-height:210px}
     .kpis{grid-template-columns:repeat(3,1fr)}
+    .scope{margin-left:0}
   }
+  @media (max-width:620px){.kpis{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -74,34 +114,45 @@
       <a class="home" href="../index.html">&larr; Portfolio</a>
       <h1>The <span>Slipped</span> Quarter</h1>
     </div>
-    <div class="kick">SIMULATED B2B PIPELINE · 4 QUARTERS · 8 REPS · 3 SEGMENTS<br/>SALES ANALYTICS · PIPELINE &amp; QUOTA</div>
+    <div class="kick">SIMULATED B2B PIPELINE · 812 DEALS · 8 REPS · 3 SEGMENTS<br/>SALES ANALYTICS · PIPELINE &amp; QUOTA</div>
   </div>
 
-  <div class="kpis">
-    <div class="kpi"><div class="k">Closed won</div><div class="v c-em">$8.62M</div><div class="d"><span class="dn">▼ 9%</span> vs plan</div></div>
-    <div class="kpi"><div class="k">Quota attainment</div><div class="v c-coral">91%</div><div class="d">3 of 8 reps at 100%</div></div>
-    <div class="kpi"><div class="k">Win rate</div><div class="v c-navy">24.6%</div><div class="d">of qualified</div></div>
-    <div class="kpi"><div class="k">Avg deal size</div><div class="v c-plum">$47K</div><div class="d"><span class="up">▲ 12%</span> YoY</div></div>
-    <div class="kpi"><div class="k">Sales cycle</div><div class="v c-gold">84 d</div><div class="d">+11 d vs LY</div></div>
-    <div class="kpi"><div class="k">Slipped to Q1</div><div class="v c-red">$2.1M</div><div class="d">31 deals</div></div>
+  <div class="bar">
+    <div class="fg"><label>Region</label><div class="chips" id="cReg"></div></div>
+    <div class="fg"><label>Segment</label>
+      <select id="fSeg"><option value="">All</option></select></div>
+    <div class="fg"><label>Deal size</label>
+      <select id="fBand"><option value="">All</option></select></div>
+    <div class="fg"><label>Rep</label>
+      <select id="fRep"><option value="">All</option></select></div>
+    <div class="par"><label>Security-review SLA</label>
+      <input type="range" id="pSla" min="5" max="40" step="1" value="40"/>
+      <span class="out" id="oSla">none</span></div>
+    <div class="par"><label>Quota / rep</label>
+      <input type="range" id="pQuota" min="700" max="1600" step="25" value="1200"/>
+      <span class="out" id="oQuota">$1.20M</span></div>
+    <button class="reset" id="reset">Reset</button>
+    <div class="scope" id="scope"></div>
   </div>
+
+  <div class="kpis" id="kpis"></div>
 
   <div class="grid">
     <div class="card span2">
       <h2>Rep ranking, month by month</h2>
-      <div class="s">POSITION BY CLOSED REVENUE · <b>THICK = FINISHED TOP 3</b></div>
+      <div class="s">POSITION BY CUMULATIVE CLOSED REVENUE · <b>THICK = FINISHED TOP 3</b></div>
       <div class="viz"><svg id="bump" preserveAspectRatio="none"></svg></div>
     </div>
 
     <div class="card">
-      <h2>How the quarter got to 91%</h2>
-      <div class="s">BRIDGE FROM OPENING PIPELINE TO CLOSED WON</div>
+      <h2 id="hBridge">How the quarter got here</h2>
+      <div class="s">PIPELINE IN SCOPE &rarr; CLOSED WON</div>
       <div class="viz"><svg id="bridge" preserveAspectRatio="none"></svg></div>
     </div>
 
     <div class="card">
       <h2>Win rate by segment &amp; deal size</h2>
-      <div class="s">GREEN = WINNING · ORANGE = STRUGGLING</div>
+      <div class="s">GREEN = WINNING · ORANGE = STRUGGLING · BLANK = NO DEALS</div>
       <div class="viz"><svg id="heat" preserveAspectRatio="none"></svg></div>
     </div>
 
@@ -113,20 +164,12 @@
 
     <div class="card">
       <h2>Where deals stall</h2>
-      <div class="s">DAYS SPENT IN EACH STAGE · <b>DOT = MEDIAN</b></div>
+      <div class="s">DAYS IN EACH STAGE · <b>DOT = MEDIAN</b> · RING = P90</div>
       <div class="viz"><svg id="stage" preserveAspectRatio="none"></svg></div>
     </div>
   </div>
 
-  <div class="verdict"><b>The quarter did not lose deals, it postponed them.</b> Win rate held at 24.6% and
-    deal size grew 12%, but the cycle stretched 11 days and $2.1M slipped into Q1 — almost exactly the
-    amount missing from plan. The stall is concentrated in one stage: <b>Security Review, where mid-market
-    deals sit for a median 26 days</b>, four times longer than any other step.
-    <span class="fix"><b>Pre-stage security documentation at qualification</b></span> and most of that
-    $2.1M lands in the quarter it was forecast for.
-    <span class="src">DATA · Simulated B2B pipeline generated from a seeded model with realistic win-rate,
-    cycle-time and quota behaviour. Built to demonstrate the analysis, not to report real performance.</span></div>
-
+  <div class="verdict" id="verdict"></div>
   <div class="tip" id="tip"></div>
 
 <script>
@@ -143,32 +186,179 @@ function hook(n,txt){
   n.addEventListener("mouseleave",()=>tip.classList.remove("on"));
 }
 const size=s=>{const r=s.parentNode.getBoundingClientRect();return[Math.max(r.width,10),Math.max(r.height,10)];};
+const clear=id=>{const s=document.getElementById(id);s.innerHTML="";return s;};
 
-/* ─── 1. BUMP CHART  rep ranking over 6 months ──────────────── */
+/* ══ 1. SEEDED DEAL-LEVEL DATA ═════════════════════════════════
+   812 individual deals. Every number on this screen is aggregated
+   from these rows, so filters and parameters move all of them.   */
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);
+  t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+const rnd=mulberry32(20260901);
+
 const MONTHS=["Jul","Aug","Sep","Oct","Nov","Dec"];
 const REPS=[
-  {n:"Devi A.",   c:EM,    r:[3,2,1,1,2,1]},
-  {n:"Chuck M.",  c:CORAL, r:[1,1,2,3,1,2]},
-  {n:"Kelly W.",  c:NAVY,  r:[2,3,3,2,3,3]},
-  {n:"Marcus T.", c:PLUM,  r:[5,4,4,5,4,4]},
-  {n:"Rhea S.",   c:GOLD,  r:[4,5,6,4,5,5]},
-  {n:"Ivan K.",   c:EM2,   r:[6,6,5,6,6,6]},
-  {n:"Tara B.",   c:CORAL2,r:[7,8,7,7,7,7]},
-  {n:"Owen P.",   c:RULE2, r:[8,7,8,8,8,8]}
+  {n:"Devi A.",   reg:"West",    c:EM,     skill:1.22},
+  {n:"Chuck M.",  reg:"West",    c:CORAL,  skill:1.14},
+  {n:"Kelly W.",  reg:"East",    c:NAVY,   skill:1.06},
+  {n:"Marcus T.", reg:"East",    c:PLUM,   skill:0.96},
+  {n:"Rhea S.",   reg:"Central", c:GOLD,   skill:0.90},
+  {n:"Ivan K.",   reg:"Central", c:EM2,    skill:0.84},
+  {n:"Tara B.",   reg:"South",   c:CORAL2, skill:0.80},
+  {n:"Owen P.",   reg:"South",   c:RULE2,  skill:0.72}
 ];
-function drawBump(){
-  const svg=document.getElementById("bump");svg.innerHTML="";
+const REGIONS=["West","East","Central","South"];
+const REG_COL={West:EM,East:EM2,Central:CORAL,South:GOLD};
+const SEG=["Enterprise","Mid-market","SMB"];
+const BANDS=["<$25K","$25–75K","$75–150K","$150K+"];
+const STAGES=["Qualification","Discovery","Proposal","Security review","Negotiation","Close"];
+/* base win probability by segment × size band, in % */
+const WINP={
+  "Enterprise":[31,29,25,20],
+  "Mid-market":[27,23,16,11],
+  "SMB":       [39,34,22,10]
+};
+const SEG_W=[["Enterprise",.22],["Mid-market",.46],["SMB",.32]];
+const pick=pairs=>{let r=rnd(),a=0;for(const[v,w]of pairs){a+=w;if(r<=a)return v;}return pairs[pairs.length-1][0];};
+const bandOf=a=>a<25000?0:a<75000?1:a<150000?2:3;
+const SLIP_CUTOFF=92;              /* deals longer than a quarter risk slipping */
+
+const DEALS=[];
+for(let i=0;i<812;i++){
+  const rep=REPS[Math.floor(rnd()*REPS.length)];
+  const seg=pick(SEG_W);
+  const amount=seg==="Enterprise" ? Math.round((55000+rnd()*rnd()*420000)/1000)*1000
+             : seg==="Mid-market" ? Math.round((22000+rnd()*rnd()*180000)/1000)*1000
+             :                      Math.round(( 3000+rnd()*rnd()* 48000)/500)*500;
+  const bi=bandOf(amount);
+  /* stage-level cycle days — security review is the pathological stage */
+  const days=[
+    4+rnd()*9, 6+rnd()*15, 5+rnd()*12,
+    seg==="Mid-market" ? 16+rnd()*40 : seg==="Enterprise" ? 9+rnd()*24 : 2+rnd()*10,
+    6+rnd()*19, 2+rnd()*8
+  ].map(d=>Math.round(d));
+  const p=Math.min(.72,WINP[seg][bi]/100*rep.skill);
+  const latent=rnd()<p?"won":"lost";
+  const dq=rnd()<.17;
+  const slipDraw=rnd();
+  const m=Math.floor(rnd()*MONTHS.length);
+  const openDraw=rnd();
+  DEALS.push({rep:rep.n,reg:rep.reg,seg,band:BANDS[bi],bi,amount,days,latent,dq,slipDraw,openDraw,m});
+}
+
+/* ══ 2. STATE + CONTROLS ══════════════════════════════════════ */
+const S={reg:new Set(REGIONS),seg:"",band:"",rep:"",sla:40,quota:1200};
+const cReg=document.getElementById("cReg");
+REGIONS.forEach(r=>{
+  const b=document.createElement("button");
+  b.className="chip on";b.textContent=r;b.setAttribute("aria-pressed","true");
+  b.onclick=()=>{
+    if(S.reg.has(r)){if(S.reg.size===1)return;S.reg.delete(r);b.classList.remove("on");b.setAttribute("aria-pressed","false");}
+    else{S.reg.add(r);b.classList.add("on");b.setAttribute("aria-pressed","true");}
+    render();};
+  cReg.appendChild(b);
+});
+const fill=(id,items)=>{const s=document.getElementById(id);
+  items.forEach(v=>{const o=document.createElement("option");o.value=v;o.textContent=v;s.appendChild(o);});};
+fill("fSeg",SEG);fill("fBand",BANDS);fill("fRep",REPS.map(r=>r.n));
+const on=(id,fn)=>document.getElementById(id).addEventListener("input",fn);
+const slaLabel=v=>v>=40?"none":v+" d";
+const quotaLabel=v=>"$"+(v/1000).toFixed(2)+"M";
+on("fSeg",e=>{S.seg=e.target.value;render();});
+on("fBand",e=>{S.band=e.target.value;render();});
+on("fRep",e=>{S.rep=e.target.value;render();});
+on("pSla",e=>{S.sla=+e.target.value;document.getElementById("oSla").textContent=slaLabel(S.sla);render();});
+on("pQuota",e=>{S.quota=+e.target.value;document.getElementById("oQuota").textContent=quotaLabel(S.quota);render();});
+document.getElementById("reset").onclick=()=>{
+  Object.assign(S,{seg:"",band:"",rep:"",sla:40,quota:1200});
+  S.reg=new Set(REGIONS);
+  ["fSeg","fBand","fRep"].forEach(i=>document.getElementById(i).value="");
+  document.getElementById("pSla").value=40;document.getElementById("pQuota").value=1200;
+  document.getElementById("oSla").textContent="none";
+  document.getElementById("oQuota").textContent="$1.20M";
+  [...cReg.children].forEach(c=>{c.classList.add("on");c.setAttribute("aria-pressed","true");});
+  render();};
+
+/* ══ 3. THE MODEL — parameters resolve each deal's outcome ═════
+   Capping security review shortens the cycle. A deal that only
+   slipped because it ran past the quarter converts back to its
+   latent won/lost result once the cap brings it inside.          */
+function resolve(d){
+  const days=d.days.slice();
+  days[3]=Math.min(days[3],S.sla);
+  const cycle=days.reduce((a,b)=>a+b,0);
+  let outcome;
+  if(d.dq)                                        outcome="dq";
+  else if(d.openDraw<.075)                        outcome="open";
+  else if(cycle>SLIP_CUTOFF&&d.slipDraw<.55)      outcome="slipped";
+  else                                            outcome=d.latent;
+  return {...d,days,cycle,outcome,recovered:(d.days.reduce((a,b)=>a+b,0)>SLIP_CUTOFF&&d.slipDraw<.55&&outcome!=="slipped"&&outcome!=="dq"&&outcome!=="open")};
+}
+const inScope=()=>DEALS.filter(d=>
+  S.reg.has(d.reg)&&(!S.seg||d.seg===S.seg)&&(!S.band||d.band===S.band)&&(!S.rep||d.rep===S.rep))
+  .map(resolve);
+const sum=(a,f)=>a.reduce((s,x)=>s+f(x),0);
+const money=v=>v>=1e6?"$"+(v/1e6).toFixed(2)+"M":v>=1e3?"$"+Math.round(v/1000)+"K":"$"+Math.round(v);
+const quantile=(arr,q)=>{if(!arr.length)return 0;const a=arr.slice().sort((x,y)=>x-y);
+  const p=(a.length-1)*q,lo=Math.floor(p),hi=Math.ceil(p);
+  return lo===hi?a[lo]:a[lo]+(a[hi]-a[lo])*(p-lo);};
+
+/* ══ 4. KPI ROW — progress-to-target tiles ════════════════════ */
+function drawKpis(M){
+  const tiles=[
+    {k:"Closed won",     v:money(M.won),                 pct:M.convert/20*100,col:EM,
+     d:M.convert.toFixed(1)+"% of "+money(M.pipeline)+" · target 20%"},
+    {k:"Quota attainment",v:M.attain.toFixed(0)+"%",     pct:M.attain,        col:M.attain>=100?EM:CORAL,
+     d:M.repsAt+" of "+M.repsN+" reps at 100%"},
+    {k:"Win rate",       v:M.winRate.toFixed(1)+"%",     pct:M.winRate/30*100,col:NAVY,
+     d:M.wonN+" won of "+M.decided+" decided"},
+    {k:"Avg deal size",  v:money(M.avgDeal),             pct:M.avgDeal/50000*100,col:PLUM,
+     d:"target $50K"},
+    {k:"Sales cycle",    v:M.cycle.toFixed(0)+" d",      pct:70/Math.max(M.cycle,1)*100,col:GOLD,
+     d:"median · target 70 d",inv:true},
+    {k:"Slipped out",    v:money(M.slipped),             pct:M.slipShare,     col:RED,
+     d:M.slipN+" deals · "+M.slipShare.toFixed(1)+"% of pipeline",inv:true}
+  ];
+  const box=document.getElementById("kpis");box.innerHTML="";
+  tiles.forEach(t=>{
+    const w=Math.max(0,Math.min(140,t.pct));
+    const div=document.createElement("div");
+    div.className="kpi";
+    div.innerHTML=
+      '<div class="k">'+t.k+'</div>'+
+      '<div class="row"><span class="v" style="color:'+t.col+'">'+t.v+'</span>'+
+        '<span class="pct" style="color:'+t.col+'">'+(t.inv?"":"")+Math.round(t.pct)+'%</span></div>'+
+      '<div class="track"><i style="width:'+(w/1.4)+'%;background:'+t.col+'"></i>'+
+        '<u style="left:'+(100/1.4)+'%"></u></div>'+
+      '<div class="d">'+t.d+'</div>';
+    hook(div,t.k+": "+t.v+" — "+Math.round(t.pct)+"% of target ("+t.d+")");
+    box.appendChild(div);
+  });
+}
+
+/* ══ 5. BUMP CHART  rep rank by cumulative closed revenue ═════ */
+function drawBump(rows){
+  const svg=clear("bump");
+  const reps=REPS.filter(r=>S.reg.has(r.reg)&&(!S.rep||r.n===S.rep));
+  if(!reps.length||!rows.length){svg.innerHTML="";return;}
+  const cum={};reps.forEach(r=>cum[r.n]=new Array(MONTHS.length).fill(0));
+  rows.filter(d=>d.outcome==="won").forEach(d=>{
+    if(!cum[d.rep])return;
+    for(let i=d.m;i<MONTHS.length;i++)cum[d.rep][i]+=d.amount;});
+  const series=reps.map(r=>({...r,cum:cum[r.n]}));
+  const ranks=MONTHS.map((_,i)=>{
+    const ord=series.slice().sort((a,b)=>b.cum[i]-a.cum[i]);
+    const m={};ord.forEach((s,k)=>m[s.n]=k+1);return m;});
   const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
-  const L=62,R=W-52,T=16,B=H-16,N=MONTHS.length,K=REPS.length;
-  const x=i=>L+(i/(N-1))*(R-L), y=rk=>T+((rk-1)/(K-1))*(B-T);
+  const L=64,R=W-54,T=16,B=H-16,N=MONTHS.length,K=series.length;
+  const x=i=>L+(i/Math.max(1,N-1))*(R-L), y=rk=>K===1?(T+B)/2:T+((rk-1)/(K-1))*(B-T);
   MONTHS.forEach((m,i)=>{
     svg.appendChild(el("line",{x1:x(i),y1:T-6,x2:x(i),y2:B+6,stroke:RULE,"stroke-width":1}));
     const t=el("text",{x:x(i),y:T-9,"text-anchor":"middle","font-size":8,fill:DIM});
     t.textContent=m;svg.appendChild(t);
   });
-  REPS.forEach(rep=>{
-    const top3=rep.r[N-1]<=3;
-    const pts=rep.r.map((rk,i)=>[x(i),y(rk)]);
+  series.forEach(rep=>{
+    const last=ranks[N-1][rep.n], top3=last<=3;
+    const pts=MONTHS.map((_,i)=>[x(i),y(ranks[i][rep.n])]);
     let d="M"+pts[0][0]+","+pts[0][1];
     for(let i=1;i<pts.length;i++){
       const [px,py]=pts[i-1],[cx,cy]=pts[i],mx=(px+cx)/2;
@@ -177,31 +367,29 @@ function drawBump(){
     const g=el("g");
     g.appendChild(el("path",{d,fill:"none",stroke:rep.c,
       "stroke-width":top3?3:1.6,opacity:top3?.95:.4,"stroke-linecap":"round"}));
-    pts.forEach(([px,py],i)=>{
-      g.appendChild(el("circle",{cx:px,cy:py,r:top3?4:2.8,fill:"#fff",
-        stroke:rep.c,"stroke-width":top3?2.4:1.5,opacity:top3?1:.55}));
-    });
-    const t=el("text",{x:L-8,y:y(rep.r[0])+3,"text-anchor":"end","font-size":8,
+    pts.forEach(([px,py])=>g.appendChild(el("circle",{cx:px,cy:py,r:top3?4:2.8,fill:"#fff",
+      stroke:rep.c,"stroke-width":top3?2.4:1.5,opacity:top3?1:.55})));
+    const t=el("text",{x:L-8,y:y(ranks[0][rep.n])+3,"text-anchor":"end","font-size":8,
       fill:top3?INK:DIM,"font-weight":top3?700:400});
     t.textContent=rep.n;g.appendChild(t);
-    const t2=el("text",{x:R+8,y:y(rep.r[N-1])+3,"font-size":8,
+    const t2=el("text",{x:R+8,y:y(last)+3,"font-size":8,
       fill:top3?rep.c:DIM,"font-weight":top3?700:400});
-    t2.textContent="#"+rep.r[N-1];g.appendChild(t2);
-    hook(g,rep.n+" — finished #"+rep.r[N-1]+", started #"+rep.r[0]);
+    t2.textContent="#"+last;g.appendChild(t2);
+    hook(g,rep.n+" ("+rep.reg+") — finished #"+last+" with "+money(rep.cum[N-1]));
     svg.appendChild(g);
   });
 }
 
-/* ─── 2. QUOTA BRIDGE (waterfall) ───────────────────────────── */
-const BR=[["Opening pipeline",14.8,"start"],["New created",6.2,"up"],
-  ["Lost",-4.9,"down"],["Slipped to Q1",-2.1,"down"],["Disqualified",-5.4,"down"],
-  ["Closed won",8.62,"end"]];
-function drawBridge(){
-  const svg=document.getElementById("bridge");svg.innerHTML="";
+/* ══ 6. BRIDGE  pipeline → closed won (always balances) ═══════ */
+function drawBridge(M){
+  const svg=clear("bridge");
+  const BR=[["Pipeline",M.pipeline,"start"],["Lost",-M.lost,"down"],
+    ["Slipped",-M.slipped,"down"],["Disqualified",-M.dq,"down"],
+    ["Still open",-M.open,"down"],["Closed won",M.won,"end"]];
   const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
   const L=26,R=W-6,T=14,B=H-26;
   const n=BR.length,bw=(R-L)/n;
-  const maxV=22;
+  const maxV=Math.max(M.pipeline*1.12,1);
   const y=v=>B-(v/maxV)*(B-T);
   let run=0;
   BR.forEach((d,i)=>{
@@ -217,64 +405,68 @@ function drawBridge(){
       svg.appendChild(el("line",{x1:L+i*bw+bw*.82,y1:y1,x2:L+(i+1)*bw+bw*.18,y2:y1,
         stroke:RULE2,"stroke-width":1,"stroke-dasharray":"2 2"}));
     }
-    const v=el("text",{x:L+i*bw+bw/2,y:top-4,"text-anchor":"middle","font-size":7.8,
+    const v=el("text",{x:L+i*bw+bw/2,y:top-4,"text-anchor":"middle","font-size":7.4,
       fill:col,"font-weight":700});
-    v.textContent=(val>=0?"":"−")+"$"+Math.abs(val).toFixed(1)+"M";g.appendChild(v);
-    const words=name.split(" ");
-    words.forEach((w,wi)=>{
+    v.textContent=(val<0?"−":"")+money(Math.abs(val)).replace("$","$");g.appendChild(v);
+    name.split(" ").forEach((w,wi)=>{
       const t=el("text",{x:L+i*bw+bw/2,y:B+10+wi*7.5,"text-anchor":"middle","font-size":6.4,fill:DIM});
-      t.textContent=w;g.appendChild(t);
-    });
-    hook(g,name+": "+(val>=0?"+":"−")+"$"+Math.abs(val).toFixed(1)+"M");
+      t.textContent=w;g.appendChild(t);});
+    hook(g,name+": "+(val<0?"−":"")+money(Math.abs(val)));
     svg.appendChild(g);
   });
   svg.appendChild(el("line",{x1:L,y1:y(0),x2:R,y2:y(0),stroke:RULE2,"stroke-width":1}));
 }
 
-/* ─── 3. HEATMAP  win rate by segment × deal size ───────────── */
-const SEG=["Enterprise","Mid-market","SMB"];
-const BANDS=["<$25K","$25–75K","$75–150K","$150K+"];
-const WIN=[[31,28,24,19],[26,22,15,11],[38,34,21,9]];
-function drawHeat(){
-  const svg=document.getElementById("heat");svg.innerHTML="";
+/* ══ 7. HEATMAP  win rate by segment × band ══════════════════ */
+function drawHeat(rows){
+  const svg=clear("heat");
   const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
   const L=62,T=18;
   const cw=(W-L-4)/BANDS.length, ch=(H-T-4)/SEG.length;
   BANDS.forEach((b,i)=>{
     const t=el("text",{x:L+i*cw+cw/2,y:11,"text-anchor":"middle","font-size":6.8,fill:DIM});
-    t.textContent=b;svg.appendChild(t);
-  });
+    t.textContent=b;svg.appendChild(t);});
   SEG.forEach((s,r)=>{
     const t=el("text",{x:L-5,y:T+r*ch+ch/2+3,"text-anchor":"end","font-size":7.8,fill:DIM});
     t.textContent=s;svg.appendChild(t);
     BANDS.forEach((b,c)=>{
-      const v=WIN[r][c];
-      const u=Math.min(1,Math.max(0,(v-9)/(38-9)));
-      /* orange (low) → green (high) */
-      const lerp=(a,b2,t2)=>a.map((x,i)=>Math.round(x+(b2[i]-x)*t2));
-      const rgb=lerp([249,115,22],[5,150,105],u);
+      const cell=rows.filter(d=>d.seg===s&&d.band===b&&(d.outcome==="won"||d.outcome==="lost"));
       const g=el("g");
-      g.appendChild(el("rect",{x:L+c*cw+1.5,y:T+r*ch+1.5,width:cw-3,height:ch-3,
-        fill:"rgb("+rgb.join(",")+")",opacity:.24+u*.62,rx:3}));
-      if(cw>34&&ch>18){
-        const tx=el("text",{x:L+c*cw+cw/2,y:T+r*ch+ch/2+3.5,"text-anchor":"middle",
-          "font-size":8.4,fill:u>.55?"#fff":INK,"font-weight":700});
-        tx.textContent=v+"%";g.appendChild(tx);
+      if(cell.length<4){
+        g.appendChild(el("rect",{x:L+c*cw+1.5,y:T+r*ch+1.5,width:cw-3,height:ch-3,
+          fill:"none",stroke:RULE,"stroke-width":1,rx:3}));
+        hook(g,s+" · "+b+": "+cell.length+" decided deals — too few to rate");
+      }else{
+        const v=cell.filter(d=>d.outcome==="won").length/cell.length*100;
+        const u=Math.min(1,Math.max(0,(v-9)/29));
+        const lerp=(a,b2,t2)=>a.map((x,i)=>Math.round(x+(b2[i]-x)*t2));
+        const rgb=lerp([249,115,22],[5,150,105],u);
+        g.appendChild(el("rect",{x:L+c*cw+1.5,y:T+r*ch+1.5,width:cw-3,height:ch-3,
+          fill:"rgb("+rgb.join(",")+")",opacity:.24+u*.62,rx:3}));
+        if(cw>34&&ch>18){
+          const tx=el("text",{x:L+c*cw+cw/2,y:T+r*ch+ch/2+3.5,"text-anchor":"middle",
+            "font-size":8.4,fill:u>.55?"#fff":INK,"font-weight":700});
+          tx.textContent=v.toFixed(0)+"%";g.appendChild(tx);}
+        hook(g,s+" · "+b+": "+v.toFixed(1)+"% win rate on "+cell.length+" decided deals");
       }
-      hook(g,s+" · "+b+": "+v+"% win rate");
       svg.appendChild(g);
     });
   });
 }
 
-/* ─── 4. RADIAL RINGS  quota by region ──────────────────────── */
-const REG=[["West",108,EM],["East",96,EM2],["Central",79,CORAL],["South",84,GOLD]];
-function drawRings(){
-  const svg=document.getElementById("rings");svg.innerHTML="";
+/* ══ 8. RADIAL RINGS  quota attainment by region ══════════════ */
+function drawRings(rows){
+  const svg=clear("rings");
+  const regs=REGIONS.filter(r=>S.reg.has(r));
   const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
-  const n=REG.length,cw=W/n;
+  const n=regs.length,cw=W/n;
   const R=Math.min(cw*0.34,H*0.30),cy=H*0.44;
-  REG.forEach(([name,val,col],i)=>{
+  regs.forEach((name,i)=>{
+    const reps=REPS.filter(r=>r.reg===name&&(!S.rep||r.n===S.rep)).length;
+    const target=reps*S.quota*1000;
+    const won=sum(rows.filter(d=>d.reg===name&&d.outcome==="won"),d=>d.amount);
+    const val=target?won/target*100:0;
+    const col=val>=100?EM:val>=90?EM2:val>=80?GOLD:CORAL;
     const cx=cw*i+cw/2,circ=2*Math.PI*R;
     const g=el("g");
     g.appendChild(el("circle",{cx,cy,r:R,fill:"none",stroke:RULE,"stroke-width":8}));
@@ -285,56 +477,128 @@ function drawRings(){
     if(val>100){
       g.appendChild(el("circle",{cx,cy,r:R-11,fill:"none",stroke:col,"stroke-width":3,
         "stroke-linecap":"round","stroke-dasharray":2*Math.PI*(R-11),
-        "stroke-dashoffset":2*Math.PI*(R-11)*(1-(val-100)/100),
-        transform:"rotate(-90 "+cx+" "+cy+")",opacity:.5}));
-    }
+        "stroke-dashoffset":2*Math.PI*(R-11)*(1-Math.min(1,(val-100)/100)),
+        transform:"rotate(-90 "+cx+" "+cy+")",opacity:.5}));}
     const t=el("text",{x:cx,y:cy+4,"text-anchor":"middle","font-size":Math.min(14,R*.6),
       fill:col,"font-weight":700});
-    t.textContent=val+"%";g.appendChild(t);
+    t.textContent=val.toFixed(0)+"%";g.appendChild(t);
     const l=el("text",{x:cx,y:cy+R+13,"text-anchor":"middle","font-size":7.6,fill:DIM});
     l.textContent=name;g.appendChild(l);
-    hook(g,name+": "+val+"% of quota"+(val>=100?" · over target":" · short"));
+    hook(g,name+": "+money(won)+" against "+money(target)+" quota ("+val.toFixed(0)+"%)");
     svg.appendChild(g);
   });
 }
 
-/* ─── 5. STAGE VELOCITY  lollipop ───────────────────────────── */
-const STAGES=[["Qualification",6,11],["Discovery",9,16],["Proposal",7,14],
-              ["Security review",26,48],["Negotiation",11,21],["Close",4,8]];
-function drawStage(){
-  const svg=document.getElementById("stage");svg.innerHTML="";
+/* ══ 9. STAGE VELOCITY  lollipop, median + p90 ═══════════════ */
+function drawStage(rows){
+  const svg=clear("stage");
+  const data=STAGES.map((name,si)=>{
+    const d=rows.map(r=>r.days[si]);
+    return{name,med:quantile(d,.5),p90:quantile(d,.9),n:d.length,capped:si===3&&S.sla<40};});
   const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
-  const L=76,R=W-26,T=8,B=H-16,MAXV=52;
+  const L=76,R=W-26,T=8,B=H-16;
+  const MAXV=Math.max(52,Math.ceil(Math.max(...data.map(d=>d.p90))/10)*10);
   const x=v=>L+(v/MAXV)*(R-L);
-  const step=(B-T)/STAGES.length;
-  [0,10,20,30,40,50].forEach(v=>{
+  const step=(B-T)/data.length;
+  const gridStep=MAXV>60?20:10;
+  for(let v=0;v<=MAXV;v+=gridStep){
     svg.appendChild(el("line",{x1:x(v),y1:T,x2:x(v),y2:B,stroke:RULE,"stroke-width":1}));
     const t=el("text",{x:x(v),y:B+11,"text-anchor":"middle","font-size":7,fill:DIM});
-    t.textContent=v+"d";svg.appendChild(t);
-  });
-  STAGES.forEach((d,i)=>{
-    const [name,med,p90]=d;
+    t.textContent=v+"d";svg.appendChild(t);}
+  data.forEach((d,i)=>{
     const y=T+step*i+step*.5;
-    const bad=med>=20;
+    const bad=d.med>=20;
     const g=el("g");
-    g.appendChild(el("line",{x1:x(0),y1:y,x2:x(p90),y2:y,
+    g.appendChild(el("line",{x1:x(0),y1:y,x2:x(d.p90),y2:y,
       stroke:bad?CORAL2:RULE2,"stroke-width":2.6,opacity:.6,"stroke-linecap":"round"}));
-    g.appendChild(el("circle",{cx:x(med),cy:y,r:5.2,fill:bad?CORAL:EM}));
-    g.appendChild(el("circle",{cx:x(p90),cy:y,r:3,fill:"#fff",
+    g.appendChild(el("circle",{cx:x(d.med),cy:y,r:5.2,fill:bad?CORAL:EM}));
+    g.appendChild(el("circle",{cx:x(d.p90),cy:y,r:3,fill:"#fff",
       stroke:bad?CORAL:RULE2,"stroke-width":1.6}));
     const t=el("text",{x:L-8,y:y+3,"text-anchor":"end","font-size":8,
-      fill:bad?CORAL:DIM,"font-weight":bad?700:400});
-    t.textContent=name;g.appendChild(t);
-    const v=el("text",{x:x(p90)+7,y:y+3,"font-size":7.6,fill:bad?CORAL:DIM,"font-weight":600});
-    v.textContent=med+"d";g.appendChild(v);
-    hook(g,name+" — median "+med+" days, 90th percentile "+p90+" days");
+      fill:d.capped?EM:bad?CORAL:DIM,"font-weight":(bad||d.capped)?700:400});
+    t.textContent=d.name+(d.capped?" ⋅SLA":"");g.appendChild(t);
+    const v=el("text",{x:x(d.p90)+7,y:y+3,"font-size":7.6,fill:bad?CORAL:DIM,"font-weight":600});
+    v.textContent=d.med.toFixed(0)+"d";g.appendChild(v);
+    hook(g,d.name+" — median "+d.med.toFixed(1)+" d, P90 "+d.p90.toFixed(1)+" d"+
+      (d.capped?" · capped at "+S.sla+" d by SLA":""));
     svg.appendChild(g);
   });
 }
 
-function drawAll(){drawBump();drawBridge();drawHeat();drawRings();drawStage();}
-drawAll();
-let rt;addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(drawAll,140);});
+/* ══ 10. RENDER ══════════════════════════════════════════════ */
+function metrics(rows){
+  const won   =rows.filter(d=>d.outcome==="won");
+  const lost  =rows.filter(d=>d.outcome==="lost");
+  const slip  =rows.filter(d=>d.outcome==="slipped");
+  const dqs   =rows.filter(d=>d.outcome==="dq");
+  const open  =rows.filter(d=>d.outcome==="open");
+  const repsIn=REPS.filter(r=>S.reg.has(r.reg)&&(!S.rep||r.n===S.rep));
+  const target=repsIn.length*S.quota*1000;
+  const wonV  =sum(won,d=>d.amount);
+  const repsAt=repsIn.filter(r=>sum(won.filter(d=>d.rep===r.n),d=>d.amount)>=S.quota*1000).length;
+  const pipeline=sum(rows,d=>d.amount);
+  return{
+    rows,won:wonV,wonN:won.length,lost:sum(lost,d=>d.amount),
+    slipped:sum(slip,d=>d.amount),slipN:slip.length,
+    dq:sum(dqs,d=>d.amount),open:sum(open,d=>d.amount),
+    pipeline,target,attain:target?wonV/target*100:0,
+    convert:pipeline?wonV/pipeline*100:0,
+    repsAt,repsN:repsIn.length,
+    decided:won.length+lost.length,
+    winRate:(won.length+lost.length)?won.length/(won.length+lost.length)*100:0,
+    avgDeal:won.length?wonV/won.length:0,
+    cycle:quantile(won.concat(lost).map(d=>d.cycle),.5),
+    slipShare:pipeline?sum(slip,d=>d.amount)/pipeline*100:0,
+    recovered:rows.filter(d=>d.recovered),
+    secMed:quantile(rows.map(d=>d.days[3]),.5)
+  };
+}
+
+function drawAll(){
+  const rows=inScope();
+  const sc=document.getElementById("scope");
+  sc.innerHTML=rows.length===DEALS.length?"<b>ALL 812 DEALS</b> IN SCOPE"
+    :"<b>"+rows.length+"</b> OF 812 DEALS IN SCOPE";
+  if(rows.length<12){
+    document.getElementById("kpis").innerHTML=
+      '<div class="kpi" style="grid-column:1/-1"><div class="k">No scope</div>'+
+      '<div class="row"><span class="v c-red">—</span></div>'+
+      '<div class="d">Fewer than 12 deals match. Widen the filters.</div></div>';
+    ["bump","bridge","heat","rings","stage"].forEach(clear);
+    document.getElementById("verdict").innerHTML=
+      "<b>Nothing to read at this scope.</b> Fewer than twelve deals match the current filters — "+
+      "widen the region, segment or size selection.";
+    return;
+  }
+  const M=metrics(rows);
+  drawKpis(M);drawBump(rows);drawBridge(M);drawHeat(rows);drawRings(rows);drawStage(rows);
+
+  /* narrative rewrites itself against the current scope */
+  const worst=STAGES.map((name,si)=>({name,med:quantile(rows.map(r=>r.days[si]),.5)}))
+    .sort((a,b)=>b.med-a.med)[0];
+  const recN=M.recovered.length,recV=sum(M.recovered,d=>d.amount);
+  const capped=S.sla<40;
+  document.getElementById("verdict").innerHTML=
+    "<b>"+(M.slipN?"The quarter did not lose these deals, it postponed them.":
+      "Nothing is slipping at this setting.")+"</b> Win rate is <b>"+M.winRate.toFixed(1)+
+    "%</b> on "+M.decided+" decided deals and the median cycle runs <b>"+M.cycle.toFixed(0)+
+    " days</b>"+(M.slipN?", with "+money(M.slipped)+" across "+M.slipN+
+      " deals pushed out of the quarter — against a gap to plan of "+
+      money(Math.max(0,M.target-M.won))+"":"")+
+    ". The slowest step is <b>"+worst.name+" at a median "+worst.med.toFixed(0)+" days</b>. "+
+    (capped
+      ? '<span class="fix"><b>Holding security review to '+S.sla+' days</b></span> pulls '+recN+
+        " deals worth "+money(recV)+" back into the quarter and lands attainment at <b>"+
+        M.attain.toFixed(0)+"%</b>."
+      : '<span class="fix"><b>Drag the security-review SLA down</b></span> to see how much of that '+
+        "slippage is recoverable — attainment currently sits at <b>"+M.attain.toFixed(0)+"%</b>.")+
+    '<span class="src">DATA · 812 simulated B2B deals from a seeded model with realistic win-rate, '+
+    'cycle-time and quota behaviour. Every figure above is aggregated live from those rows. '+
+    'Built to demonstrate the analysis, not to report real performance.</span>';
+}
+function render(){drawAll();}
+render();
+let rt;addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(render,140);});
 </script>
 </body>
 </html>

@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Breaking the Chain · Supply Chain Analytics · Aditi Shelke</title>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
 <style>
   :root{
     --bg:#eceef0; --card:#ffffff; --rule:#d8dce0; --rule2:#b6bdc4;
@@ -15,48 +15,82 @@
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%;overflow:hidden}
   body{background:var(--bg);color:var(--ink);font-family:'Archivo',sans-serif;font-weight:400;
-    -webkit-font-smoothing:antialiased;display:grid;grid-template-rows:auto auto 1fr auto;
-    gap:.55rem;padding:.7rem 1rem .75rem}
+    -webkit-font-smoothing:antialiased;display:grid;grid-template-rows:auto auto auto 1fr auto;
+    gap:.5rem;padding:.6rem 1rem .7rem}
 
   .head{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;
-    background:var(--ink);color:#fff;padding:.5rem .9rem;border-radius:4px}
+    background:var(--ink);color:#fff;padding:.45rem .9rem;border-radius:4px}
   .head .l{display:flex;align-items:center;gap:.9rem;flex-wrap:wrap}
   a.home{font-family:'Roboto Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;
     color:var(--orange2);text-decoration:none;border:1px solid rgba(253,154,99,.4);padding:.22rem .5rem;border-radius:2px}
   a.home:hover{background:var(--orange);color:#fff;border-color:var(--orange)}
-  h1{font-size:1.35rem;font-weight:700;letter-spacing:-.02em;line-height:1;text-transform:uppercase}
+  h1{font-size:1.3rem;font-weight:700;letter-spacing:-.02em;line-height:1;text-transform:uppercase}
   h1 span{color:var(--orange2)}
-  .kick{font-family:'Roboto Mono',monospace;font-size:.54rem;color:#9fb0bd;text-align:right;
+  .kick{font-family:'Roboto Mono',monospace;font-size:.53rem;color:#9fb0bd;text-align:right;
     line-height:1.7;letter-spacing:.06em}
 
-  .kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:.5rem}
-  .kpi{background:var(--card);border:1px solid var(--rule);border-radius:3px;padding:.45rem .7rem;
-    border-top:3px solid var(--rule2)}
-  .kpi.warn{border-top-color:var(--orange)} .kpi.bad{border-top-color:var(--red)}
-  .kpi.ok{border-top-color:var(--green)} .kpi.info{border-top-color:var(--steel)}
-  .kpi .k{font-family:'Roboto Mono',monospace;font-size:.49rem;letter-spacing:.1em;
-    text-transform:uppercase;color:var(--dim)}
-  .kpi .v{font-size:1.4rem;font-weight:700;line-height:1.15;letter-spacing:-.02em}
-  .kpi .d{font-family:'Roboto Mono',monospace;font-size:.55rem;color:var(--dim);line-height:1.3}
-  .c-orange{color:var(--orange)}.c-red{color:var(--red)}.c-green{color:var(--green)}
-  .c-steel{color:var(--steel)}.c-amber{color:var(--amber)}
+  /* ── control bar ─────────────────────────────────────────── */
+  .bar{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;
+    background:var(--card);border:1px solid var(--rule);border-radius:3px;padding:.34rem .7rem}
+  .fg{display:flex;align-items:center;gap:.3rem}
+  .fg > label{font-family:'Roboto Mono',monospace;font-size:.5rem;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--dim);white-space:nowrap}
+  .chips{display:flex;gap:.18rem}
+  .chip{font-family:'Roboto Mono',monospace;font-size:.53rem;padding:.2rem .4rem;
+    border:1px solid var(--rule2);background:transparent;color:var(--dim);
+    border-radius:2px;cursor:pointer;transition:all .14s}
+  .chip:hover{border-color:var(--steel);color:var(--ink)}
+  .chip.on{background:var(--slate);border-color:var(--slate);color:#fff;font-weight:500}
+  .chip.on.risk{background:var(--orange);border-color:var(--orange)}
+  select{font-family:'Roboto Mono',monospace;font-size:.53rem;padding:.2rem .28rem;
+    border:1px solid var(--rule2);border-radius:2px;background:#fff;color:var(--ink);cursor:pointer}
+  select:focus{outline:1.5px solid var(--steel);outline-offset:1px}
+  .par{display:flex;align-items:center;gap:.35rem;background:rgba(232,89,12,.07);
+    border:1px solid rgba(232,89,12,.32);border-radius:2px;padding:.18rem .45rem}
+  .par label{font-family:'Roboto Mono',monospace;font-size:.5rem;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--orange);white-space:nowrap;font-weight:500}
+  .par input[type=range]{width:76px;accent-color:var(--orange);height:3px;cursor:pointer}
+  .par .out{font-family:'Roboto Mono',monospace;font-size:.57rem;font-weight:700;
+    color:var(--orange);min-width:40px}
+  .reset{font-family:'Roboto Mono',monospace;font-size:.52rem;letter-spacing:.1em;
+    text-transform:uppercase;background:transparent;border:1px solid var(--rule2);
+    color:var(--dim);border-radius:2px;padding:.24rem .5rem;cursor:pointer}
+  .reset:hover{border-color:var(--red);color:var(--red)}
+  .scope{font-family:'Roboto Mono',monospace;font-size:.52rem;color:var(--dim);margin-left:auto}
+  .scope b{color:var(--steel);font-weight:700}
 
-  .grid{display:grid;grid-template-columns:1.3fr 1.1fr 1.05fr;grid-template-rows:1fr 1fr;gap:.55rem;min-height:0}
+  /* ── KPI: status plates (unique to this dashboard) ────────── */
+  .kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:.5rem}
+  .kpi{background:var(--card);border:1px solid var(--rule);border-radius:3px;
+    display:flex;overflow:hidden;min-width:0}
+  .kpi .plate{flex:0 0 17px;display:flex;align-items:center;justify-content:center}
+  .kpi .plate span{writing-mode:vertical-rl;transform:rotate(180deg);
+    font-family:'Roboto Mono',monospace;font-size:.45rem;font-weight:700;letter-spacing:.16em;
+    color:#fff;text-transform:uppercase}
+  .kpi .rest{padding:.4rem .6rem .42rem;min-width:0;flex:1}
+  .kpi .k{font-family:'Roboto Mono',monospace;font-size:.475rem;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--dim)}
+  .kpi .v{font-size:1.3rem;font-weight:700;line-height:1.14;letter-spacing:-.02em;white-space:nowrap}
+  .kpi .d{font-family:'Roboto Mono',monospace;font-size:.5rem;color:var(--dim);line-height:1.3}
+  .kpi .d b{font-weight:700}
+
+  .grid{display:grid;grid-template-columns:1.3fr 1.1fr 1.05fr;grid-template-rows:1fr 1fr;gap:.5rem;min-height:0}
   .card{background:var(--card);border:1px solid var(--rule);border-radius:3px;
-    padding:.5rem .75rem .55rem;display:flex;flex-direction:column;min-height:0;min-width:0}
-  .card h2{font-size:.85rem;font-weight:600;letter-spacing:-.01em;line-height:1.2;text-transform:uppercase}
-  .card .s{font-family:'Roboto Mono',monospace;font-size:.52rem;color:var(--dim);
-    margin-bottom:.22rem;letter-spacing:.05em;line-height:1.4}
+    padding:.45rem .72rem .5rem;display:flex;flex-direction:column;min-height:0;min-width:0}
+  .card h2{font-size:.82rem;font-weight:600;letter-spacing:-.01em;line-height:1.2;text-transform:uppercase}
+  .card .s{font-family:'Roboto Mono',monospace;font-size:.5rem;color:var(--dim);
+    margin-bottom:.2rem;letter-spacing:.05em;line-height:1.4}
   .card .s b{color:var(--orange)}
   .viz{flex:1;min-height:0;position:relative}
   .viz svg{width:100%;height:100%;display:block;overflow:visible}
   .span2{grid-row:span 2}
 
   .verdict{background:var(--card);border:1px solid var(--rule);border-left:4px solid var(--orange);
-    border-radius:3px;padding:.5rem .9rem;font-size:.8rem;line-height:1.5;color:var(--body)}
+    border-radius:3px;padding:.45rem .9rem;font-size:.77rem;line-height:1.5;color:var(--body)}
   .verdict b{color:var(--orange);font-weight:600}
-  .verdict .src{font-family:'Roboto Mono',monospace;font-size:.52rem;color:var(--dim);
-    letter-spacing:.04em;margin-top:.2rem;display:block}
+  .verdict .fix{color:var(--green);font-weight:600}
+  .verdict .src{font-family:'Roboto Mono',monospace;font-size:.5rem;color:var(--dim);
+    letter-spacing:.04em;margin-top:.18rem;display:block}
 
   .tip{position:fixed;pointer-events:none;background:var(--ink);color:#fff;font-size:.65rem;
     padding:.35rem .55rem;border-radius:2px;opacity:0;transition:opacity .12s;z-index:50;white-space:nowrap}
@@ -66,7 +100,9 @@
     .grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}
     .span2{grid-row:span 1}.viz{min-height:210px}
     .kpis{grid-template-columns:repeat(3,1fr)}
+    .scope{margin-left:0}
   }
+  @media (max-width:620px){.kpis{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -75,58 +111,64 @@
       <a class="home" href="../index.html">&larr; Portfolio</a>
       <h1>Breaking the <span>Chain</span></h1>
     </div>
-    <div class="kick">SIMULATED DISTRIBUTION NETWORK · 12 MONTHS · 6 SUPPLIERS · 4 DCs<br/>SUPPLY CHAIN · OTIF &amp; LEAD-TIME RELIABILITY</div>
+    <div class="kick">SIMULATED NETWORK · 3,200 SHIPMENTS · 6 SUPPLIERS · 4 DCs · 12 MONTHS<br/>SUPPLY CHAIN · OTIF, LEAD-TIME RELIABILITY &amp; SAFETY STOCK</div>
   </div>
 
-  <div class="kpis">
-    <div class="kpi bad"><div class="k">OTIF</div><div class="v c-red">87.4%</div><div class="d">target 95%</div></div>
-    <div class="kpi warn"><div class="k">Avg lead time</div><div class="v c-orange">18.6 d</div><div class="d">+3.1 d YoY</div></div>
-    <div class="kpi warn"><div class="k">Lead-time variance</div><div class="v c-orange">±6.2 d</div><div class="d">the real problem</div></div>
-    <div class="kpi info"><div class="k">Inventory</div><div class="v c-steel">$14.2M</div><div class="d">61 days cover</div></div>
-    <div class="kpi bad"><div class="k">Stockout cost</div><div class="v c-red">$2.4M</div><div class="d">lost margin</div></div>
-    <div class="kpi ok"><div class="k">Perfect-order</div><div class="v c-green">81.9%</div><div class="d">all 4 criteria</div></div>
+  <div class="bar">
+    <div class="fg"><label>Supplier</label><div class="chips" id="cSup"></div></div>
+    <div class="fg"><label>DC</label><select id="fDc"><option value="">All</option></select></div>
+    <div class="fg"><label>Quarter</label>
+      <select id="fQ"><option value="">Full year</option>
+        <option value="0">Q1</option><option value="1">Q2</option>
+        <option value="2">Q3</option><option value="3">Q4</option></select></div>
+    <div class="par"><label>OTIF target</label>
+      <input type="range" id="pTgt" min="85" max="99" step="0.5" value="95"/>
+      <span class="out" id="oTgt">95.0%</span></div>
+    <div class="par"><label>On-time tolerance</label>
+      <input type="range" id="pTol" min="0" max="8" step="1" value="1"/>
+      <span class="out" id="oTol">1 d</span></div>
+    <div class="par"><label>Service level</label>
+      <input type="range" id="pSvc" min="80" max="99.5" step="0.5" value="95"/>
+      <span class="out" id="oSvc">95.0%</span></div>
+    <button class="reset" id="reset">Reset</button>
+    <div class="scope" id="scope"></div>
   </div>
+
+  <div class="kpis" id="kpis"></div>
 
   <div class="grid">
     <div class="card span2">
       <h2>Where volume flows &mdash; and fails</h2>
-      <div class="s">SUPPLIER → DC → DELIVERY OUTCOME · BAND = UNITS · <b>RED = LATE OR SHORT</b></div>
+      <div class="s">SUPPLIER &rarr; DC &rarr; DELIVERY OUTCOME · BAND = UNITS · <b>RED = LATE OR SHORT</b></div>
       <div class="viz"><svg id="sankey" preserveAspectRatio="none"></svg></div>
     </div>
 
     <div class="card">
       <h2>Lead time by lane</h2>
-      <div class="s">DAYS FROM PO TO DOCK · DARKER = SLOWER</div>
+      <div class="s">MEDIAN DAYS PO TO DOCK · DARKER = SLOWER · BLANK = NO VOLUME</div>
       <div class="viz"><svg id="heat" preserveAspectRatio="none"></svg></div>
     </div>
 
     <div class="card">
       <h2>OTIF against target</h2>
-      <div class="s">BULLET · BAR = ACTUAL, NOTCH = 95% TARGET</div>
+      <div class="s" id="sBullet">BULLET · BAR = ACTUAL, NOTCH = TARGET</div>
       <div class="viz"><svg id="bullet" preserveAspectRatio="none"></svg></div>
     </div>
 
     <div class="card">
       <h2>Reliability vs cost</h2>
-      <div class="s">CHEAPEST SUPPLIERS ARE THE LEAST RELIABLE · BUBBLE = SPEND</div>
+      <div class="s">UNIT COST vs OTIF · BUBBLE = UNITS SHIPPED</div>
       <div class="viz"><svg id="scatter" preserveAspectRatio="none"></svg></div>
     </div>
 
     <div class="card">
       <h2>Delay reasons</h2>
-      <div class="s">SHARE OF ALL LATE SHIPMENTS · PARETO</div>
+      <div class="s">SHARE OF ALL FAILED SHIPMENTS · PARETO</div>
       <div class="viz"><svg id="pareto" preserveAspectRatio="none"></svg></div>
     </div>
   </div>
 
-  <div class="verdict"><b>The problem is variance, not speed.</b> Average lead time of 18.6 days is workable;
-    a swing of ±6.2 days is not, and it is what forces $14.2M of inventory to sit as buffer. Two suppliers,
-    Meridian and Northgate, generate 54% of all late shipments while being the two cheapest on unit price.
-    <b>Dual-source those two lanes and hold them to a variance SLA — that releases roughly $3.1M of safety
-    stock without touching service levels.</b>
-    <span class="src">DATA · Simulated distribution network generated from a seeded model with realistic
-    OTIF, lead-time and supplier-reliability behaviour. Built to demonstrate the analysis, not to report a real network.</span></div>
-
+  <div class="verdict" id="verdict"></div>
   <div class="tip" id="tip"></div>
 
 <script>
@@ -143,76 +185,268 @@ function hook(n,txt){
   n.addEventListener("mouseleave",()=>tip.classList.remove("on"));
 }
 const size=s=>{const r=s.parentNode.getBoundingClientRect();return[Math.max(r.width,10),Math.max(r.height,10)];};
+const clear=id=>{const s=document.getElementById(id);s.innerHTML="";return s;};
+const money=v=>v>=1e6?"$"+(v/1e6).toFixed(1)+"M":v>=1e3?"$"+Math.round(v/1000)+"K":"$"+Math.round(v);
+const units=v=>v>=1e6?(v/1e6).toFixed(2)+"M":v>=1e3?Math.round(v/1000)+"K":Math.round(v);
 
-/* ─── 1. SANKEY  supplier → DC → outcome ────────────────────── */
-const SUP=[["Meridian",42000,.79],["Northgate",31000,.82],["Calder",28000,.93],
-           ["Vantage",22000,.95],["Orbis",15000,.91],["Lumen",9000,.96]];
-const DCS=[["DC North",.30],["DC South",.26],["DC East",.24],["DC West",.20]];
-function drawSankey(){
-  const svg=document.getElementById("sankey");svg.innerHTML="";
+/* ══ 1. SEEDED SHIPMENT-LEVEL DATA ════════════════════════════
+   3,200 individual shipments. Lead time is drawn from a body plus
+   a long right tail — the tail is what breaks OTIF, and it is what
+   the tolerance parameter reaches into.                          */
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);
+  t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+const rnd=mulberry32(20260903);
+
+const SUP=[
+  {n:"Meridian", annual:4900000, lt:24, sig:8.4, cost:4.10, tail:.155, short:.080, cap:.46},
+  {n:"Northgate",annual:3600000, lt:22, sig:7.6, cost:4.35, tail:.133, short:.070, cap:.41},
+  {n:"Orbis",    annual:1750000, lt:18, sig:5.1, cost:5.20, tail:.064, short:.032, cap:.24},
+  {n:"Calder",   annual:3300000, lt:16, sig:4.2, cost:5.60, tail:.050, short:.026, cap:.18},
+  {n:"Vantage",  annual:2600000, lt:13, sig:2.8, cost:6.05, tail:.036, short:.018, cap:.14},
+  {n:"Lumen",    annual:1050000, lt:11, sig:2.2, cost:6.60, tail:.028, short:.015, cap:.11}
+];
+const SUP_NAMES=SUP.map(s=>s.n);
+const DCS=[{n:"DC North",share:.30,mult:1.06},{n:"DC South",share:.26,mult:1.00},
+           {n:"DC East", share:.24,mult:0.94},{n:"DC West", share:.20,mult:1.02}];
+const DC_NAMES=DCS.map(d=>d.n);
+/* delay reasons.  capacity-heavy suppliers fail for capacity reasons. */
+const REASONS=["Supplier capacity","Port congestion","Customs hold",
+               "Carrier capacity","Quality reject","Other"];
+const MARGIN=6.50;        /* lost margin per unit not shipped */
+const REVIEW=14;          /* order review period, days        */
+
+const TOTAL_ANNUAL=SUP.reduce((s,d)=>s+d.annual,0);
+const SHIPMENTS=[];
+SUP.forEach((s,si)=>{
+  const n=Math.round(3200*s.annual/TOTAL_ANNUAL);
+  const per=s.annual/n;
+  /* each supplier quotes a lead time that covers its slowest lane */
+  const promised=Math.round(s.lt*1.06)+1;
+  for(let i=0;i<n;i++){
+    let r=rnd(),acc=0,dc=DCS[0],di=0;
+    for(let k=0;k<DCS.length;k++){acc+=DCS[k].share;if(r<=acc){dc=DCS[k];di=k;break;}}
+    const isTail=rnd()<s.tail;
+    const lead=Math.max(3,Math.round(
+      s.lt*dc.mult + (isTail ? 1+rnd()*s.sig*2.4 : (rnd()-0.55)*2.4)));
+    const short=rnd()<s.short;
+    const damaged=rnd()<.020;
+    const docErr=rnd()<.025;
+    /* reason weights lean on capacity for the unreliable suppliers */
+    const w=[s.cap,.24,.15,.12,.10,.09];
+    const ws=w.reduce((a,b)=>a+b,0);
+    let rr=rnd()*ws,ai=0,reason=REASONS[0];
+    for(let k=0;k<w.length;k++){ai+=w[k];if(rr<=ai){reason=REASONS[k];break;}}
+    const m=Math.floor(rnd()*12);
+    SHIPMENTS.push({sup:s.n,si,dc:dc.n,di,m,q:Math.floor(m/3),
+      qty:Math.round(per*(0.75+rnd()*0.5)),lead,promised,short,damaged,docErr,reason,
+      cost:s.cost*(0.97+rnd()*0.06)});
+  }
+});
+
+/* ══ 2. STATE + CONTROLS ══════════════════════════════════════ */
+const S={sup:new Set(SUP_NAMES),dc:"",q:"",tgt:95,tol:1,svc:95};
+const cSup=document.getElementById("cSup");
+SUP.forEach(s=>{
+  const b=document.createElement("button");
+  b.className="chip on"+(s.tail>.1?" risk":"");b.textContent=s.n;
+  b.setAttribute("aria-pressed","true");
+  b.onclick=()=>{
+    if(S.sup.has(s.n)){if(S.sup.size===1)return;S.sup.delete(s.n);
+      b.classList.remove("on");b.setAttribute("aria-pressed","false");}
+    else{S.sup.add(s.n);b.classList.add("on");b.setAttribute("aria-pressed","true");}
+    render();};
+  cSup.appendChild(b);
+});
+DC_NAMES.forEach(d=>{const o=document.createElement("option");o.value=d;o.textContent=d;
+  document.getElementById("fDc").appendChild(o);});
+const on=(id,fn)=>document.getElementById(id).addEventListener("input",fn);
+on("fDc",e=>{S.dc=e.target.value;render();});
+on("fQ",e=>{S.q=e.target.value;render();});
+on("pTgt",e=>{S.tgt=+e.target.value;document.getElementById("oTgt").textContent=S.tgt.toFixed(1)+"%";render();});
+on("pTol",e=>{S.tol=+e.target.value;document.getElementById("oTol").textContent=S.tol+" d";render();});
+on("pSvc",e=>{S.svc=+e.target.value;document.getElementById("oSvc").textContent=S.svc.toFixed(1)+"%";render();});
+document.getElementById("reset").onclick=()=>{
+  Object.assign(S,{dc:"",q:"",tgt:95,tol:1,svc:95});S.sup=new Set(SUP_NAMES);
+  document.getElementById("fDc").value="";document.getElementById("fQ").value="";
+  document.getElementById("pTgt").value=95;document.getElementById("pTol").value=1;
+  document.getElementById("pSvc").value=95;
+  document.getElementById("oTgt").textContent="95.0%";
+  document.getElementById("oTol").textContent="1 d";
+  document.getElementById("oSvc").textContent="95.0%";
+  [...cSup.children].forEach(c=>{c.classList.add("on");c.setAttribute("aria-pressed","true");});
+  render();};
+
+/* ══ 3. INVENTORY MATHS ═══════════════════════════════════════
+   Textbook periodic-review model. Raising the service level buys
+   safety stock and buys down expected shortfall — the trade-off
+   the third slider exposes.                                     */
+function erf(x){const s=x<0?-1:1;x=Math.abs(x);
+  const a1=.254829592,a2=-.284496736,a3=1.421413741,a4=-1.453152027,a5=1.061405429,p=.3275911;
+  const t=1/(1+p*x);
+  return s*(1-(((((a5*t+a4)*t+a3)*t+a2)*t+a1)*t)*Math.exp(-x*x));}
+const Phi=z=>0.5*(1+erf(z/Math.SQRT2));
+const phi=z=>Math.exp(-z*z/2)/Math.sqrt(2*Math.PI);
+const Gz =z=>phi(z)-z*(1-Phi(z));          /* unit normal loss function */
+function zFor(p){let lo=-4,hi=5;for(let i=0;i<70;i++){const m=(lo+hi)/2;
+  if(Phi(m)<p)lo=m;else hi=m;}return (lo+hi)/2;}
+
+const resolve=s=>{
+  const late=s.lead>s.promised+S.tol;
+  const otif=!late&&!s.short;
+  return{...s,late,otif,perfect:otif&&!s.damaged&&!s.docErr};
+};
+const inScope=()=>SHIPMENTS.filter(s=>
+  S.sup.has(s.sup)&&(!S.dc||s.dc===S.dc)&&(S.q===""||s.q===+S.q)).map(resolve);
+const sum=(a,f)=>a.reduce((x,y)=>x+f(y),0);
+const mean=(a,f)=>a.length?sum(a,f)/a.length:0;
+const median=a=>{if(!a.length)return 0;const b=a.slice().sort((x,y)=>x-y);
+  const h=Math.floor(b.length/2);return b.length%2?b[h]:(b[h-1]+b[h])/2;};
+const sd=a=>{if(a.length<2)return 0;const m=a.reduce((x,y)=>x+y,0)/a.length;
+  return Math.sqrt(a.reduce((s,v)=>s+(v-m)**2,0)/(a.length-1));};
+
+function metrics(rows){
+  const qty=sum(rows,r=>r.qty);
+  const monthsIn=new Set(rows.map(r=>r.m)).size;
+  const days=Math.max(30,monthsIn*30.4);
+  const d=qty/days;                                  /* units per day        */
+  const leads=rows.map(r=>r.lead);
+  const L=mean(rows,r=>r.lead), sigL=sd(leads);
+  const z=zFor(S.svc/100);
+  const sigDL=sigL*d;                                /* demand over lead time */
+  const safety=Math.max(0,z*sigDL);
+  const pipeline=d*L;
+  const cycle=d*REVIEW/2;
+  const invUnits=safety+pipeline+cycle;
+  const avgCost=qty?sum(rows,r=>r.cost*r.qty)/qty:0;
+  const cycles=days/REVIEW;
+  const shortUnits=cycles*sigDL*Gz(z);
+  return{
+    rows,qty,monthsIn,days,d,L,sigL,z,safety,pipeline,cycle,invUnits,avgCost,
+    inv:invUnits*avgCost,
+    daysCover:d?invUnits/d:0,
+    otif:rows.length?rows.filter(r=>r.otif).length/rows.length*100:0,
+    otifQty:qty?sum(rows.filter(r=>r.otif),r=>r.qty)/qty*100:0,
+    perfect:rows.length?rows.filter(r=>r.perfect).length/rows.length*100:0,
+    lateN:rows.filter(r=>r.late).length,
+    failN:rows.filter(r=>!r.otif).length,
+    stockout:shortUnits*MARGIN,shortUnits
+  };
+}
+
+/* ══ 4. KPI ROW — status plates ═══════════════════════════════ */
+function drawKpis(M){
+  const st=(v,warn,bad,inv)=>inv?(v>=bad?"critical":v>=warn?"watch":"ok")
+                                :(v<=bad?"critical":v<=warn?"watch":"ok");
+  const COL={ok:GREEN,watch:AMBER,critical:RED};
+  const tiles=[
+    {k:"OTIF",             v:M.otif.toFixed(1)+"%",
+     s:st(M.otif,S.tgt,S.tgt-6),
+     d:"target "+S.tgt.toFixed(1)+"% · <b>"+(M.otif-S.tgt>=0?"+":"−")+
+       Math.abs(M.otif-S.tgt).toFixed(1)+" pts</b>"},
+    {k:"Avg lead time",    v:M.L.toFixed(1)+" d",
+     s:st(M.L,17,21,true),
+     d:median(M.rows.map(r=>r.promised))+" d quoted · "+M.tol0},
+    {k:"Lead-time variance",v:"±"+M.sigL.toFixed(1)+" d",
+     s:st(M.sigL,4.5,6.5,true),
+     d:"σ across "+M.rows.length.toLocaleString()+" shipments"},
+    {k:"Inventory",        v:money(M.inv),
+     s:st(M.daysCover,40,55,true),
+     d:M.daysCover.toFixed(0)+" days cover · z="+M.z.toFixed(2)},
+    {k:"Stockout cost",    v:money(M.stockout),
+     s:st(M.stockout,1.2e6,2.2e6,true),
+     d:units(M.shortUnits)+" units short · $"+MARGIN.toFixed(2)+"/u"},
+    {k:"Perfect order",    v:M.perfect.toFixed(1)+"%",
+     s:st(M.perfect,S.tgt-8,S.tgt-14),
+     d:"on time, in full, undamaged, documented"}
+  ];
+  const box=document.getElementById("kpis");box.innerHTML="";
+  tiles.forEach(t=>{
+    const col=COL[t.s];
+    const div=document.createElement("div");div.className="kpi";
+    div.innerHTML='<div class="plate" style="background:'+col+'"><span>'+t.s+'</span></div>'+
+      '<div class="rest"><div class="k">'+t.k+'</div>'+
+      '<div class="v" style="color:'+col+'">'+t.v+'</div>'+
+      '<div class="d">'+t.d+'</div></div>';
+    hook(div,t.k+": "+t.v+" — "+t.s.toUpperCase()+" · "+t.d.replace(/<\/?b>/g,""));
+    box.appendChild(div);
+  });
+}
+
+/* ══ 5. SANKEY  supplier → DC → outcome ══════════════════════ */
+function drawSankey(M){
+  const svg=clear("sankey");
+  const rows=M.rows;
+  const sups=SUP.filter(s=>S.sup.has(s.n)).map(s=>{
+    const rs=rows.filter(r=>r.sup===s.n);
+    return{n:s.n,v:sum(rs,r=>r.qty),otif:rs.length?rs.filter(r=>r.otif).length/rs.length:1,rows:rs};
+  }).filter(s=>s.v>0);
+  const dcs=DCS.filter(d=>!S.dc||d.n===S.dc).map(d=>{
+    const rs=rows.filter(r=>r.dc===d.n);
+    return{n:d.n,v:sum(rs,r=>r.qty),otif:rs.length?sum(rs.filter(r=>r.otif),r=>r.qty)/sum(rs,r=>r.qty):1};
+  }).filter(d=>d.v>0);
+  if(!sups.length||!dcs.length)return;
+  const total=sups.reduce((s,d)=>s+d.v,0);
   const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
-  const total=SUP.reduce((s,d)=>s+d[1],0);
   const pad=3,nw=9;
-  const x0=56,x1=W*0.52,x2=W-74;
-  const scale=(H-pad*(SUP.length+1))/total;
-
-  let y=pad;
-  const sup=SUP.map(([n,v,otif])=>{const o={n,v,otif,y,h:v*scale};y+=o.h+pad;return o;});
-  let dy=pad;
-  const dcs=DCS.map(([n,share])=>{const v=total*share;const o={n,v,y:dy,h:v*scale};dy+=o.h+pad*2;return o;});
-  const out=[{n:"On time & in full",c:GREEN},{n:"Late or short",c:RED}];
-  const otifTotal=sup.reduce((s,d)=>s+d.v*d.otif,0);
-  out[0].v=otifTotal;out[1].v=total-otifTotal;
+  const x0=56,x1=W*0.52,x2=W-78;
+  const scale=(H-pad*(sups.length+1))/total;
+  let y=pad;sups.forEach(s=>{s.y=y;s.h=s.v*scale;y+=s.h+pad;});
+  let dy=pad;const dcGap=dcs.length>1?pad*2:pad;
+  dcs.forEach(d=>{d.h=d.v*scale;d.y=dy;dy+=d.h+dcGap;});
+  const okQty=sum(rows.filter(r=>r.otif),r=>r.qty);
+  const out=[{n:"On time & in full",c:GREEN,v:okQty},
+             {n:"Late or short",c:RED,v:total-okQty}];
   let oy=pad;out.forEach(o=>{o.h=o.v*scale;o.y=oy;oy+=o.h+pad*4;});
+  const dcCur=dcs.map(d=>d.y),outCur=[out[0].y,out[1].y];
 
-  const dcCur=dcs.map(d=>d.y);
-  const outCur=[out[0].y,out[1].y];
-
-  /* supplier → DC (proportional split) */
-  sup.forEach(s=>{
+  /* supplier → DC, using the real per-lane volumes */
+  sups.forEach(s=>{
     let cy=s.y;
     dcs.forEach((d,di)=>{
-      const val=s.v*DCS[di][1], h=val*scale, sy=cy, ty=dcCur[di], mx=(x0+x1)/2;
+      const val=sum(s.rows.filter(r=>r.dc===d.n),r=>r.qty);
+      if(val<=0)return;
+      const h=val*scale,sy=cy,ty=dcCur[di],mx=(x0+x1)/2;
       const p=el("path",{d:"M"+(x0+nw)+","+sy+" C"+mx+","+sy+" "+mx+","+ty+" "+x1+","+ty+
         " L"+x1+","+(ty+h)+" C"+mx+","+(ty+h)+" "+mx+","+(sy+h)+" "+(x0+nw)+","+(sy+h)+" Z",
-        fill:s.otif<.85?ORANGE:STEEL2,opacity:.24});
+        fill:s.otif<0.85?ORANGE:STEEL2,opacity:.24});
       p.addEventListener("mouseenter",()=>p.setAttribute("opacity",.5));
       p.addEventListener("mouseleave",()=>p.setAttribute("opacity",.24));
-      hook(p,s.n+" → "+d.n+": "+Math.round(val).toLocaleString()+" units");
+      hook(p,s.n+" → "+d.n+": "+units(val)+" units");
       svg.appendChild(p);cy+=h;dcCur[di]+=h;
     });
   });
-  /* DC → outcome */
-  const dcOtif=dcs.map(()=>otifTotal/total);
+  /* DC → outcome, using each DC's own OTIF */
   dcs.forEach((d,di)=>{
     let cy=d.y;
-    [[0,d.v*dcOtif[di]],[1,d.v*(1-dcOtif[di])]].forEach(([oi,val])=>{
+    [[0,d.v*d.otif],[1,d.v*(1-d.otif)]].forEach(([oi,val])=>{
+      if(val<=0)return;
       const h=val*scale,sy=cy,ty=outCur[oi],mx=(x1+x2)/2;
       const p=el("path",{d:"M"+(x1+nw)+","+sy+" C"+mx+","+sy+" "+mx+","+ty+" "+x2+","+ty+
         " L"+x2+","+(ty+h)+" C"+mx+","+(ty+h)+" "+mx+","+(sy+h)+" "+(x1+nw)+","+(sy+h)+" Z",
         fill:out[oi].c,opacity:oi===1?.5:.2});
       p.addEventListener("mouseenter",()=>p.setAttribute("opacity",oi===1?.75:.38));
       p.addEventListener("mouseleave",()=>p.setAttribute("opacity",oi===1?.5:.2));
-      hook(p,d.n+" → "+out[oi].n+": "+Math.round(val).toLocaleString()+" units");
+      hook(p,d.n+" → "+out[oi].n+": "+units(val)+" units ("+(val/d.v*100).toFixed(1)+"%)");
       svg.appendChild(p);cy+=h;outCur[oi]+=h;
     });
   });
-  /* nodes */
-  sup.forEach(s=>{
-    svg.appendChild(el("rect",{x:x0,y:s.y,width:nw,height:s.h,
-      fill:s.otif<.85?ORANGE:SLATE,rx:1}));
+  sups.forEach(s=>{
+    const risk=s.otif<0.85;
+    svg.appendChild(el("rect",{x:x0,y:s.y,width:nw,height:Math.max(1,s.h),
+      fill:risk?ORANGE:SLATE,rx:1}));
     const t=el("text",{x:x0-5,y:s.y+s.h/2+3,"text-anchor":"end","font-size":8.5,
-      fill:s.otif<.85?ORANGE:INK,"font-weight":s.otif<.85?600:400});
+      fill:risk?ORANGE:INK,"font-weight":risk?600:400});
     t.textContent=s.n;svg.appendChild(t);
-    hook(t,s.n+": "+(s.otif*100).toFixed(0)+"% OTIF · "+s.v.toLocaleString()+" units");
+    hook(t,s.n+": "+(s.otif*100).toFixed(1)+"% OTIF · "+units(s.v)+" units");
   });
   dcs.forEach(d=>{
-    svg.appendChild(el("rect",{x:x1,y:d.y,width:nw,height:d.h,fill:STEEL,rx:1}));
+    svg.appendChild(el("rect",{x:x1,y:d.y,width:nw,height:Math.max(1,d.h),fill:STEEL,rx:1}));
     const t=el("text",{x:x1+nw+4,y:d.y+d.h/2+3,"font-size":8,fill:DIM});
     t.textContent=d.n;svg.appendChild(t);
+    hook(t,d.n+": "+units(d.v)+" units · "+(d.otif*100).toFixed(1)+"% OTIF");
   });
   out.forEach(o=>{
-    svg.appendChild(el("rect",{x:x2,y:o.y,width:nw,height:o.h,fill:o.c,rx:1}));
+    svg.appendChild(el("rect",{x:x2,y:o.y,width:nw,height:Math.max(1,o.h),fill:o.c,rx:1}));
     const t=el("text",{x:x2+nw+4,y:o.y+o.h/2,"font-size":8.5,fill:o.c,"font-weight":600});
     t.textContent=o.n;svg.appendChild(t);
     const t2=el("text",{x:x2+nw+4,y:o.y+o.h/2+11,"font-size":7.5,fill:DIM});
@@ -220,147 +454,231 @@ function drawSankey(){
   });
 }
 
-/* ─── 2. HEATMAP  lead time by lane ─────────────────────────── */
-const LANES=["DC North","DC South","DC East","DC West"];
-const SUPN=["Meridian","Northgate","Calder","Vantage","Orbis","Lumen"];
-const LT=[[26,24,22,25],[23,25,21,22],[16,15,17,16],[13,14,12,13],[18,19,17,18],[11,12,11,10]];
-function drawHeat(){
-  const svg=document.getElementById("heat");svg.innerHTML="";
+/* ══ 6. HEATMAP  median lead time by lane ════════════════════ */
+function drawHeat(M){
+  const svg=clear("heat");
+  const sups=SUP.filter(s=>S.sup.has(s.n));
+  const dcs=DCS.filter(d=>!S.dc||d.n===S.dc);
   const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
   const L=54,T=18;
-  const cw=(W-L-4)/LANES.length, ch=(H-T-4)/SUPN.length;
-  LANES.forEach((l,i)=>{
+  const cw=(W-L-4)/dcs.length, ch=(H-T-4)/sups.length;
+  const cells=[];
+  sups.forEach((s,r)=>dcs.forEach((d,c)=>{
+    const rs=M.rows.filter(x=>x.sup===s.n&&x.dc===d.n);
+    cells.push({r,c,s:s.n,d:d.n,n:rs.length,v:median(rs.map(x=>x.lead))});}));
+  const vals=cells.filter(c=>c.n).map(c=>c.v);
+  const lo=Math.min(...vals),hi=Math.max(...vals),span=(hi-lo)||1;
+  dcs.forEach((d,i)=>{
     const t=el("text",{x:L+i*cw+cw/2,y:11,"text-anchor":"middle","font-size":7.2,fill:DIM});
-    t.textContent=l.replace("DC ","");svg.appendChild(t);
-  });
-  SUPN.forEach((s,r)=>{
+    t.textContent=d.n.replace("DC ","");svg.appendChild(t);});
+  sups.forEach((s,r)=>{
     const t=el("text",{x:L-5,y:T+r*ch+ch/2+3,"text-anchor":"end","font-size":7.8,fill:DIM});
-    t.textContent=s;svg.appendChild(t);
-    LANES.forEach((l,c)=>{
-      const v=LT[r][c];
-      const u=Math.min(1,Math.max(0,(v-10)/(26-10)));
-      const col="rgba(232,89,12,"+(0.10+u*0.85).toFixed(3)+")";
-      const g=el("g");
-      g.appendChild(el("rect",{x:L+c*cw+1,y:T+r*ch+1,width:cw-2,height:ch-2,fill:col,rx:2}));
+    t.textContent=s.n;svg.appendChild(t);});
+  cells.forEach(c=>{
+    const g=el("g");
+    if(!c.n){
+      g.appendChild(el("rect",{x:L+c.c*cw+1,y:T+c.r*ch+1,width:cw-2,height:ch-2,
+        fill:"none",stroke:RULE,"stroke-width":1,rx:2}));
+    }else{
+      const u=(c.v-lo)/span;
+      g.appendChild(el("rect",{x:L+c.c*cw+1,y:T+c.r*ch+1,width:cw-2,height:ch-2,
+        fill:"rgba(232,89,12,"+(0.10+u*0.85).toFixed(3)+")",rx:2}));
       if(cw>28&&ch>14){
-        const tx=el("text",{x:L+c*cw+cw/2,y:T+r*ch+ch/2+3,"text-anchor":"middle","font-size":7.6,
-          fill:u>.5?"#fff":INK,"font-weight":500});
-        tx.textContent=v;g.appendChild(tx);
-      }
-      hook(g,s+" → "+l+": "+v+" days");
-      svg.appendChild(g);
-    });
+        const tx=el("text",{x:L+c.c*cw+cw/2,y:T+c.r*ch+ch/2+3,"text-anchor":"middle",
+          "font-size":7.6,fill:u>.5?"#fff":INK,"font-weight":500});
+        tx.textContent=c.v.toFixed(0);g.appendChild(tx);}
+      hook(g,c.s+" → "+c.d+": median "+c.v.toFixed(0)+" days over "+c.n+" shipments");
+    }
+    svg.appendChild(g);
   });
 }
 
-/* ─── 3. BULLET  OTIF vs 95% target ─────────────────────────── */
-const OTIF=[["Meridian",79],["Northgate",82],["Orbis",91],["Calder",93],["Vantage",95],["Lumen",96]];
-function drawBullet(){
-  const svg=document.getElementById("bullet");svg.innerHTML="";
+/* ══ 7. BULLET  OTIF by supplier vs the target parameter ═════ */
+function drawBullet(M){
+  const svg=clear("bullet");
+  document.getElementById("sBullet").innerHTML=
+    "BULLET · BAR = ACTUAL, NOTCH = <b>"+S.tgt.toFixed(1)+"%</b> TARGET";
+  const data=SUP.filter(s=>S.sup.has(s.n)).map(s=>{
+    const rs=M.rows.filter(r=>r.sup===s.n);
+    return{n:s.n,v:rs.length?rs.filter(r=>r.otif).length/rs.length*100:0,n2:rs.length};
+  }).filter(d=>d.n2>0).sort((a,b)=>a.v-b.v);
+  if(!data.length)return;
   const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
   const L=58,R=W-30,T=6,B=H-14;
-  const x=v=>L+((v-70)/30)*(R-L);
-  const step=(B-T)/OTIF.length;
-  /* qualitative bands */
-  [[70,85,"#f0d5cd"],[85,95,"#f6ecd6"],[95,100,"#dcecdf"]].forEach(([a,b,c])=>{
-    svg.appendChild(el("rect",{x:x(a),y:T,width:x(b)-x(a),height:B-T,fill:c}));
-  });
-  [70,80,90,100].forEach(v=>{
+  const lo=Math.min(60,Math.floor(Math.min(...data.map(d=>d.v))/10)*10);
+  const x=v=>L+((v-lo)/(100-lo))*(R-L);
+  const step=(B-T)/data.length;
+  const warn=S.tgt-6;
+  [[lo,warn,"#f0d5cd"],[warn,S.tgt,"#f6ecd6"],[S.tgt,100,"#dcecdf"]].forEach(([a,b,c])=>{
+    if(b<=a)return;
+    svg.appendChild(el("rect",{x:x(a),y:T,width:x(b)-x(a),height:B-T,fill:c}));});
+  for(let v=lo;v<=100;v+=Math.max(5,Math.round((100-lo)/4/5)*5)){
     const t=el("text",{x:x(v),y:B+10,"text-anchor":"middle","font-size":7.2,fill:DIM});
-    t.textContent=v+"%";svg.appendChild(t);
-  });
-  OTIF.forEach((d,i)=>{
+    t.textContent=v+"%";svg.appendChild(t);}
+  data.forEach((d,i)=>{
     const y=T+step*i+step*.28, h=step*.44;
     const g=el("g");
-    const col=d[1]<85?RED:d[1]<95?ORANGE:GREEN;
-    g.appendChild(el("rect",{x:x(70),y,width:Math.max(0,x(d[1])-x(70)),height:h,fill:col,rx:1}));
+    const col=d.v<warn?RED:d.v<S.tgt?ORANGE:GREEN;
+    g.appendChild(el("rect",{x:x(lo),y,width:Math.max(0,x(d.v)-x(lo)),height:h,fill:col,rx:1}));
     const t=el("text",{x:L-5,y:y+h/2+3,"text-anchor":"end","font-size":7.8,fill:INK});
-    t.textContent=d[0];g.appendChild(t);
-    const v=el("text",{x:x(d[1])+4,y:y+h/2+3,"font-size":7.8,fill:col,"font-weight":600});
-    v.textContent=d[1]+"%";g.appendChild(v);
-    hook(g,d[0]+": "+d[1]+"% OTIF · target 95%");
+    t.textContent=d.n;g.appendChild(t);
+    const v=el("text",{x:x(d.v)+4,y:y+h/2+3,"font-size":7.8,fill:col,"font-weight":600});
+    v.textContent=d.v.toFixed(1)+"%";g.appendChild(v);
+    hook(g,d.n+": "+d.v.toFixed(1)+"% OTIF on "+d.n2+" shipments · target "+S.tgt.toFixed(1)+"%");
     svg.appendChild(g);
   });
-  /* target notch */
-  svg.appendChild(el("line",{x1:x(95),y1:T,x2:x(95),y2:B,stroke:INK,"stroke-width":1.6,
+  svg.appendChild(el("line",{x1:x(S.tgt),y1:T,x2:x(S.tgt),y2:B,stroke:INK,"stroke-width":1.6,
     "stroke-dasharray":"3 2"}));
 }
 
-/* ─── 4. SCATTER  unit cost vs reliability ──────────────────── */
-const REL=[["Meridian",4.10,79,42],["Northgate",4.35,82,31],["Orbis",5.20,91,15],
-           ["Calder",5.60,93,28],["Vantage",6.05,95,22],["Lumen",6.60,96,9]];
-function drawScatter(){
-  const svg=document.getElementById("scatter");svg.innerHTML="";
+/* ══ 8. SCATTER  unit cost vs reliability ════════════════════ */
+function drawScatter(M){
+  const svg=clear("scatter");
+  const data=SUP.filter(s=>S.sup.has(s.n)).map(s=>{
+    const rs=M.rows.filter(r=>r.sup===s.n);
+    if(!rs.length)return null;
+    const q=sum(rs,r=>r.qty);
+    return{n:s.n,cost:sum(rs,r=>r.cost*r.qty)/q,
+      otif:rs.filter(r=>r.otif).length/rs.length*100,qty:q};
+  }).filter(Boolean);
+  if(!data.length)return;
   const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
   const L=32,R=W-12,T=10,B=H-18;
-  const x=v=>L+((v-3.8)/3.2)*(R-L), y=v=>B-((v-75)/25)*(B-T);
-  [4,5,6,7].forEach(v=>{
+  const cLo=Math.floor(Math.min(...data.map(d=>d.cost))*2-0.6)/2;
+  const cHi=Math.ceil(Math.max(...data.map(d=>d.cost))*2+0.6)/2;
+  const oLo=Math.max(0,Math.floor((Math.min(...data.map(d=>d.otif))-4)/5)*5);
+  const x=v=>L+((v-cLo)/((cHi-cLo)||1))*(R-L);
+  const y=v=>B-((v-oLo)/((100-oLo)||1))*(B-T);
+  for(let v=Math.ceil(cLo);v<=cHi;v++){
     svg.appendChild(el("line",{x1:x(v),y1:T,x2:x(v),y2:B,stroke:RULE,"stroke-width":1}));
     const t=el("text",{x:x(v),y:B+10,"text-anchor":"middle","font-size":7.2,fill:DIM});
-    t.textContent="$"+v;svg.appendChild(t);
-  });
-  [80,90,100].forEach(v=>{
+    t.textContent="$"+v;svg.appendChild(t);}
+  for(let v=oLo;v<=100;v+=Math.max(5,Math.round((100-oLo)/3/5)*5)){
     svg.appendChild(el("line",{x1:L,y1:y(v),x2:R,y2:y(v),stroke:RULE,"stroke-width":1}));
     const t=el("text",{x:L-4,y:y(v)+3,"text-anchor":"end","font-size":7.2,fill:DIM});
-    t.textContent=v+"%";svg.appendChild(t);
-  });
-  svg.appendChild(el("line",{x1:L,y1:y(95),x2:R,y2:y(95),stroke:GREEN,"stroke-width":1.2,
+    t.textContent=v+"%";svg.appendChild(t);}
+  svg.appendChild(el("line",{x1:L,y1:y(S.tgt),x2:R,y2:y(S.tgt),stroke:GREEN,"stroke-width":1.2,
     "stroke-dasharray":"4 3"}));
-  REL.forEach(([n,cost,otif,spend])=>{
+  const tl=el("text",{x:L+3,y:y(S.tgt)-4,"font-size":6.6,fill:GREEN});
+  tl.textContent="target "+S.tgt.toFixed(1)+"%";svg.appendChild(tl);
+  const maxQ=Math.max(...data.map(d=>d.qty),1);
+  const placed=[];
+  data.forEach(d=>{
     const g=el("g");
-    const r=5+Math.sqrt(spend)*1.15;
-    const col=otif<85?RED:otif<95?ORANGE:GREEN;
-    g.appendChild(el("circle",{cx:x(cost),cy:y(otif),r,fill:col,opacity:.55,stroke:col,"stroke-width":1.6}));
-    const t=el("text",{x:x(cost),y:y(otif)-r-4,"text-anchor":"middle","font-size":7.6,fill:INK});
-    t.textContent=n;g.appendChild(t);
-    hook(g,n+": $"+cost.toFixed(2)+"/unit · "+otif+"% OTIF · "+spend+"K units");
+    const r=5+Math.sqrt(d.qty/maxQ)*13;
+    const col=d.otif<S.tgt-6?RED:d.otif<S.tgt?ORANGE:GREEN;
+    const cx=x(d.cost),cy=y(d.otif);
+    g.appendChild(el("circle",{cx,cy,r,fill:col,opacity:.55,stroke:col,"stroke-width":1.6}));
+    let ly=cy-r-4;
+    if(placed.some(p=>Math.abs(p[0]-cx)<48&&Math.abs(p[1]-ly)<11))ly=cy+r+9;
+    placed.push([cx,ly]);
+    const t=el("text",{x:cx,y:ly,"text-anchor":"middle","font-size":7.6,fill:INK});
+    t.textContent=d.n;g.appendChild(t);
+    hook(g,d.n+": $"+d.cost.toFixed(2)+"/unit · "+d.otif.toFixed(1)+"% OTIF · "+units(d.qty)+" units");
     svg.appendChild(g);
   });
 }
 
-/* ─── 5. PARETO  delay reasons ──────────────────────────────── */
-const REASONS=[["Supplier capacity",31],["Port congestion",22],["Customs hold",16],
-               ["Carrier capacity",12],["Quality reject",10],["Other",9]];
-function drawPareto(){
-  const svg=document.getElementById("pareto");svg.innerHTML="";
+/* ══ 9. PARETO  delay reasons ════════════════════════════════ */
+function drawPareto(M){
+  const svg=clear("pareto");
+  const failed=M.rows.filter(r=>!r.otif);
+  const data=REASONS.map(r=>({r,n:failed.filter(f=>f.reason===r).length}))
+    .filter(d=>d.n>0).sort((a,b)=>b.n-a.n);
+  if(!data.length||!failed.length)return;
+  const tot=failed.length;
+  data.forEach(d=>d.pct=d.n/tot*100);
   const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
   const L=8,R=W-30,T=10,B=H-24;
-  const bw=(R-L)/REASONS.length;
-  const y=v=>B-(v/35)*(B-T);
+  const bw=(R-L)/data.length;
+  const maxP=Math.max(35,Math.ceil(data[0].pct/5)*5+5);
+  const y=v=>B-(v/maxP)*(B-T);
   const yc=v=>B-(v/100)*(B-T);
   let cum=0;const pts=[];
-  REASONS.forEach((d,i)=>{
+  data.forEach((d,i)=>{
     const g=el("g");
     const col=i===0?ORANGE:i===1?ORANGE2:SLATE;
-    const h=B-y(d[1]);
-    g.appendChild(el("rect",{x:L+i*bw+bw*.16,y:y(d[1]),width:bw*.68,height:h,fill:col,rx:1,opacity:.9}));
-    const t=el("text",{x:L+i*bw+bw/2,y:B+9,"text-anchor":"middle","font-size":6.4,fill:DIM});
-    t.textContent=d[0].split(" ")[0];g.appendChild(t);
-    const t2=el("text",{x:L+i*bw+bw/2,y:B+17,"text-anchor":"middle","font-size":6.4,fill:DIM});
-    t2.textContent=d[0].split(" ")[1]||"";g.appendChild(t2);
-    const v=el("text",{x:L+i*bw+bw/2,y:y(d[1])-3,"text-anchor":"middle","font-size":7.6,
+    g.appendChild(el("rect",{x:L+i*bw+bw*.16,y:y(d.pct),width:bw*.68,height:B-y(d.pct),
+      fill:col,rx:1,opacity:.9}));
+    d.r.split(" ").forEach((w,wi)=>{
+      const t=el("text",{x:L+i*bw+bw/2,y:B+9+wi*8,"text-anchor":"middle","font-size":6.4,fill:DIM});
+      t.textContent=w;g.appendChild(t);});
+    const v=el("text",{x:L+i*bw+bw/2,y:y(d.pct)-3,"text-anchor":"middle","font-size":7.6,
       fill:col,"font-weight":600});
-    v.textContent=d[1]+"%";g.appendChild(v);
-    hook(g,d[0]+": "+d[1]+"% of late shipments");
+    v.textContent=d.pct.toFixed(0)+"%";g.appendChild(v);
+    hook(g,d.r+": "+d.n+" of "+tot+" failed shipments ("+d.pct.toFixed(1)+"%)");
     svg.appendChild(g);
-    cum+=d[1];pts.push([L+i*bw+bw/2,yc(cum),cum]);
+    cum+=d.pct;pts.push([L+i*bw+bw/2,yc(cum),cum]);
   });
   svg.appendChild(el("polyline",{points:pts.map(p=>p[0].toFixed(1)+","+p[1].toFixed(1)).join(" "),
     fill:"none",stroke:INK,"stroke-width":1.6}));
   pts.forEach(p=>{
     const c=el("circle",{cx:p[0],cy:p[1],r:2.6,fill:"#fff",stroke:INK,"stroke-width":1.4});
-    hook(c,"Cumulative "+p[2]+"%");svg.appendChild(c);
-  });
-  /* 80% reference */
+    hook(c,"Cumulative "+p[2].toFixed(1)+"%");svg.appendChild(c);});
   svg.appendChild(el("line",{x1:L,y1:yc(80),x2:R,y2:yc(80),stroke:RED,"stroke-width":1,
     "stroke-dasharray":"3 3"}));
   const t80=el("text",{x:R+3,y:yc(80)+3,"font-size":7,fill:RED});t80.textContent="80%";
   svg.appendChild(t80);
 }
 
-function drawAll(){drawSankey();drawHeat();drawBullet();drawScatter();drawPareto();}
-drawAll();
-let rt;addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(drawAll,140);});
+/* ══ 10. RENDER ══════════════════════════════════════════════ */
+function render(){
+  const rows=inScope();
+  document.getElementById("scope").innerHTML=
+    "<b>"+rows.length.toLocaleString()+"</b> OF 3,200 SHIPMENTS · <b>"+
+    (rows.length?units(sum(rows,r=>r.qty)):"0")+"</b> UNITS";
+  if(rows.length<30){
+    document.getElementById("kpis").innerHTML=
+      '<div class="kpi" style="grid-column:1/-1"><div class="plate" style="background:'+RED+
+      '"><span>no data</span></div><div class="rest"><div class="k">Scope</div>'+
+      '<div class="v" style="color:'+RED+'">—</div>'+
+      '<div class="d">Fewer than 30 shipments match. Widen the filters.</div></div></div>';
+    ["sankey","heat","bullet","scatter","pareto"].forEach(clear);
+    document.getElementById("verdict").innerHTML=
+      "<b>Nothing to read at this scope.</b> Widen the supplier, DC or quarter selection.";
+    return;
+  }
+  const M=metrics(rows);
+  M.tol0=S.tol+" d tolerance";
+  drawKpis(M);drawSankey(M);drawHeat(M);drawBullet(M);drawScatter(M);drawPareto(M);
+
+  /* which suppliers carry the failures, and what variance is costing */
+  const bySup=SUP.filter(s=>S.sup.has(s.n)).map(s=>{
+    const rs=M.rows.filter(r=>r.sup===s.n);
+    return{n:s.n,fail:rs.filter(r=>!r.otif).length,
+      cost:rs.length?sum(rs,r=>r.cost*r.qty)/sum(rs,r=>r.qty):0,
+      otif:rs.length?rs.filter(r=>r.otif).length/rs.length*100:100,n2:rs.length};
+  }).filter(s=>s.n2).sort((a,b)=>b.fail-a.fail);
+  const totFail=M.failN||1;
+  const top2=bySup.slice(0,2);
+  const top2Share=top2.reduce((s,d)=>s+d.fail,0)/totFail*100;
+  const cheapest=bySup.slice().sort((a,b)=>a.cost-b.cost).slice(0,2).map(d=>d.n);
+  const below=bySup.filter(s=>s.otif<S.tgt);
+  /* what halving lead-time variance would release from safety stock */
+  const halfSafety=M.z*(M.sigL/2)*M.d;
+  const release=(M.safety-halfSafety)*M.avgCost;
+
+  document.getElementById("verdict").innerHTML=
+    "<b>The problem is variance, not speed.</b> An average lead time of "+M.L.toFixed(1)+
+    " days is workable; a swing of <b>±"+M.sigL.toFixed(1)+" days</b> is not, and it is what forces "+
+    money(M.safety*M.avgCost)+" of the "+money(M.inv)+" on hand to sit as pure safety stock at a "+
+    S.svc.toFixed(1)+"% service level. "+
+    (top2.length===2
+      ? "<b>"+top2[0].n+" and "+top2[1].n+"</b> generate "+top2Share.toFixed(0)+
+        "% of all failed shipments"+
+        (cheapest.includes(top2[0].n)&&cheapest.includes(top2[1].n)
+          ? " while being the two cheapest on unit price. " : ". ")
+      : "")+
+    below.length+" of "+bySup.length+" suppliers sit below the "+S.tgt.toFixed(1)+"% target. "+
+    '<span class="fix">Halving lead-time variance on those lanes would release about '+
+    money(release)+' of safety stock without touching service levels.</span>'+
+    '<span class="src">DATA · 3,200 simulated shipments from a seeded model. OTIF is evaluated against '+
+    "each supplier's own quoted lead time plus the tolerance above; inventory and shortfall use a "+
+    "textbook periodic-review model (pipeline + cycle + zσ safety stock, unit normal loss function). "+
+    'Built to demonstrate the analysis, not to report a real network.</span>';
+}
+render();
+let rt;addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(render,140);});
 </script>
 </body>
 </html>

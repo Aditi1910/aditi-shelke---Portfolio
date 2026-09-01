@@ -18,37 +18,72 @@
       radial-gradient(1000px 480px at 88% -10%, #2a2318 0%, transparent 62%),
       radial-gradient(700px 400px at 4% 6%, #1c2320 0%, transparent 58%), var(--bg);
     color:var(--txt);font-family:'Inter',sans-serif;font-weight:300;
-    -webkit-font-smoothing:antialiased;display:grid;grid-template-rows:auto auto 1fr auto;
-    gap:.55rem;padding:.7rem 1.1rem .75rem}
+    -webkit-font-smoothing:antialiased;display:grid;grid-template-rows:auto auto auto 1fr auto;
+    gap:.5rem;padding:.6rem 1.05rem .7rem}
 
   .head{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap;
-    border-bottom:1px solid var(--edge);padding-bottom:.5rem}
+    border-bottom:1px solid var(--edge);padding-bottom:.45rem}
   .head .l{display:flex;align-items:baseline;gap:.95rem;flex-wrap:wrap}
   a.home{font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);
     text-decoration:none;border-bottom:1px solid transparent}
   a.home:hover{border-color:var(--gold)}
-  h1{font-family:'Fraunces',serif;font-size:1.7rem;font-weight:600;letter-spacing:-.02em;line-height:1}
+  h1{font-family:'Fraunces',serif;font-size:1.6rem;font-weight:600;letter-spacing:-.02em;line-height:1}
   h1 em{font-style:italic;color:var(--gold)}
-  .kick{font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:var(--faint);
+  .kick{font-size:.53rem;letter-spacing:.15em;text-transform:uppercase;color:var(--faint);
     text-align:right;line-height:1.8}
 
-  .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:.5rem}
-  .kpi{background:var(--pan);border:1px solid var(--edge);border-radius:4px;padding:.5rem .8rem;
-    display:flex;flex-direction:column;gap:.1rem;position:relative}
-  .kpi .k{font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
-  .kpi .row{display:flex;align-items:baseline;gap:.45rem}
-  .kpi .v{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:600;line-height:1.1}
-  .kpi .chg{font-size:.62rem;font-weight:500}
-  .kpi .spark{height:15px;margin-top:.1rem}
-  .kpi .spark svg{width:100%;height:100%;display:block}
+  /* ── control bar ─────────────────────────────────────────── */
+  .bar{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;
+    border-bottom:1px solid var(--edge);padding-bottom:.42rem}
+  .fg{display:flex;align-items:center;gap:.35rem}
+  .fg > label{font-size:.5rem;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--faint);white-space:nowrap}
+  .chips{display:flex;gap:.25rem}
+  .chip{font-size:.55rem;letter-spacing:.06em;padding:.2rem .5rem;border:1px solid var(--edge2);
+    background:transparent;color:var(--faint);border-radius:2px;cursor:pointer;transition:all .15s}
+  .chip:hover{color:var(--txt);border-color:var(--gold)}
+  .chip.on{background:rgba(212,165,60,.16);border-color:var(--gold);color:var(--gold2);font-weight:500}
+  select{font-size:.55rem;padding:.2rem .3rem;border:1px solid var(--edge2);border-radius:2px;
+    background:#120f0d;color:var(--txt);cursor:pointer;font-family:'Inter',sans-serif}
+  select:focus{outline:1.5px solid var(--gold);outline-offset:1px}
+  .par{display:flex;align-items:center;gap:.4rem;border:1px solid rgba(212,165,60,.32);
+    background:rgba(212,165,60,.07);border-radius:2px;padding:.18rem .5rem}
+  .par label{font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--gold);white-space:nowrap;font-weight:500}
+  .par input[type=range]{width:82px;accent-color:var(--gold);height:3px;cursor:pointer}
+  .par .out{font-size:.6rem;font-weight:600;color:var(--gold2);min-width:40px;
+    font-variant-numeric:tabular-nums}
+  .reset{font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;background:transparent;
+    border:1px solid var(--edge2);color:var(--faint);border-radius:2px;padding:.24rem .55rem;
+    cursor:pointer;font-family:'Inter',sans-serif}
+  .reset:hover{border-color:var(--red);color:var(--red)}
+  .scope{font-size:.51rem;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--faint);margin-left:auto}
+  .scope b{color:var(--gold);font-weight:500}
+
+  /* ── KPI: one ledger strip, hairline rules, no cards ──────── */
+  .kpis{display:flex;border-top:1px solid var(--edge2);border-bottom:1px solid var(--edge2)}
+  .kpi{flex:1;padding:.4rem .9rem .44rem;min-width:0;position:relative}
+  .kpi + .kpi::before{content:'';position:absolute;left:0;top:14%;bottom:14%;
+    width:1px;background:var(--edge)}
+  .kpi .k{font-size:.485rem;letter-spacing:.19em;text-transform:uppercase;color:var(--faint)}
+  .kpi .row{display:flex;align-items:baseline;gap:.42rem;margin-top:.02rem}
+  .kpi .v{font-family:'Fraunces',serif;font-size:1.46rem;font-weight:600;line-height:1.08;
+    font-variant-numeric:tabular-nums}
+  .kpi .chg{font-size:.6rem;font-weight:500;white-space:nowrap}
+  .kpi .rule{height:2px;background:#241f1a;margin-top:.24rem;position:relative;border-radius:1px}
+  .kpi .rule i{position:absolute;left:0;top:0;bottom:0;border-radius:1px;transition:width .25s}
+  .kpi .rule u{position:absolute;top:-2px;bottom:-2px;width:1px;background:var(--cream);opacity:.6}
+  .kpi .d{font-size:.485rem;letter-spacing:.05em;color:var(--faint);margin-top:.14rem;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .up{color:var(--green)}.dn{color:var(--red)}
   .g{color:var(--gold)}.b{color:var(--blue)}.p{color:var(--plum)}.cr{color:var(--cream)}
 
-  .grid{display:grid;grid-template-columns:1.25fr 1.1fr 1.05fr;grid-template-rows:1fr 1fr;gap:.55rem;min-height:0}
+  .grid{display:grid;grid-template-columns:1.25fr 1.1fr 1.05fr;grid-template-rows:1fr 1fr;gap:.5rem;min-height:0}
   .card{background:var(--pan);border:1px solid var(--edge);border-radius:5px;
-    padding:.5rem .8rem .55rem;display:flex;flex-direction:column;min-height:0;min-width:0}
-  .card h2{font-family:'Fraunces',serif;font-size:.95rem;font-weight:600;line-height:1.2}
-  .card .s{font-size:.55rem;color:var(--faint);margin-bottom:.25rem;letter-spacing:.07em;
+    padding:.45rem .78rem .5rem;display:flex;flex-direction:column;min-height:0;min-width:0}
+  .card h2{font-family:'Fraunces',serif;font-size:.92rem;font-weight:600;line-height:1.2}
+  .card .s{font-size:.53rem;color:var(--faint);margin-bottom:.22rem;letter-spacing:.07em;
     text-transform:uppercase;line-height:1.4}
   .card .s b{color:var(--gold)}
   .viz{flex:1;min-height:0;position:relative}
@@ -57,10 +92,11 @@
 
   .verdict{background:linear-gradient(90deg,rgba(212,165,60,.12),rgba(212,165,60,.02));
     border:1px solid rgba(212,165,60,.28);border-left:3px solid var(--gold);border-radius:4px;
-    padding:.55rem .95rem;font-family:'Fraunces',serif;font-size:.86rem;line-height:1.55;color:#ded4c2}
+    padding:.48rem .95rem;font-family:'Fraunces',serif;font-size:.83rem;line-height:1.55;color:#ded4c2}
   .verdict b{color:var(--gold);font-weight:600}
-  .verdict .src{font-family:'Inter',sans-serif;font-size:.52rem;color:var(--faint);
-    letter-spacing:.05em;margin-top:.25rem;display:block;font-style:normal}
+  .verdict .fix{color:var(--green);font-weight:600}
+  .verdict .src{font-family:'Inter',sans-serif;font-size:.5rem;color:var(--faint);
+    letter-spacing:.05em;margin-top:.2rem;display:block;font-style:normal}
 
   .tip{position:fixed;pointer-events:none;background:#0a0908;border:1px solid var(--edge2);
     color:var(--txt);font-size:.64rem;padding:.35rem .55rem;border-radius:3px;opacity:0;
@@ -70,8 +106,12 @@
     html,body{height:auto;overflow:auto}
     .grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}
     .span2{grid-row:span 1}.viz{min-height:210px}
-    .kpis{grid-template-columns:repeat(3,1fr)}
+    .kpis{flex-wrap:wrap}.kpi{flex:1 1 32%}
+    .kpi + .kpi::before{display:none}
+    .kpi{border-top:1px solid var(--edge)}
+    .scope{margin-left:0}
   }
+  @media (max-width:620px){.kpi{flex:1 1 48%}.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -80,77 +120,64 @@
       <a class="home" href="../index.html">&larr; Portfolio</a>
       <h1>The One <em>Screen</em></h1>
     </div>
-    <div class="kick">Simulated group P&amp;L · FY2026 · 4 business units<br/>Executive overview · growth, margin &amp; risk</div>
+    <div class="kick">Simulated group P&amp;L · FY2026 · 4 units · 7 product lines · 3 regions<br/>Executive overview · growth, margin &amp; risk</div>
   </div>
 
-  <div class="kpis">
-    <div class="kpi">
-      <div class="k">Revenue</div>
-      <div class="row"><span class="v g">$142M</span><span class="chg up">▲ 11.4%</span></div>
-      <div class="spark" data-spark="98,104,101,112,118,115,124,131,128,136,139,142" data-col="#d4a53c"></div>
-    </div>
-    <div class="kpi">
-      <div class="k">Gross margin</div>
-      <div class="row"><span class="v cr">58.2%</span><span class="chg dn">▼ 1.9 pts</span></div>
-      <div class="spark" data-spark="61,61,60,60,59,60,59,59,58,58,58,58" data-col="#d9614c"></div>
-    </div>
-    <div class="kpi">
-      <div class="k">EBITDA</div>
-      <div class="row"><span class="v b">$24.6M</span><span class="chg up">▲ 6.1%</span></div>
-      <div class="spark" data-spark="19,20,20,21,22,21,22,23,23,24,24,25" data-col="#6b93b8"></div>
-    </div>
-    <div class="kpi">
-      <div class="k">Net retention</div>
-      <div class="row"><span class="v p">104%</span><span class="chg dn">▼ 5 pts</span></div>
-      <div class="spark" data-spark="112,111,110,109,109,108,107,106,106,105,104,104" data-col="#a2739b"></div>
-    </div>
-    <div class="kpi">
-      <div class="k">Cash runway</div>
-      <div class="row"><span class="v cr">28 mo</span><span class="chg up">▲ 3 mo</span></div>
-      <div class="spark" data-spark="22,22,23,23,24,25,25,26,26,27,28,28" data-col="#5fa87c"></div>
-    </div>
+  <div class="bar">
+    <div class="fg"><label>Unit</label><div class="chips" id="cUnit"></div></div>
+    <div class="fg"><label>Region</label><select id="fReg"><option value="">All</option></select></div>
+    <div class="fg"><label>Quarter</label>
+      <select id="fQ"><option value="">Full year</option>
+        <option value="0">Q1</option><option value="1">Q2</option>
+        <option value="2">Q3</option><option value="3">Q4</option></select></div>
+    <div class="par"><label>Cap services mix</label>
+      <input type="range" id="pCap" min="12" max="35" step="0.5" value="25"/>
+      <span class="out" id="oCap">25.0%</span></div>
+    <div class="par"><label>Gross churn</label>
+      <input type="range" id="pChurn" min="4" max="20" step="0.5" value="11.5"/>
+      <span class="out" id="oChurn">11.5%</span></div>
+    <div class="par"><label>Opex ratio</label>
+      <input type="range" id="pOpex" min="28" max="48" step="0.5" value="40.9"/>
+      <span class="out" id="oOpex">40.9%</span></div>
+    <button class="reset" id="reset">Reset</button>
+    <div class="scope" id="scope"></div>
   </div>
+
+  <div class="kpis" id="kpis"></div>
 
   <div class="grid">
     <div class="card span2">
       <h2>Where the revenue sits</h2>
-      <div class="s">Business unit &rarr; product line · area = revenue · <b>colour = margin</b></div>
+      <div class="s">Product line · area = FY26 revenue · <b>colour = gross margin</b></div>
       <div class="viz"><svg id="treemap" preserveAspectRatio="none"></svg></div>
     </div>
 
     <div class="card">
-      <h2>Revenue bridge, FY25 → FY26</h2>
-      <div class="s">What actually moved the top line</div>
+      <h2>Revenue bridge, FY25 &rarr; FY26</h2>
+      <div class="s" id="sBridge">What actually moved the top line</div>
       <div class="viz"><svg id="bridge" preserveAspectRatio="none"></svg></div>
     </div>
 
     <div class="card">
       <h2>Performance against plan</h2>
-      <div class="s">Bar = actual · notch = plan · band = tolerance</div>
+      <div class="s">Bar = actual · notch = plan, scaled to the current scope</div>
       <div class="viz"><svg id="bullet" preserveAspectRatio="none"></svg></div>
     </div>
 
     <div class="card">
       <h2>Growth vs margin by unit</h2>
-      <div class="s">Bubble = revenue · <b>upper right is where you want to be</b></div>
+      <div class="s">Bubble = FY26 revenue · <b>upper right is where you want to be</b></div>
       <div class="viz"><svg id="quad" preserveAspectRatio="none"></svg></div>
     </div>
 
     <div class="card">
       <h2>Risk register</h2>
-      <div class="s">Likelihood × impact · size = exposure</div>
+      <div class="s" id="sRisk">Likelihood &times; impact · size = exposure</div>
       <div class="viz"><svg id="risk" preserveAspectRatio="none"></svg></div>
     </div>
   </div>
 
-  <div class="verdict"><b>Growth is real, but it is being bought.</b> Revenue is up 11.4% while gross margin
-    has given back 1.9 points and net retention has fallen 5 — the business is adding logos faster than it
-    is keeping them. Platform carries 61% margin and is the only unit both growing and expanding margin;
-    Services is growing fastest and dilutes every point it adds.
-    <b>Cap Services at its current mix, and put the retention gap on the board agenda before it compounds.</b>
-    <span class="src">DATA · Simulated group P&amp;L generated from a seeded model with realistic growth,
-    margin and retention behaviour. Built to demonstrate the analysis, not to report a real company.</span></div>
-
+  <div class="verdict" id="verdict"></div>
   <div class="tip" id="tip"></div>
 
 <script>
@@ -167,37 +194,217 @@ function hook(n,txt){
   n.addEventListener("mouseleave",()=>tip.classList.remove("on"));
 }
 const size=s=>{const r=s.parentNode.getBoundingClientRect();return[Math.max(r.width,10),Math.max(r.height,10)];};
+const clear=id=>{const s=document.getElementById(id);s.innerHTML="";return s;};
+const M$=v=>(Math.abs(v)>=1?"$"+v.toFixed(1)+"M":"$"+(v*1000).toFixed(0)+"K");
 
-/* ─── sparklines in the KPI row ─────────────────────────────── */
-function drawSparks(){
-  document.querySelectorAll(".spark").forEach(box=>{
-    const vals=box.dataset.spark.split(",").map(Number), col=box.dataset.col;
-    const r=box.getBoundingClientRect(), W=Math.max(r.width,10), H=Math.max(r.height,10);
-    const mn=Math.min(...vals), mx=Math.max(...vals), rng=(mx-mn)||1;
-    const x=i=>(i/(vals.length-1))*W, y=v=>H-2-((v-mn)/rng)*(H-4);
-    const svg=el("svg",{viewBox:"0 0 "+W+" "+H});
-    let d="M"+x(0)+","+y(vals[0]);
-    vals.forEach((v,i)=>{if(i)d+=" L"+x(i)+","+y(v);});
-    svg.appendChild(el("path",{d:d+" L"+x(vals.length-1)+","+H+" L"+x(0)+","+H+" Z",
-      fill:col,opacity:.14}));
-    svg.appendChild(el("path",{d,fill:"none",stroke:col,"stroke-width":1.4,"stroke-linejoin":"round"}));
-    svg.appendChild(el("circle",{cx:x(vals.length-1),cy:y(vals[vals.length-1]),r:1.8,fill:col}));
-    box.innerHTML="";box.appendChild(svg);
+/* ══ 1. SEEDED P&L CELLS ══════════════════════════════════════
+   84 product-line × region × quarter cells, each carrying its FY25
+   base and every FY26 movement separately.  The KPI strip, the
+   treemap, the bridge, the bullets and the quadrant are all
+   aggregations of these — no figure below is typed in.            */
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);
+  t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+const rnd=mulberry32(20260905);
+
+const UNITS=["Platform","Data","Services","Hardware"];
+const U_COL={Platform:GREEN,Data:BLUE,Services:RED,Hardware:PLUM};
+const REGIONS=["Americas","EMEA","APAC"];
+const REG_W={Americas:.54,EMEA:.30,APAC:.16};
+const Q_W=[.225,.240,.245,.290];              /* Q4-weighted, as software is */
+/* fy25 base, plus each line's own churn and expansion behaviour.
+   `new` is solved so the line's FY26 lands where it should.       */
+const LINES=[
+  {u:"Platform",n:"Core subscription",m:.76,fy25:42.81,churnR:.055,expR:.145,fy26:48},
+  {u:"Platform",n:"Add-on modules",   m:.66,fy25:15.17,churnR:.075,expR:.175,fy26:17},
+  {u:"Data",    n:"Analytics suite",  m:.70,fy25:20.11,churnR:.065,expR:.155,fy26:22},
+  {u:"Data",    n:"Data feeds",       m:.58,fy25:10.05,churnR:.105,expR:.095,fy26:11},
+  {u:"Services",n:"Implementation",   m:.34,fy25:15.49,churnR:.125,expR:.105,fy26:19},
+  {u:"Services",n:"Managed services", m:.30,fy25:10.60,churnR:.145,expR:.120,fy26:13},
+  {u:"Hardware",n:"Devices",          m:.24,fy25:12.40,churnR:.085,expR:.035,fy26:12}
+];
+const PRICE_R=.019;                            /* list-price uplift, all lines */
+const DOWN_SHARE=.39;                          /* downgrade as a share of churn */
+/* solve each line's new-logo contribution so the bridge closes exactly */
+LINES.forEach(l=>{
+  l.exp  =l.expR*l.fy25;
+  l.price=PRICE_R*l.fy25;
+  l.churn=l.churnR*l.fy25;
+  l.down =DOWN_SHARE*l.churn;
+  l.new  =l.fy26-l.fy25-l.exp-l.price+l.churn+l.down;
+});
+const BASE_CHURN=LINES.reduce((s,l)=>s+l.churn+l.down,0)/
+                 LINES.reduce((s,l)=>s+l.fy25,0)*100;   /* ≈ 11.5% gross churn */
+
+const CELLS=[];
+LINES.forEach((l,li)=>{
+  const raw=[];let tot=0;
+  REGIONS.forEach(r=>Q_W.forEach((qw,q)=>{
+    const w=REG_W[r]*qw*(0.86+rnd()*0.28);tot+=w;raw.push({r,q,w});}));
+  raw.forEach(c=>{
+    const w=c.w/tot;
+    CELLS.push({li,u:l.u,n:l.n,m:l.m,reg:c.r,q:c.q,
+      fy25:l.fy25*w,new:l.new*w,exp:l.exp*w,price:l.price*w,
+      churn:l.churn*w,down:l.down*w});
+  });
+});
+/* risk register — each risk sits with an owning unit and its exposure
+   scales with that unit's FY26 revenue, so filtering re-sizes it.   */
+const RISKS=[
+  {n:"Net retention decline",   u:"Platform",lk:4,im:5,pct:.28},
+  {n:"Key supplier concentration",u:"Hardware",lk:3,im:4,pct:.92},
+  {n:"FX exposure",             u:"Data",    lk:2,im:3,pct:.18},
+  {n:"Talent attrition",        u:"Services",lk:4,im:3,pct:.28},
+  {n:"Regulatory change",       u:"Data",    lk:2,im:5,pct:.39},
+  {n:"Cyber incident",          u:"Platform",lk:2,im:5,pct:.23},
+  {n:"Hardware obsolescence",   u:"Hardware",lk:3,im:2,pct:.42}
+];
+/* full-book plan, scaled to scope at render time */
+const PLAN={rev:148,ebitda:26.5,newArr:30,margin:60};
+
+/* ══ 2. STATE + CONTROLS ══════════════════════════════════════ */
+const S={u:new Set(UNITS),reg:"",q:"",cap:25,churn:11.5,opex:40.9};
+const cUnit=document.getElementById("cUnit");
+UNITS.forEach(u=>{
+  const b=document.createElement("button");
+  b.className="chip on";b.textContent=u;b.setAttribute("aria-pressed","true");
+  b.onclick=()=>{
+    if(S.u.has(u)){if(S.u.size===1)return;S.u.delete(u);
+      b.classList.remove("on");b.setAttribute("aria-pressed","false");}
+    else{S.u.add(u);b.classList.add("on");b.setAttribute("aria-pressed","true");}
+    render();};
+  cUnit.appendChild(b);
+});
+REGIONS.forEach(r=>{const o=document.createElement("option");o.value=r;o.textContent=r;
+  document.getElementById("fReg").appendChild(o);});
+const on=(id,fn)=>document.getElementById(id).addEventListener("input",fn);
+on("fReg",e=>{S.reg=e.target.value;render();});
+on("fQ",e=>{S.q=e.target.value;render();});
+on("pCap",e=>{S.cap=+e.target.value;document.getElementById("oCap").textContent=S.cap.toFixed(1)+"%";render();});
+on("pChurn",e=>{S.churn=+e.target.value;document.getElementById("oChurn").textContent=S.churn.toFixed(1)+"%";render();});
+on("pOpex",e=>{S.opex=+e.target.value;document.getElementById("oOpex").textContent=S.opex.toFixed(1)+"%";render();});
+document.getElementById("reset").onclick=()=>{
+  Object.assign(S,{reg:"",q:"",cap:25,churn:11.5,opex:40.9});S.u=new Set(UNITS);
+  document.getElementById("fReg").value="";document.getElementById("fQ").value="";
+  document.getElementById("pCap").value=25;document.getElementById("pChurn").value=11.5;
+  document.getElementById("pOpex").value=40.9;
+  document.getElementById("oCap").textContent="25.0%";
+  document.getElementById("oChurn").textContent="11.5%";
+  document.getElementById("oOpex").textContent="40.9%";
+  [...cUnit.children].forEach(c=>{c.classList.add("on");c.setAttribute("aria-pressed","true");});
+  render();};
+
+/* ══ 3. THE MODEL ═════════════════════════════════════════════
+   Churn scales every line's churn and downgrade together.  Capping
+   the services mix moves the excess into Platform and Data pro rata
+   — which is what actually happens when you retarget a sales motion,
+   and it is why gross margin moves when revenue barely does.      */
+const inScope=()=>CELLS.filter(c=>
+  S.u.has(c.u)&&(!S.reg||c.reg===S.reg)&&(S.q===""||c.q===+S.q));
+
+function build(){
+  const rows=inScope();
+  const k=S.churn/BASE_CHURN;
+  /* per-line roll-up before the mix cap */
+  const byLine=LINES.map((l,li)=>{
+    const cs=rows.filter(c=>c.li===li);
+    if(!cs.length)return null;
+    const g=f=>cs.reduce((s,c)=>s+c[f],0);
+    const fy25=g("fy25"),nw=g("new"),exp=g("exp"),price=g("price");
+    const churn=g("churn")*k,down=g("down")*k;
+    return{...l,li,fy25,new:nw,exp,price,churn,down,
+      fy26:fy25+nw+exp+price-churn-down};
+  }).filter(Boolean);
+
+  /* services mix cap, applied to FY26 revenue */
+  const rev0=byLine.reduce((s,l)=>s+l.fy26,0);
+  const svc0=byLine.filter(l=>l.u==="Services").reduce((s,l)=>s+l.fy26,0);
+  const share0=rev0?svc0/rev0*100:0;
+  let moved=0;
+  if(share0>S.cap&&rev0>0){
+    /* solve for the services revenue that hits the cap exactly */
+    const target=S.cap/100*rev0;
+    moved=svc0-target;
+    const absorbers=byLine.filter(l=>l.u==="Platform"||l.u==="Data");
+    const absBase=absorbers.reduce((s,l)=>s+l.fy26,0);
+    byLine.forEach(l=>{
+      if(l.u==="Services")      l.fy26*=target/svc0;
+      else if(absBase&&(l.u==="Platform"||l.u==="Data"))
+                                l.fy26+=moved*(l.fy26/absBase);
+      /* the shift lands in new business, so attribute it there */
+    });
+    byLine.forEach(l=>{
+      l.new=l.fy26-l.fy25-l.exp-l.price+l.churn+l.down;});
+  }
+
+  const rev =byLine.reduce((s,l)=>s+l.fy26,0);
+  const fy25=byLine.reduce((s,l)=>s+l.fy25,0);
+  const gp  =byLine.reduce((s,l)=>s+l.fy26*l.m,0);
+  const bridge={new:byLine.reduce((s,l)=>s+l.new,0),
+                exp:byLine.reduce((s,l)=>s+l.exp,0),
+                price:byLine.reduce((s,l)=>s+l.price,0),
+                churn:byLine.reduce((s,l)=>s+l.churn,0),
+                down:byLine.reduce((s,l)=>s+l.down,0)};
+  const ebitda=gp-S.opex/100*rev;
+  const growth=fy25?(rev/fy25-1)*100:0;
+  const nrr=fy25?(fy25+bridge.exp+bridge.price-bridge.churn-bridge.down)/fy25*100:0;
+  const byUnit=UNITS.filter(u=>S.u.has(u)).map(u=>{
+    const ls=byLine.filter(l=>l.u===u);
+    if(!ls.length)return null;
+    const r=ls.reduce((s,l)=>s+l.fy26,0),b=ls.reduce((s,l)=>s+l.fy25,0);
+    return{u,rev:r,fy25:b,growth:b?(r/b-1)*100:0,
+      margin:r?ls.reduce((s,l)=>s+l.fy26*l.m,0)/r*100:0,col:U_COL[u]};
+  }).filter(Boolean);
+  /* quarterly revenue trend for the ledger hairlines */
+  const quarters=[0,1,2,3].map(q=>{
+    const cs=inScope().filter(c=>c.q===q);
+    return cs.reduce((s,c)=>s+c.fy25+c.new+c.exp+c.price-(c.churn+c.down)*k,0);});
+  const scale=fy25/LINES.reduce((s,l)=>s+l.fy25,0);   /* plan scaling factor */
+  return{byLine,byUnit,rev,fy25,gp,margin:rev?gp/rev*100:0,ebitda,
+    ebitdaMargin:rev?ebitda/rev*100:0,growth,nrr,bridge,quarters,
+    svcShare:rev?byLine.filter(l=>l.u==="Services").reduce((s,l)=>s+l.fy26,0)/rev*100:0,
+    share0,moved,rule40:growth+(rev?ebitda/rev*100:0),
+    plan:{rev:PLAN.rev*scale,ebitda:PLAN.ebitda*scale,
+          newArr:PLAN.newArr*scale,margin:PLAN.margin}};
+}
+
+/* ══ 4. KPI ROW — ledger strip ════════════════════════════════ */
+function drawKpis(M){
+  const tiles=[
+    {k:"Revenue",      v:M$(M.rev),      col:GOLD, chg:M.growth,     unit:"%",
+     pct:M.rev/M.plan.rev*100,  d:"FY25 "+M$(M.fy25)+" · plan "+M$(M.plan.rev)},
+    {k:"Gross margin", v:M.margin.toFixed(1)+"%",col:CREAM,chg:M.margin-PLAN.margin,unit:" pts",
+     pct:M.margin/PLAN.margin*100,d:M$(M.gp)+" gross profit · plan "+PLAN.margin+"%"},
+    {k:"EBITDA",       v:M$(M.ebitda),   col:BLUE, chg:M.ebitdaMargin,unit:"% mgn",
+     pct:M.ebitda/M.plan.ebitda*100,d:"opex "+S.opex.toFixed(1)+"% · plan "+M$(M.plan.ebitda)},
+    {k:"Net retention",v:M.nrr.toFixed(1)+"%",col:PLUM,chg:M.nrr-100,unit:" pts",
+     pct:M.nrr,               d:"gross churn "+S.churn.toFixed(1)+"% · target 110%"},
+    {k:"Rule of 40",   v:M.rule40.toFixed(1),col:M.rule40>=40?GREEN:CREAM,chg:M.rule40-40,unit:" vs 40",
+     pct:M.rule40/40*100,     d:M.growth.toFixed(1)+"% growth + "+M.ebitdaMargin.toFixed(1)+"% margin"}
+  ];
+  const box=document.getElementById("kpis");box.innerHTML="";
+  /* quarterly hairline, drawn from the same cells */
+  const qs=M.quarters,qmax=Math.max(...qs,0.001);
+  tiles.forEach((t,i)=>{
+    const w=Math.max(0,Math.min(130,t.pct));
+    const good=t.chg>=0;
+    const div=document.createElement("div");div.className="kpi";
+    div.innerHTML=
+      '<div class="k">'+t.k+'</div>'+
+      '<div class="row"><span class="v" style="color:'+t.col+'">'+t.v+'</span>'+
+        '<span class="chg '+(good?"up":"dn")+'">'+(good?"▲ ":"▼ ")+
+        Math.abs(t.chg).toFixed(1)+t.unit+'</span></div>'+
+      '<div class="rule"><i style="width:'+(w/1.3)+'%;background:'+t.col+'"></i>'+
+        '<u style="left:'+(100/1.3)+'%"></u></div>'+
+      '<div class="d">'+t.d+'</div>';
+    hook(div,t.k+": "+t.v+" — "+Math.round(t.pct)+"% of plan · "+t.d+
+      (i===0?" · Q1–Q4 "+qs.map(q=>M$(q)).join(" / "):""));
+    box.appendChild(div);
   });
 }
 
-/* ─── 1. TREEMAP  revenue by unit → line, coloured by margin ── */
-const UNITS=[
-  {u:"Platform", n:"Core subscription", v:48, m:64},
-  {u:"Platform", n:"Add-on modules",    v:17, m:58},
-  {u:"Data",     n:"Analytics suite",   v:22, m:61},
-  {u:"Data",     n:"Data feeds",        v:11, m:52},
-  {u:"Services", n:"Implementation",    v:19, m:31},
-  {u:"Services", n:"Managed services",  v:13, m:28},
-  {u:"Hardware", n:"Devices",           v:12, m:22}
-];
+/* ══ 5. TREEMAP  revenue by line, coloured by margin ═════════ */
 function marginColor(m){
-  const t=Math.min(1,Math.max(0,(m-22)/(64-22)));
+  const t=Math.min(1,Math.max(0,(m-.22)/(.76-.22)));
   const lerp=(a,b,u)=>a.map((x,i)=>Math.round(x+(b[i]-x)*u));
   const A=[217,97,76],B=[212,165,60],C=[95,168,124];
   const rgb=t<.5?lerp(A,B,t*2):lerp(B,C,(t-.5)*2);
@@ -222,11 +429,13 @@ function squarify(items,x,y,w,h,out){
     squarify(items.slice(best),x,y+h*part,w,h*(1-part),out);}
   return out;
 }
-function drawTreemap(){
-  const svg=document.getElementById("treemap");svg.innerHTML="";
+function drawTreemap(M){
+  const svg=clear("treemap");
   const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
-  const cells=squarify(UNITS.slice().sort((a,b)=>b.v-a.v),0,0,W,H,[]);
-  cells.forEach(c=>{
+  const items=M.byLine.filter(l=>l.fy26>0)
+    .map(l=>({...l,v:l.fy26})).sort((a,b)=>b.v-a.v);
+  if(!items.length)return;
+  squarify(items,0,0,W,H,[]).forEach(c=>{
     const g=el("g");
     g.appendChild(el("rect",{x:c.x+.8,y:c.y+.8,width:Math.max(0,c.w-1.6),
       height:Math.max(0,c.h-1.6),fill:marginColor(c.m),opacity:.88,rx:2}));
@@ -234,23 +443,33 @@ function drawTreemap(){
       const t=el("text",{x:c.x+7,y:c.y+15,"font-size":Math.min(10.5,c.w/9),
         fill:"#14120f","font-weight":600});
       t.textContent=c.n;g.appendChild(t);
-      const t2=el("text",{x:c.x+7,y:c.y+27,"font-size":8.6,fill:"rgba(20,18,15,.72)"});
-      t2.textContent="$"+c.v+"M · "+c.m+"% margin";g.appendChild(t2);
+      const detail=M$(c.fy26)+" · "+(c.m*100).toFixed(0)+"% margin";
+      /* only draw the detail line if it actually fits inside the cell */
+      if(c.w>detail.length*4.8+16){
+        const t2=el("text",{x:c.x+7,y:c.y+27,"font-size":8.6,fill:"rgba(20,18,15,.72)"});
+        t2.textContent=detail;g.appendChild(t2);
+      }
     }
-    hook(g,c.u+" / "+c.n+": $"+c.v+"M revenue · "+c.m+"% gross margin");
+    hook(g,c.u+" / "+c.n+": "+M$(c.fy26)+" FY26 revenue · "+(c.m*100).toFixed(0)+
+      "% gross margin · "+(c.fy26/M.rev*100).toFixed(1)+"% of the book");
     svg.appendChild(g);
   });
 }
 
-/* ─── 2. REVENUE BRIDGE ─────────────────────────────────────── */
-const BR=[["FY25",127.5,"start"],["New logos",14.2,"up"],["Expansion",9.8,"up"],
-  ["Churn",-8.1,"down"],["Downgrade",-3.6,"down"],["Price",2.2,"up"],["FY26",142.0,"end"]];
-function drawBridge(){
-  const svg=document.getElementById("bridge");svg.innerHTML="";
+/* ══ 6. REVENUE BRIDGE  FY25 → FY26 ═════════════════════════ */
+function drawBridge(M){
+  const svg=clear("bridge");
+  const B=M.bridge;
+  const BR=[["FY25",M.fy25,"start"],["New logos",B.new,"d"],["Expansion",B.exp,"d"],
+    ["Churn",-B.churn,"d"],["Downgrade",-B.down,"d"],["Price",B.price,"d"],
+    ["FY26",M.rev,"end"]];
+  document.getElementById("sBridge").textContent=
+    "What actually moved the top line · "+(M.growth>=0?"+":"")+M.growth.toFixed(1)+"% on FY25";
   const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
-  const L=22,R=W-6,T=16,B=H-24;
+  const L=22,R=W-6,T=16,B2=H-24;
   const n=BR.length,bw=(R-L)/n;
-  const maxV=160, y=v=>B-(v/maxV)*(B-T);
+  const maxV=Math.max(M.fy25,M.rev)*1.14||1;
+  const y=v=>B2-(v/maxV)*(B2-T);
   let run=0;
   BR.forEach((d,i)=>{
     const [name,val,kind]=d;
@@ -263,36 +482,40 @@ function drawBridge(){
     g.appendChild(el("rect",{x:L+i*bw+bw*.19,y:top,width:bw*.62,height:h,fill:col,rx:1.5}));
     if(kind!=="end"&&i<n-1){
       svg.appendChild(el("line",{x1:L+i*bw+bw*.81,y1:y1,x2:L+(i+1)*bw+bw*.19,y2:y1,
-        stroke:EDGE2,"stroke-width":1,"stroke-dasharray":"2 2"}));
-    }
-    const v=el("text",{x:L+i*bw+bw/2,y:top-4,"text-anchor":"middle","font-size":7.4,
+        stroke:EDGE2,"stroke-width":1,"stroke-dasharray":"2 2"}));}
+    const v=el("text",{x:L+i*bw+bw/2,y:top-4,"text-anchor":"middle","font-size":7.2,
       fill:col,"font-weight":600});
     v.textContent=(kind==="start"||kind==="end")?("$"+val.toFixed(0)+"M")
       :((val>=0?"+":"−")+Math.abs(val).toFixed(1));
     g.appendChild(v);
-    const t=el("text",{x:L+i*bw+bw/2,y:B+11,"text-anchor":"middle","font-size":6.4,fill:FAINT});
+    const t=el("text",{x:L+i*bw+bw/2,y:B2+11,"text-anchor":"middle","font-size":6.4,fill:FAINT});
     t.textContent=name;g.appendChild(t);
-    hook(g,name+": "+(kind==="start"||kind==="end"?"$"+val+"M":(val>=0?"+$":"−$")+Math.abs(val)+"M"));
+    hook(g,name+": "+(kind==="start"||kind==="end"?M$(val):(val>=0?"+":"−")+M$(Math.abs(val))));
     svg.appendChild(g);
   });
   svg.appendChild(el("line",{x1:L,y1:y(0),x2:R,y2:y(0),stroke:EDGE2,"stroke-width":1}));
 }
 
-/* ─── 3. BULLET  actual vs plan ─────────────────────────────── */
-const PLAN=[["Revenue",142,138,160],["EBITDA",24.6,26.5,32],
-            ["New ARR",23.9,28,34],["Headcount",612,640,700]];
-function drawBullet(){
-  const svg=document.getElementById("bullet");svg.innerHTML="";
+/* ══ 7. BULLET  actual vs scope-scaled plan ══════════════════ */
+function drawBullet(M){
+  const svg=clear("bullet");
+  const newArr=M.bridge.new+M.bridge.exp;
+  const rows=[
+    ["Revenue",  M.rev,       M.plan.rev,    M.plan.rev*1.14],
+    ["EBITDA",   M.ebitda,    M.plan.ebitda, Math.max(M.plan.ebitda,M.ebitda)*1.3],
+    ["New ARR",  newArr,      M.plan.newArr, Math.max(M.plan.newArr,newArr)*1.2],
+    ["Gross mgn",M.margin,    PLAN.margin,   Math.max(PLAN.margin,M.margin)*1.15]
+  ];
   const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
   const L=62,R=W-34,T=6,B=H-8;
-  const step=(B-T)/PLAN.length;
-  PLAN.forEach((d,i)=>{
+  const step=(B-T)/rows.length;
+  rows.forEach((d,i)=>{
     const [name,act,plan,max]=d;
     const y=T+step*i+step*.3, h=step*.4;
-    const x=v=>L+(v/max)*(R-L);
+    const x=v=>L+(Math.max(0,v)/(max||1))*(R-L);
     const g=el("g");
     g.appendChild(el("rect",{x:L,y:y-1.5,width:R-L,height:h+3,fill:"#221f1a",rx:2}));
-    g.appendChild(el("rect",{x:L,y:y-1.5,width:x(plan)-L,height:h+3,fill:"#2b2721",rx:2}));
+    g.appendChild(el("rect",{x:L,y:y-1.5,width:Math.max(0,x(plan)-L),height:h+3,fill:"#2b2721",rx:2}));
     const hit=act>=plan;
     g.appendChild(el("rect",{x:L,y,width:Math.max(1,x(act)-L),height:h,
       fill:hit?GREEN:GOLD,rx:1.5}));
@@ -300,94 +523,148 @@ function drawBullet(){
       stroke:CREAM,"stroke-width":2}));
     const t=el("text",{x:L-6,y:y+h/2+3,"text-anchor":"end","font-size":7.8,fill:DIM});
     t.textContent=name;g.appendChild(t);
-    const pct=(act/plan*100).toFixed(0);
+    const pct=plan?act/plan*100:0;
     const v=el("text",{x:R+5,y:y+h/2+3,"font-size":7.8,fill:hit?GREEN:GOLD,"font-weight":600});
-    v.textContent=pct+"%";g.appendChild(v);
-    hook(g,name+": actual "+act+" vs plan "+plan+" ("+pct+"%)");
+    v.textContent=pct.toFixed(0)+"%";g.appendChild(v);
+    const fmtv=name==="Gross mgn"?(x2=>x2.toFixed(1)+"%"):(x2=>M$(x2));
+    hook(g,name+": actual "+fmtv(act)+" vs plan "+fmtv(plan)+" ("+pct.toFixed(0)+"%)");
     svg.appendChild(g);
   });
 }
 
-/* ─── 4. QUADRANT  growth vs margin ─────────────────────────── */
-const BU=[["Platform",12.1,61,65,GREEN],["Data",9.4,58,33,BLUE],
-          ["Services",22.6,30,32,RED],["Hardware",-3.2,22,12,PLUM]];
-function drawQuad(){
-  const svg=document.getElementById("quad");svg.innerHTML="";
+/* ══ 8. QUADRANT  growth vs margin by unit ═══════════════════ */
+function drawQuad(M){
+  const svg=clear("quad");
+  const BU=M.byUnit;
+  if(!BU.length)return;
   const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
   const L=30,R=W-12,T=10,B=H-18;
-  const x=v=>L+((v+8)/34)*(R-L), y=v=>B-((v-15)/52)*(B-T);
-  [-5,0,10,20].forEach(v=>{
+  const gLo=Math.min(-8,Math.floor(Math.min(...BU.map(d=>d.growth))/5)*5-2);
+  const gHi=Math.max(26,Math.ceil(Math.max(...BU.map(d=>d.growth))/5)*5+2);
+  const mLo=Math.max(0,Math.floor(Math.min(...BU.map(d=>d.margin))/10)*10-6);
+  const mHi=Math.min(100,Math.ceil(Math.max(...BU.map(d=>d.margin))/10)*10+8);
+  const x=v=>L+((v-gLo)/(gHi-gLo))*(R-L), y=v=>B-((v-mLo)/(mHi-mLo))*(B-T);
+  const gs=(gHi-gLo)<=45?5:10;         /* keep the negative-growth side labelled */
+  for(let v=Math.ceil(gLo/gs)*gs;v<=gHi;v+=gs){
     svg.appendChild(el("line",{x1:x(v),y1:T,x2:x(v),y2:B,
       stroke:v===0?EDGE2:EDGE,"stroke-width":v===0?1.4:1}));
     const t=el("text",{x:x(v),y:B+10,"text-anchor":"middle","font-size":7,fill:FAINT});
-    t.textContent=v+"%";svg.appendChild(t);
-  });
-  [20,35,50,65].forEach(v=>{
+    t.textContent=v+"%";svg.appendChild(t);}
+  const ms=Math.max(10,Math.round((mHi-mLo)/4/10)*10);
+  for(let v=Math.ceil(mLo/ms)*ms;v<=mHi;v+=ms){
     svg.appendChild(el("line",{x1:L,y1:y(v),x2:R,y2:y(v),stroke:EDGE,"stroke-width":1}));
     const t=el("text",{x:L-4,y:y(v)+3,"text-anchor":"end","font-size":7,fill:FAINT});
-    t.textContent=v+"%";svg.appendChild(t);
-  });
+    t.textContent=v+"%";svg.appendChild(t);}
   /* group average margin reference */
-  svg.appendChild(el("line",{x1:L,y1:y(58.2),x2:R,y2:y(58.2),stroke:GOLD,"stroke-width":1,
-    "stroke-dasharray":"4 3",opacity:.75}));
-  const gl=el("text",{x:R-2,y:y(58.2)-4,"text-anchor":"end","font-size":6.6,fill:GOLD});
-  gl.textContent="group margin 58.2%";svg.appendChild(gl);
-  BU.forEach(([n,g,m,rev,col])=>{
+  if(M.margin>=mLo&&M.margin<=mHi){
+    svg.appendChild(el("line",{x1:L,y1:y(M.margin),x2:R,y2:y(M.margin),stroke:GOLD,
+      "stroke-width":1,"stroke-dasharray":"4 3",opacity:.75}));
+    const gl=el("text",{x:R-2,y:y(M.margin)-4,"text-anchor":"end","font-size":6.6,fill:GOLD});
+    gl.textContent="group margin "+M.margin.toFixed(1)+"%";svg.appendChild(gl);}
+  const maxR=Math.max(...BU.map(d=>d.rev),1);
+  BU.forEach(d=>{
     const grp=el("g");
-    const r=7+Math.sqrt(rev)*1.5;
-    grp.appendChild(el("circle",{cx:x(g),cy:y(m),r,fill:col,opacity:.45,
-      stroke:col,"stroke-width":1.6}));
-    const t=el("text",{x:x(g),y:y(m)-r-4,"text-anchor":"middle","font-size":7.8,
+    const r=7+Math.sqrt(d.rev/maxR)*15;
+    grp.appendChild(el("circle",{cx:x(d.growth),cy:y(d.margin),r,fill:d.col,opacity:.45,
+      stroke:d.col,"stroke-width":1.6}));
+    const t=el("text",{x:x(d.growth),y:y(d.margin)-r-4,"text-anchor":"middle","font-size":7.8,
       fill:CREAM,"font-weight":500});
-    t.textContent=n;grp.appendChild(t);
-    hook(grp,n+": "+g+"% growth · "+m+"% margin · $"+rev+"M revenue");
+    t.textContent=d.u;grp.appendChild(t);
+    hook(grp,d.u+": "+d.growth.toFixed(1)+"% growth · "+d.margin.toFixed(1)+"% margin · "+
+      M$(d.rev)+" revenue");
     svg.appendChild(grp);
   });
 }
 
-/* ─── 5. RISK MATRIX ────────────────────────────────────────── */
-const RISKS=[
-  ["Net retention decline",4,5,18,RED],["Key supplier concentration",3,4,11,GOLD],
-  ["FX exposure",2,3,6,BLUE],["Talent attrition",4,3,9,GOLD],
-  ["Regulatory change",2,5,13,GOLD],["Cyber incident",2,5,15,RED],
-  ["Hardware obsolescence",3,2,5,PLUM]];
-function drawRisk(){
-  const svg=document.getElementById("risk");svg.innerHTML="";
+/* ══ 9. RISK MATRIX  exposure scales with unit revenue ═══════ */
+function drawRisk(M){
+  const svg=clear("risk");
+  const revOf=u=>{const b=M.byUnit.find(x=>x.u===u);return b?b.rev:0;};
+  const rs=RISKS.filter(r=>S.u.has(r.u)).map(r=>({...r,exp:revOf(r.u)*r.pct}))
+    .filter(r=>r.exp>0).sort((a,b)=>b.exp-a.exp);
+  document.getElementById("sRisk").textContent=
+    "Likelihood × impact · size = exposure · "+M$(rs.reduce((s,r)=>s+r.exp,0))+" at risk";
+  if(!rs.length)return;
   const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
   const L=30,R=W-10,T=8,B=H-18;
   const x=v=>L+((v-.5)/5)*(R-L), y=v=>B-((v-.5)/5)*(B-T);
-  /* heat backdrop */
   for(let i=1;i<=5;i++)for(let j=1;j<=5;j++){
     const sev=(i*j)/25;
     svg.appendChild(el("rect",{x:x(i)-((R-L)/10),y:y(j)-((B-T)/10),
       width:(R-L)/5,height:(B-T)/5,
-      fill:"rgba("+Math.round(120+sev*110)+","+Math.round(90-sev*40)+","+Math.round(70-sev*30)+","+(0.06+sev*0.30)+")"}));
-  }
+      fill:"rgba("+Math.round(120+sev*110)+","+Math.round(90-sev*40)+","+
+        Math.round(70-sev*30)+","+(0.06+sev*0.30)+")"}));}
   [1,2,3,4,5].forEach(v=>{
     const t=el("text",{x:x(v),y:B+10,"text-anchor":"middle","font-size":6.8,fill:FAINT});
     t.textContent=v;svg.appendChild(t);
     const t2=el("text",{x:L-4,y:y(v)+3,"text-anchor":"end","font-size":6.8,fill:FAINT});
-    t2.textContent=v;svg.appendChild(t2);
-  });
+    t2.textContent=v;svg.appendChild(t2);});
   const xl=el("text",{x:(L+R)/2,y:H-2,"text-anchor":"middle","font-size":6.6,fill:FAINT});
   xl.textContent="LIKELIHOOD";svg.appendChild(xl);
-  RISKS.forEach(([n,lk,im,exp,col])=>{
+  const maxE=Math.max(...rs.map(r=>r.exp),1);
+  rs.forEach(r=>{
     const g=el("g");
-    const r=4+Math.sqrt(exp)*1.5;
-    g.appendChild(el("circle",{cx:x(lk),cy:y(im),r,fill:col,opacity:.6,stroke:col,"stroke-width":1.4}));
-    hook(g,n+" — likelihood "+lk+"/5, impact "+im+"/5, exposure $"+exp+"M");
+    const rad=4+Math.sqrt(r.exp/maxE)*11;
+    const sev=r.lk*r.im;
+    const col=sev>=16?RED:sev>=9?GOLD:sev>=6?BLUE:PLUM;
+    g.appendChild(el("circle",{cx:x(r.lk),cy:y(r.im),r:rad,fill:col,opacity:.6,
+      stroke:col,"stroke-width":1.4}));
+    hook(g,r.n+" ("+r.u+") — likelihood "+r.lk+"/5, impact "+r.im+"/5, exposure "+M$(r.exp));
     svg.appendChild(g);
   });
-  /* label only the top risk to avoid clutter */
-  const top=RISKS[0];
-  const t=el("text",{x:x(top[1]),y:y(top[2])-4-Math.sqrt(top[3])*1.5,"text-anchor":"middle",
-    "font-size":7,fill:CREAM,"font-weight":500});
-  t.textContent=top[0];svg.appendChild(t);
+  /* label the largest exposure only, to keep the matrix readable */
+  const top=rs[0];
+  const t=el("text",{x:x(top.lk),y:y(top.im)-8-Math.sqrt(top.exp/maxE)*11,
+    "text-anchor":"middle","font-size":7,fill:CREAM,"font-weight":500});
+  t.textContent=top.n;svg.appendChild(t);
 }
 
-function drawAll(){drawSparks();drawTreemap();drawBridge();drawBullet();drawQuad();drawRisk();}
-drawAll();
-let rt;addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(drawAll,140);});
+/* ══ 10. RENDER ══════════════════════════════════════════════ */
+function render(){
+  const M=build();
+  document.getElementById("scope").innerHTML=
+    "<b>"+M.byUnit.length+"</b> unit"+(M.byUnit.length===1?"":"s")+" · "+
+    (S.reg||"all regions")+" · "+(S.q===""?"FY26":"Q"+(+S.q+1))+" · <b>"+M$(M.rev)+"</b>";
+  if(!M.byLine.length){
+    document.getElementById("kpis").innerHTML=
+      '<div class="kpi"><div class="k">Scope</div><div class="row">'+
+      '<span class="v dn">—</span></div><div class="d">Nothing matches these filters.</div></div>';
+    ["treemap","bridge","bullet","quad","risk"].forEach(clear);
+    return;
+  }
+  drawKpis(M);drawTreemap(M);drawBridge(M);drawBullet(M);drawQuad(M);drawRisk(M);
+
+  const growing=M.byUnit.filter(u=>u.growth>0);
+  const best=M.byUnit.slice().sort((a,b)=>
+    (b.growth+b.margin)-(a.growth+a.margin))[0];
+  const fastest=M.byUnit.slice().sort((a,b)=>b.growth-a.growth)[0];
+  const dilutive=M.byUnit.filter(u=>u.margin<M.margin&&u.growth>M.growth);
+  const capped=M.moved>0.01;
+  document.getElementById("verdict").innerHTML=
+    "<b>"+(M.nrr>=105?"Growth is compounding off the existing base."
+      :M.growth>0?"Growth is real, but it is being bought."
+      :"The top line is going backwards.")+"</b> Revenue is "+
+    (M.growth>=0?"up ":"down ")+Math.abs(M.growth).toFixed(1)+"% while gross margin sits at "+
+    M.margin.toFixed(1)+"% and net retention at "+M.nrr.toFixed(1)+"% — "+
+    (M.nrr<100?"the business is losing more from the installed base than it expands."
+              :"expansion is outrunning churn.")+" "+
+    (best?"<b>"+best.u+"</b> carries "+best.margin.toFixed(0)+"% margin on "+M$(best.rev)+".":"")+
+    (dilutive.length&&fastest?" <b>"+fastest.u+"</b> is growing fastest at "+
+      fastest.growth.toFixed(1)+"% and dilutes every point it adds.":"")+
+    " Rule of 40 stands at <b>"+M.rule40.toFixed(1)+"</b>. "+
+    (capped
+      ? '<span class="fix">Capping services at '+S.cap.toFixed(1)+'% of mix moves '+M$(M.moved)+
+        ' of revenue into Platform and Data and lifts gross margin to '+M.margin.toFixed(1)+
+        '%.</span>'
+      : '<span class="fix">Services sit at '+M.svcShare.toFixed(1)+
+        '% of mix — pull the cap below that to price the margin recovery.</span>')+
+    '<span class="src">DATA · 84 simulated product-line × region × quarter P&amp;L cells from a seeded '+
+    'model. Revenue, margin, EBITDA, retention and the bridge are all aggregated from those cells '+
+    'against the churn, mix-cap and opex settings above; the bridge closes to FY26 exactly. '+
+    'Built to demonstrate the analysis, not to report a real company.</span>';
+}
+render();
+let rt;addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(render,140);});
 </script>
 </body>
 </html>

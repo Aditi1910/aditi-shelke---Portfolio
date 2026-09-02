@@ -7,14 +7,17 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
   :root{
-    --bg:#fbfaff; --card:#ffffff; --rule:#e9e6f5; --rule2:#d3cdea;
-    --ink:#1a1430; --body:#453d63; --dim:#7c749b;
-    --vio:#6d28d9; --vio2:#a78bfa; --lime:#65a30d; --lime2:#a3e635;
-    --pink:#db2777; --pink2:#f9a8d4; --amber:#d97706; --sky:#0284c7;
+    --bg:#04222c; --card:#0a3140; --card2:#0f3f51; --rule:#12475a; --rule2:#1d6076;
+    --ink:#e7f4f9; --body:#b5d2dc; --dim:#82a6b3;
+    --vio:#a78bfa; --vio2:#c4b5fd; --lime:#a3e635; --lime2:#bef264;
+    --pink:#f472b6; --pink2:#f9a8d4; --amber:#fbbf24; --sky:#38bdf8;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%;overflow:hidden}
-  body{background:var(--bg);color:var(--ink);font-family:'Outfit',sans-serif;font-weight:300;
+  body{background:
+      radial-gradient(1000px 500px at 6% -8%, #0a3a4c 0%, transparent 60%),
+      radial-gradient(780px 440px at 98% 2%, #0d3348 0%, transparent 58%), var(--bg);
+    color:var(--ink);font-family:'Outfit',sans-serif;font-weight:300;
     -webkit-font-smoothing:antialiased;display:grid;grid-template-rows:auto auto auto 1fr auto;
     gap:.5rem;padding:.6rem 1.05rem .7rem}
 
@@ -22,7 +25,7 @@
   .head .l{display:flex;align-items:center;gap:.9rem;flex-wrap:wrap}
   a.home{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;
     color:var(--vio);text-decoration:none;border:1px solid var(--rule2);padding:.25rem .55rem;border-radius:99px}
-  a.home:hover{background:var(--vio);color:#fff;border-color:var(--vio)}
+  a.home:hover{background:var(--vio);color:#1b1233;border-color:var(--vio)}
   h1{font-size:1.5rem;font-weight:700;letter-spacing:-.03em;line-height:1}
   h1 span{background:linear-gradient(90deg,var(--vio),var(--pink));-webkit-background-clip:text;
     background-clip:text;color:transparent}
@@ -40,16 +43,16 @@
     border:1px solid var(--rule2);background:transparent;color:var(--dim);
     border-radius:99px;cursor:pointer;transition:all .14s}
   .chip:hover{border-color:var(--vio);color:var(--ink)}
-  .chip.on{border-color:transparent;color:#fff;font-weight:500}
+  .chip.on{border-color:transparent;color:#06242f;font-weight:600}
   select{font-family:'DM Mono',monospace;font-size:.54rem;padding:.2rem .3rem;
-    border:1px solid var(--rule2);border-radius:99px;background:#fff;color:var(--ink);cursor:pointer}
+    border:1px solid var(--rule2);border-radius:99px;background:#072b38;color:var(--ink);cursor:pointer}
   select:focus{outline:1.5px solid var(--vio);outline-offset:1px}
-  .par{display:flex;align-items:center;gap:.4rem;background:rgba(219,39,119,.07);
-    border:1px solid rgba(219,39,119,.28);border-radius:99px;padding:.18rem .6rem}
+  .par{display:flex;align-items:center;gap:.4rem;background:rgba(244,114,182,.11);
+    border:1px solid rgba(244,114,182,.32);border-radius:99px;padding:.18rem .6rem}
   .par label{font-family:'DM Mono',monospace;font-size:.5rem;letter-spacing:.07em;
     text-transform:uppercase;color:var(--pink);white-space:nowrap;font-weight:500}
   .par input[type=range]{width:80px;accent-color:var(--pink);height:3px;cursor:pointer}
-  .par select{border-color:rgba(219,39,119,.4);color:var(--pink);font-weight:500}
+  .par select{border-color:rgba(244,114,182,.45);color:var(--pink);font-weight:500}
   .par .out{font-family:'DM Mono',monospace;font-size:.57rem;font-weight:500;
     color:var(--pink);min-width:38px}
   .reset{font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:.09em;
@@ -85,15 +88,16 @@
   .viz svg{width:100%;height:100%;display:block;overflow:visible}
   .span2{grid-row:span 2}
 
-  .verdict{background:linear-gradient(90deg,rgba(109,40,217,.08),rgba(219,39,119,.05));
+  .verdict{background:linear-gradient(90deg,rgba(167,139,250,.12),rgba(244,114,182,.08));
     border:1px solid var(--rule2);border-radius:12px;padding:.48rem .95rem;font-size:.78rem;
     line-height:1.5;color:var(--body)}
   .verdict b{color:var(--vio);font-weight:600}
   .verdict .src{font-family:'DM Mono',monospace;font-size:.5rem;color:var(--dim);
     letter-spacing:.04em;margin-top:.18rem;display:block}
 
-  .tip{position:fixed;pointer-events:none;background:var(--ink);color:#fff;font-size:.65rem;
-    padding:.35rem .55rem;border-radius:5px;opacity:0;transition:opacity .12s;z-index:50;white-space:nowrap}
+  .tip{position:fixed;pointer-events:none;background:#03181f;color:var(--ink);font-size:.65rem;
+    border:1px solid var(--rule2);padding:.35rem .55rem;border-radius:5px;opacity:0;
+    transition:opacity .12s;z-index:50;white-space:nowrap}
   .tip.on{opacity:1}
   @media (max-width:1180px){
     html,body{height:auto;overflow:auto}
@@ -178,8 +182,9 @@
 
 <script>
 "use strict";
-const VIO="#6d28d9",VIO2="#a78bfa",LIME="#65a30d",LIME2="#a3e635",PINK="#db2777",PINK2="#f9a8d4",
-      AMBER="#d97706",SKY="#0284c7",RULE="#e9e6f5",RULE2="#d3cdea",DIM="#7c749b",INK="#1a1430";
+const VIO="#a78bfa",VIO2="#c4b5fd",LIME="#a3e635",LIME2="#bef264",PINK="#f472b6",PINK2="#f9a8d4",
+      AMBER="#fbbf24",SKY="#38bdf8",RULE="#12475a",RULE2="#1d6076",DIM="#82a6b3",INK="#e7f4f9",
+      PANEL="#0a3140",DEEP="#06242f";
 const NS="http://www.w3.org/2000/svg";
 const el=(t,a={})=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;};
 const tip=document.getElementById("tip");
@@ -352,7 +357,7 @@ function credit(chs,model){
 function dial(pct,col){
   const R=13,C=2*Math.PI*R,p=Math.max(0,Math.min(1,pct/100));
   return '<svg viewBox="0 0 34 34">'+
-    '<circle cx="17" cy="17" r="'+R+'" fill="none" stroke="#e9e6f5" stroke-width="4"/>'+
+    '<circle cx="17" cy="17" r="'+R+'" fill="none" stroke="#12475a" stroke-width="4"/>'+
     '<circle cx="17" cy="17" r="'+R+'" fill="none" stroke="'+col+'" stroke-width="4"'+
     ' stroke-linecap="round" stroke-dasharray="'+C.toFixed(1)+'"'+
     ' stroke-dashoffset="'+(C*(1-p)).toFixed(1)+'" transform="rotate(-90 17 17)"/>'+
@@ -394,8 +399,8 @@ function drawKpis(M){
 function drawFunnel(chs){
   const svg=clear("funnel");
   const agg=["sessions","views","cart","checkout","conv"].map(k=>chs.reduce((s,c)=>s+c[k],0));
-  const FUN=[["Sessions",agg[0],VIO],["Product views",agg[1],"#7c3aed"],
-    ["Add to cart",agg[2],"#9333ea"],["Checkout started",agg[3],"#c026d3"],
+  const FUN=[["Sessions",agg[0],"#7c6df0"],["Product views",agg[1],"#9370f2"],
+    ["Add to cart",agg[2],"#b06ae6"],["Checkout started",agg[3],"#d066cf"],
     ["Purchased",agg[4],PINK]];
   document.getElementById("sFunnel").innerHTML=
     fmt(agg[0]).toUpperCase()+" SESSIONS &rarr; "+fmt(agg[4]).toUpperCase()+" CUSTOMERS · <b>"+
@@ -416,7 +421,7 @@ function drawFunnel(chs){
     /* value sits inside the band when there is room, otherwise beside it */
     const inside=w>=58;
     const v1=el("text",{x:inside?L+6:L+w+6,y:y+bh/2+3.5,"font-size":inside?10:9,
-      fill:inside?"#fff":INK,"font-weight":600});
+      fill:inside?"#f4f0ff":INK,"font-weight":600});
     v1.textContent=fmt(v);g.appendChild(v1);
     if(i>0){
       const drop=(1-v/FUN[i-1][1])*100;
@@ -543,10 +548,10 @@ function drawCohort(chs){
         const v=Math.min(100,curve[c]*(c===0?1:drift));
         const u=Math.min(1,v/100);
         g.appendChild(el("rect",{x:L+c*cw+1,y:T+r*ch+1,width:cw-2,height:ch-2,
-          fill:"rgba(109,40,217,"+(0.10+u*0.82).toFixed(3)+")",rx:2}));
+          fill:"rgba(167,139,250,"+(0.13+u*0.80).toFixed(3)+")",rx:2}));
         if(ch>15&&cw>26){
           const tx=el("text",{x:L+c*cw+cw/2,y:T+r*ch+ch/2+3,"text-anchor":"middle","font-size":7.6,
-            fill:u>.45?"#fff":INK,"font-weight":500});
+            fill:u>.45?DEEP:INK,"font-weight":500});
           tx.textContent=v.toFixed(0)+"%";g.appendChild(tx);}
         hook(g,name+" cohort, month "+c+": "+v.toFixed(1)+"% still active");
       }
@@ -581,7 +586,7 @@ function drawAttrib(chs){
     const gain=d[2]-d[1];
     g.appendChild(el("line",{x1:x(d[1]),y1:y,x2:x(d[2]),y2:y,
       stroke:gain>=0?LIME:PINK,"stroke-width":2.4,opacity:.5}));
-    g.appendChild(el("circle",{cx:x(d[1]),cy:y,r:4.6,fill:"#fff",stroke:DIM,"stroke-width":2}));
+    g.appendChild(el("circle",{cx:x(d[1]),cy:y,r:4.6,fill:PANEL,stroke:DIM,"stroke-width":2}));
     g.appendChild(el("circle",{cx:x(d[2]),cy:y,r:5,fill:gain>=0?LIME:PINK}));
     const t=el("text",{x:L-8,y:y+3,"text-anchor":"end","font-size":8.5,fill:INK});
     t.textContent=d[0];g.appendChild(t);
@@ -592,7 +597,7 @@ function drawAttrib(chs){
     svg.appendChild(g);
   });
   const lg=el("g");
-  lg.appendChild(el("circle",{cx:L+2,cy:6,r:4,fill:"#fff",stroke:DIM,"stroke-width":2}));
+  lg.appendChild(el("circle",{cx:L+2,cy:6,r:4,fill:PANEL,stroke:DIM,"stroke-width":2}));
   const a=el("text",{x:L+11,y:9,"font-size":7.5,fill:DIM});
   a.textContent=MODEL_NAME[S.model].toLowerCase();lg.appendChild(a);
   lg.appendChild(el("circle",{cx:L+104,cy:6,r:4,fill:LIME}));

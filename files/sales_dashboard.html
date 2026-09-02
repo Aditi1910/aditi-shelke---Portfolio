@@ -7,14 +7,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Source+Code+Pro:wght@400;500;600&display=swap" rel="stylesheet"/>
 <style>
   :root{
-    --bg:#f4f8f6; --card:#ffffff; --rule:#dde8e3; --rule2:#bccfc7;
-    --ink:#0d1f19; --body:#38524a; --dim:#6d867c;
-    --em:#059669; --em2:#34d399; --coral:#f97316; --coral2:#fdba74;
-    --navy:#1e3a5f; --plum:#9333ea; --red:#dc2626; --gold:#ca8a04;
+    --bg:#04302e; --card:#08423e; --card2:#0b524c; --rule:#0f5c55; --rule2:#17786e;
+    --ink:#e2fbf5; --body:#aedcd2; --dim:#7cbdb0;
+    --em:#2ee6a8; --em2:#7df0d0; --coral:#ff9147; --coral2:#ffbe8a;
+    --navy:#7dd3fc; --plum:#c9a2fb; --red:#ff7a85; --gold:#fbc94a;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%;overflow:hidden}
-  body{background:var(--bg);color:var(--ink);font-family:'Manrope',sans-serif;font-weight:400;
+  body{background:
+      radial-gradient(1050px 500px at 8% -8%, #075049 0%, transparent 60%),
+      radial-gradient(800px 440px at 97% 3%, #06403f 0%, transparent 58%), var(--bg);
+    color:var(--ink);font-family:'Manrope',sans-serif;font-weight:400;
     -webkit-font-smoothing:antialiased;display:grid;grid-template-rows:auto auto auto 1fr auto;
     gap:.5rem;padding:.6rem 1rem .7rem}
 
@@ -23,7 +26,7 @@
   a.home{font-family:'Source Code Pro',monospace;font-size:.58rem;letter-spacing:.1em;
     text-transform:uppercase;color:var(--em);text-decoration:none;
     border:1px solid var(--rule2);padding:.24rem .55rem;border-radius:5px}
-  a.home:hover{background:var(--em);color:#fff;border-color:var(--em)}
+  a.home:hover{background:var(--em);color:#04302e;border-color:var(--em)}
   h1{font-size:1.45rem;font-weight:800;letter-spacing:-.03em;line-height:1}
   h1 span{color:var(--coral)}
   .kick{font-family:'Source Code Pro',monospace;font-size:.53rem;color:var(--dim);
@@ -40,12 +43,12 @@
     border:1px solid var(--rule2);background:transparent;color:var(--dim);
     border-radius:4px;cursor:pointer;transition:all .14s}
   .chip:hover{border-color:var(--em);color:var(--ink)}
-  .chip.on{background:var(--em);border-color:var(--em);color:#fff;font-weight:600}
+  .chip.on{background:var(--em);border-color:var(--em);color:#04302e;font-weight:700}
   select{font-family:'Source Code Pro',monospace;font-size:.55rem;padding:.2rem .3rem;
-    border:1px solid var(--rule2);border-radius:4px;background:#fff;color:var(--ink);cursor:pointer}
+    border:1px solid var(--rule2);border-radius:4px;background:#063834;color:var(--ink);cursor:pointer}
   select:focus{outline:1.5px solid var(--em);outline-offset:1px}
-  .par{display:flex;align-items:center;gap:.4rem;background:rgba(249,115,22,.07);
-    border:1px solid rgba(249,115,22,.3);border-radius:6px;padding:.2rem .5rem}
+  .par{display:flex;align-items:center;gap:.4rem;background:rgba(255,145,71,.11);
+    border:1px solid rgba(255,145,71,.34);border-radius:6px;padding:.2rem .5rem}
   .par label{font-family:'Source Code Pro',monospace;font-size:.5rem;letter-spacing:.07em;
     text-transform:uppercase;color:var(--coral);white-space:nowrap;font-weight:600}
   .par input[type=range]{width:88px;accent-color:var(--coral);height:3px;cursor:pointer}
@@ -67,9 +70,9 @@
   .kpi .row{display:flex;align-items:baseline;justify-content:space-between;gap:.3rem}
   .kpi .v{font-size:1.3rem;font-weight:700;line-height:1.1;letter-spacing:-.02em}
   .kpi .pct{font-family:'Source Code Pro',monospace;font-size:.55rem;font-weight:600}
-  .kpi .track{position:relative;height:4px;background:#eef4f1;border-radius:2px;overflow:visible}
+  .kpi .track{position:relative;height:4px;background:#0a3f3a;border-radius:2px;overflow:visible}
   .kpi .track i{position:absolute;left:0;top:0;bottom:0;border-radius:2px;transition:width .25s}
-  .kpi .track u{position:absolute;top:-2px;bottom:-2px;width:1.5px;background:var(--ink);opacity:.55}
+  .kpi .track u{position:absolute;top:-2px;bottom:-2px;width:1.5px;background:var(--ink);opacity:.7}
   .kpi .d{font-family:'Source Code Pro',monospace;font-size:.5rem;color:var(--dim);line-height:1.25}
   .up{color:var(--em);font-weight:600}.dn{color:var(--red);font-weight:600}
   .c-em{color:var(--em)}.c-coral{color:var(--coral)}.c-navy{color:var(--navy)}
@@ -95,8 +98,9 @@
   .verdict .src{font-family:'Source Code Pro',monospace;font-size:.49rem;color:var(--dim);
     letter-spacing:.03em;margin-top:.18rem;display:block}
 
-  .tip{position:fixed;pointer-events:none;background:var(--ink);color:#fff;font-size:.64rem;
-    padding:.35rem .55rem;border-radius:5px;opacity:0;transition:opacity .12s;z-index:50;white-space:nowrap}
+  .tip{position:fixed;pointer-events:none;background:#022220;color:var(--ink);font-size:.64rem;
+    border:1px solid var(--rule2);padding:.35rem .55rem;border-radius:5px;opacity:0;
+    transition:opacity .12s;z-index:50;white-space:nowrap}
   .tip.on{opacity:1}
   @media (max-width:1180px){
     html,body{height:auto;overflow:auto}
@@ -174,9 +178,9 @@
 
 <script>
 "use strict";
-const EM="#059669",EM2="#34d399",CORAL="#f97316",CORAL2="#fdba74",NAVY="#1e3a5f",
-      PLUM="#9333ea",RED="#dc2626",GOLD="#ca8a04",RULE="#dde8e3",RULE2="#bccfc7",
-      DIM="#6d867c",INK="#0d1f19";
+const EM="#2ee6a8",EM2="#7df0d0",CORAL="#ff9147",CORAL2="#ffbe8a",NAVY="#7dd3fc",
+      PLUM="#c9a2fb",RED="#ff7a85",GOLD="#fbc94a",RULE="#0f5c55",RULE2="#17786e",
+      DIM="#7cbdb0",INK="#e2fbf5",PANEL="#08423e",DEEP="#04302e";
 const NS="http://www.w3.org/2000/svg";
 const el=(t,a={})=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;};
 const tip=document.getElementById("tip");
@@ -367,7 +371,7 @@ function drawBump(rows){
     const g=el("g");
     g.appendChild(el("path",{d,fill:"none",stroke:rep.c,
       "stroke-width":top3?3:1.6,opacity:top3?.95:.4,"stroke-linecap":"round"}));
-    pts.forEach(([px,py])=>g.appendChild(el("circle",{cx:px,cy:py,r:top3?4:2.8,fill:"#fff",
+    pts.forEach(([px,py])=>g.appendChild(el("circle",{cx:px,cy:py,r:top3?4:2.8,fill:PANEL,
       stroke:rep.c,"stroke-width":top3?2.4:1.5,opacity:top3?1:.55})));
     const t=el("text",{x:L-8,y:y(ranks[0][rep.n])+3,"text-anchor":"end","font-size":8,
       fill:top3?INK:DIM,"font-weight":top3?700:400});
@@ -440,12 +444,12 @@ function drawHeat(rows){
         const v=cell.filter(d=>d.outcome==="won").length/cell.length*100;
         const u=Math.min(1,Math.max(0,(v-9)/29));
         const lerp=(a,b2,t2)=>a.map((x,i)=>Math.round(x+(b2[i]-x)*t2));
-        const rgb=lerp([249,115,22],[5,150,105],u);
+        const rgb=lerp([255,145,71],[46,230,168],u);
         g.appendChild(el("rect",{x:L+c*cw+1.5,y:T+r*ch+1.5,width:cw-3,height:ch-3,
-          fill:"rgb("+rgb.join(",")+")",opacity:.24+u*.62,rx:3}));
+          fill:"rgb("+rgb.join(",")+")",opacity:.30+u*.60,rx:3}));
         if(cw>34&&ch>18){
           const tx=el("text",{x:L+c*cw+cw/2,y:T+r*ch+ch/2+3.5,"text-anchor":"middle",
-            "font-size":8.4,fill:u>.55?"#fff":INK,"font-weight":700});
+            "font-size":8.4,fill:u>.5?DEEP:INK,"font-weight":700});
           tx.textContent=v.toFixed(0)+"%";g.appendChild(tx);}
         hook(g,s+" · "+b+": "+v.toFixed(1)+"% win rate on "+cell.length+" decided deals");
       }
@@ -469,7 +473,7 @@ function drawRings(rows){
     const col=val>=100?EM:val>=90?EM2:val>=80?GOLD:CORAL;
     const cx=cw*i+cw/2,circ=2*Math.PI*R;
     const g=el("g");
-    g.appendChild(el("circle",{cx,cy,r:R,fill:"none",stroke:RULE,"stroke-width":8}));
+    g.appendChild(el("circle",{cx,cy,r:R,fill:"none",stroke:RULE2,"stroke-width":8}));
     g.appendChild(el("circle",{cx,cy,r:R,fill:"none",stroke:col,"stroke-width":8,
       "stroke-linecap":"round","stroke-dasharray":circ,
       "stroke-dashoffset":circ*(1-Math.min(val,100)/100),
@@ -512,7 +516,7 @@ function drawStage(rows){
     g.appendChild(el("line",{x1:x(0),y1:y,x2:x(d.p90),y2:y,
       stroke:bad?CORAL2:RULE2,"stroke-width":2.6,opacity:.6,"stroke-linecap":"round"}));
     g.appendChild(el("circle",{cx:x(d.med),cy:y,r:5.2,fill:bad?CORAL:EM}));
-    g.appendChild(el("circle",{cx:x(d.p90),cy:y,r:3,fill:"#fff",
+    g.appendChild(el("circle",{cx:x(d.p90),cy:y,r:3,fill:PANEL,
       stroke:bad?CORAL:RULE2,"stroke-width":1.6}));
     const t=el("text",{x:L-8,y:y+3,"text-anchor":"end","font-size":8,
       fill:d.capped?EM:bad?CORAL:DIM,"font-weight":(bad||d.capped)?700:400});

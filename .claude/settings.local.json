@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Read(//Users/aditishelke/Downloads/**)",
-      "Bash(unzip -l aditi_portfolio_website.zip)",
-      "Bash(python3 -m http.server 8904)"
-    ]
-  }
-}

@@ -605,7 +605,15 @@
       #hero-name-3d, .blob { transform:none !important; }
       .reveal { opacity: 1 !important; transform: none !important; }
     }
-  </style>
+  
+    /* Keyboard users land here first; visible only on focus. */
+    .skip-link{position:absolute;left:-9999px;top:0;z-index:200;
+      background:#1a1917;color:#faf9f6;padding:.7rem 1.1rem;border-radius:0 0 8px 0;
+      font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.08em;
+      text-transform:uppercase;text-decoration:none}
+    .skip-link:focus{left:0}
+    main{display:block}
+</style>
 
   <!-- If JS is blocked or fails, show all content instead of a blank page -->
   <noscript>
@@ -616,6 +624,7 @@
   </noscript>
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
 
   <!-- NAV -->
   <header class="site-header">
@@ -645,6 +654,8 @@
     </ul>
   </div>
   </header>
+
+  <main id="main">
 
   <!-- HERO -->
   <section id="hero">
@@ -1137,10 +1148,10 @@
       <article class="proj-tile plain t-sky">
         <div class="proj-tile-body">
           <div class="proj-tile-cat">Project · Market Analysis</div>
-          <h3 class="proj-tile-title"><a href="files/Escape_Route_Project_Report.docx">Escape Routes</a></h3>
+          <h3 class="proj-tile-title"><a href="files/Escape_Routes_Report.pdf">Escape Routes</a></h3>
           <div class="proj-tile-desc">What sets nightly price and ratings across 74,111 U.S. Airbnb listings.</div>
           <div class="proj-actions">
-            <a class="proj-link" href="files/Escape_Route_Project_Report.docx">Report (Word) ↓</a>
+            <a class="proj-link" href="files/Escape_Routes_Report.pdf">Report (PDF) ↓</a>
             <a class="proj-link sub" href="files/airbnb_dashboard.html" target="_blank" rel="noopener noreferrer">Interactive view →</a>
           </div>
         </div>
@@ -1161,10 +1172,10 @@
       <article class="proj-tile plain t-blush">
         <div class="proj-tile-body">
           <div class="proj-tile-cat">Project · Data Mining</div>
-          <h3 class="proj-tile-title"><a href="files/Project_Propasal_MISM6412.docx">AI Skepticism &amp; User Trust</a></h3>
+          <h3 class="proj-tile-title"><a href="files/AI_Skepticism_Proposal.pdf">AI Skepticism &amp; User Trust</a></h3>
           <div class="proj-tile-desc">Why users overtrust AI, modeled across confidence and literacy.</div>
           <div class="proj-actions">
-            <a class="proj-link" href="files/Project_Propasal_MISM6412.docx">Report (Word) ↓</a>
+            <a class="proj-link" href="files/AI_Skepticism_Proposal.pdf">Report (PDF) ↓</a>
           </div>
         </div>
       </article>
@@ -1205,14 +1216,14 @@
           <div class="course-title">Apple · Strategy Case Study</div>
           <div class="course-desc">Business and competitive analysis write-up.</div>
           <div class="proj-actions">
-            <a class="proj-link" href="files/Apple_Case_study.docx">Read (Word) ↓</a>
+            <a class="proj-link" href="files/Apple_Case_Study.pdf">Read (PDF) ↓</a>
           </div>
         </div>
         <div class="course-item">
           <div class="course-title">CEMEX · Operations Case Study</div>
           <div class="course-desc">Supply chain and operations analysis write-up.</div>
           <div class="proj-actions">
-            <a class="proj-link" href="files/Cemex_Case_study.docx">Read (Word) ↓</a>
+            <a class="proj-link" href="files/Cemex_Case_Study.pdf">Read (PDF) ↓</a>
           </div>
         </div>
       </div>
@@ -1284,6 +1295,8 @@
       </div>
     </div>
   </div>
+
+  </main>
 
   <footer>
     <span>© 2026 Aditi Shelke</span>

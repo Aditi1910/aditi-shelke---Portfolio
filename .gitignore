@@ -10,3 +10,6 @@ index.html.backup
 # Editor cruft
 *.swp
 *~
+
+# Editor/agent local settings
+.claude/

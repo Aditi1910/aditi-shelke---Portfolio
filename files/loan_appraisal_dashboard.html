@@ -124,6 +124,16 @@
   .flag.p{color:var(--ok);background:rgba(26,122,94,.12)}
   .flag.f{color:var(--no);background:rgba(155,44,44,.12)}
 
+  .viewtog{float:right;display:inline-flex;gap:0;border:1px solid var(--rule2);
+    border-radius:3px;overflow:hidden;margin-top:.12rem}
+  .viewtog button{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.08em;
+    padding:.14rem .34rem;border:0;background:transparent;color:var(--dim);cursor:pointer;
+    transition:all .15s}
+  .viewtog button+button{border-left:1px solid var(--rule2)}
+  .viewtog button:hover{color:var(--ink)}
+  .viewtog button.on{background:var(--teal);color:#fff}
+  #surface{cursor:grab}
+  #surface.grabbing{cursor:grabbing}
   .tip{position:fixed;pointer-events:none;background:var(--ink);color:#fff;font-size:.64rem;
     padding:.35rem .55rem;border-radius:3px;opacity:0;transition:opacity .12s;z-index:50;
     white-space:nowrap;font-family:'IBM Plex Sans',sans-serif}
@@ -263,8 +273,12 @@
         </div>
 
         <div class="card">
-          <h3>Eligibility surface</h3>
-          <div class="s">MAX SANCTION BY TENURE &times; CIBIL BAND &middot; RING = THIS APPLICANT</div>
+          <h3>Eligibility surface
+            <span class="viewtog" id="surfTog" role="group" aria-label="Surface view">
+              <button type="button" data-v="2d">2D</button><button type="button" data-v="3d" class="on">3D</button>
+            </span>
+          </h3>
+          <div class="s" id="sSurface">MAX SANCTION BY TENURE &times; CIBIL BAND &middot; DRAG TO ORBIT</div>
           <div class="viz"><svg id="surface" preserveAspectRatio="none"></svg></div>
         </div>
 
@@ -696,55 +710,196 @@ function drawRules(A){
   });
 }
 
-/* ══ 8. ELIGIBILITY SURFACE  tenure × score ═══════════════════ */
-function drawSurface(A){
-  const svg=clear("surface");
+/* ══ 8. ELIGIBILITY SURFACE  tenure × score, in 2D or 3D ══════
+   The 3D view is a hand-rolled projection — no library. Each cell of
+   the grid becomes a quad in model space (x = score band, z = tenure,
+   y = sanction), rotated by the drag angles, projected with a simple
+   perspective divide, then painted back-to-front.                    */
+const ORBIT={yaw:-0.62,pitch:0.52,mode:"3d",drag:null};
+
+function surfaceCells(A){
   const T=TYPES[S.type];
   const tenures=[3,5,7,10,15,20,25,30].filter(t=>t<=T.maxT);
-  const bands=BANDS.slice().reverse();          /* low score → high */
+  const bands=BANDS.slice().reverse();               /* low score → high */
   const cells=[];
   tenures.forEach((tn,ri)=>bands.forEach((b,ci)=>{
-    const probe=Math.min(tn,Math.max(0,Math.min(T.maxT,EMP[S.emp].retire-S.age)));
-    const v=probe<1?0:appraise({...S,tenure:tn,cibil:Math.min(b.hi,Math.max(b.lo,760))}).eligible;
-    cells.push({ri,ci,tn,b,v,dead:probe<1});
+    const room=Math.min(tn,Math.max(0,Math.min(T.maxT,EMP[S.emp].retire-S.age)));
+    const v=room<1?0:appraise({...S,tenure:tn,cibil:Math.min(b.hi,Math.max(b.lo,760))}).eligible;
+    cells.push({ri,ci,tn,b,v});
   }));
-  const vals=cells.map(c=>c.v),hi=Math.max(...vals,1);
+  const myBand=bands.findIndex(b=>b===A.band);
+  const near=tenures.slice().reverse().find(t=>t<=A.tenure);
+  const myTen=tenures.indexOf(near);
+  return {tenures,bands,cells,myBand,myTen,hi:Math.max(...cells.map(c=>c.v),1)};
+}
+const surfFill=(u,dead)=>dead?"#efe9dc":"rgba(15,82,87,"+(0.10+u*0.8).toFixed(3)+")";
+
+function drawSurface(A){
+  const svg=clear("surface");
+  const D=surfaceCells(A);
+  document.getElementById("sSurface").innerHTML = ORBIT.mode==="3d"
+    ? "MAX SANCTION BY TENURE &times; CIBIL BAND &middot; <b>DRAG TO ORBIT</b>"
+    : "MAX SANCTION BY TENURE &times; CIBIL BAND &middot; RING = THIS APPLICANT";
+  (ORBIT.mode==="3d"?drawSurface3D:drawSurface2D)(svg,D);
+}
+
+/* ── flat heatmap (unchanged behaviour, kept as the precise read) ── */
+function drawSurface2D(svg,D){
+  const {tenures,bands,cells,myBand,myTen,hi}=D;
   const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
   const L=34,T0=20;
   const cw=(W-L-4)/bands.length, ch=(H-T0-4)/tenures.length;
   bands.forEach((b,i)=>{
     const t=el("text",{x:L+i*cw+cw/2,y:8,"text-anchor":"middle","font-size":6,fill:FAINT,
-      "font-family":"IBM Plex Mono"});
-    t.textContent=b.n;svg.appendChild(t);
-  });
+      "font-family":"IBM Plex Mono"});t.textContent=b.n;svg.appendChild(t);});
   const hd=el("text",{x:L+(W-L-4)/2,y:16,"text-anchor":"middle","font-size":5.6,fill:FAINT,
-    "font-family":"IBM Plex Mono"});
-  hd.textContent="CIBIL BAND →";svg.appendChild(hd);
+    "font-family":"IBM Plex Mono"});hd.textContent="CIBIL BAND →";svg.appendChild(hd);
   tenures.forEach((tn,i)=>{
     const t=el("text",{x:L-5,y:T0+i*ch+ch/2+3,"text-anchor":"end","font-size":6.8,fill:FAINT,
-      "font-family":"IBM Plex Mono"});
-    t.textContent=tn+"y";svg.appendChild(t);
-  });
-  const myBand=bands.findIndex(b=>b===A.band);
-  const myTen=tenures.indexOf(tenures.slice().reverse().find(t=>t<=A.tenure));
+      "font-family":"IBM Plex Mono"});t.textContent=tn+"y";svg.appendChild(t);});
   cells.forEach(c=>{
-    const g=el("g");
-    const u=c.v/hi;
+    const g=el("g"),u=c.v/hi;
     g.appendChild(el("rect",{x:L+c.ci*cw+1,y:T0+c.ri*ch+1,width:cw-2,height:ch-2,
-      fill:c.v<=0?"#efe9dc":"rgba(15,82,87,"+(0.10+u*0.8).toFixed(3)+")",rx:2}));
+      fill:surfFill(u,c.v<=0),rx:2}));
     if(cw>34&&ch>15&&c.v>0){
       const t=el("text",{x:L+c.ci*cw+cw/2,y:T0+c.ri*ch+ch/2+3,"text-anchor":"middle",
         "font-size":6.4,fill:u>.5?"#fff":INK,"font-family":"IBM Plex Mono","font-weight":500});
-      t.textContent=inr(c.v).replace("₹","");g.appendChild(t);
-    }
+      t.textContent=inr(c.v).replace("₹","");g.appendChild(t);}
     hook(g,c.tn+"-year tenure at CIBIL "+c.b.n+": max sanction "+inrFull(c.v));
-    svg.appendChild(g);
-  });
-  if(myBand>=0&&myTen>=0){
+    svg.appendChild(g);});
+  if(myBand>=0&&myTen>=0)
     svg.appendChild(el("rect",{x:L+myBand*cw+1,y:T0+myTen*ch+1,width:cw-2,height:ch-2,
       fill:"none",stroke:BRASS,"stroke-width":2,rx:2}));
-  }
 }
+
+/* ── 3D surface ─────────────────────────────────────────────────
+   Two passes: project every vertex into camera space first, measure
+   the resulting bounding box, then scale and centre so the mesh fills
+   the panel at any orbit angle. Fixed scaling made it drift and shrink
+   as you rotated.                                                    */
+function drawSurface3D(svg,D){
+  const {tenures,bands,cells,myBand,myTen,hi}=D;
+  const [W,H]=size(svg);svg.setAttribute("viewBox","0 0 "+W+" "+H);
+  const nx=bands.length, nz=tenures.length;
+  if(nx<2||nz<2){drawSurface2D(svg,D);return;}
+  const SX=1.7, SZ=1.5, SY=1.0, DIST=4.6;
+  const at=(ri,ci)=>{const c=cells.find(k=>k.ri===ri&&k.ci===ci);return c?c.v:0;};
+  const gx=ci=>(ci/(nx-1)-0.5)*SX;
+  const gz=ri=>(ri/(nz-1)-0.5)*SZ;
+  const gy=v =>(v/hi)*SY;
+
+  const cy=Math.cos(ORBIT.yaw), sy=Math.sin(ORBIT.yaw);
+  const cp=Math.cos(ORBIT.pitch), sp=Math.sin(ORBIT.pitch);
+  /* camera space, before any viewport fitting */
+  function cam(x,y,z){
+    const X= x*cy + z*sy;
+    const Z=-x*sy + z*cy;
+    const Y= y*cp - Z*sp;
+    const Zc= y*sp + Z*cp + DIST;
+    const k=1/Math.max(0.35,Zc);
+    return [X*k, -Y*k, Zc];
+  }
+  /* pass 1 — measure everything we intend to draw */
+  const probe=[];
+  for(let r=0;r<nz;r++)for(let c=0;c<nx;c++){
+    probe.push(cam(gx(c),gy(at(r,c)),gz(r)));
+    probe.push(cam(gx(c),0,gz(r)));
+  }
+  const xs=probe.map(p=>p[0]), ys=probe.map(p=>p[1]);
+  const bx0=Math.min(...xs), bx1=Math.max(...xs);
+  const by0=Math.min(...ys), by1=Math.max(...ys);
+  const padL=30, padR=12, padT=10, padB=20;
+  const availW=Math.max(20,W-padL-padR), availH=Math.max(20,H-padT-padB);
+  const k=Math.min(availW/Math.max(1e-6,bx1-bx0), availH/Math.max(1e-6,by1-by0));
+  const ox=padL+(availW-(bx1-bx0)*k)/2 - bx0*k;
+  const oy=padT+(availH-(by1-by0)*k)/2 - by0*k;
+  const project=(x,y,z)=>{const c=cam(x,y,z);return [ox+c[0]*k, oy+c[1]*k, c[2]];};
+
+  /* floor grid */
+  const seg=[];
+  for(let i=0;i<nx;i++)seg.push([[gx(i),0,gz(0)],[gx(i),0,gz(nz-1)]]);
+  for(let r=0;r<nz;r++)seg.push([[gx(0),0,gz(r)],[gx(nx-1),0,gz(r)]]);
+  seg.forEach(([a,b])=>{
+    const p=project(...a),q=project(...b);
+    svg.appendChild(el("line",{x1:p[0].toFixed(1),y1:p[1].toFixed(1),
+      x2:q[0].toFixed(1),y2:q[1].toFixed(1),stroke:RULE,"stroke-width":.7,opacity:.8}));});
+
+  /* quads, far to near */
+  const quads=[];
+  for(let r=0;r<nz-1;r++)for(let c=0;c<nx-1;c++){
+    const vs=[[r,c],[r,c+1],[r+1,c+1],[r+1,c]].map(([rr,cc])=>{
+      const v=at(rr,cc);return {p:project(gx(cc),gy(v),gz(rr)),v};});
+    quads.push({vs,mean:vs.reduce((a,b)=>a+b.v,0)/4,
+      depth:vs.reduce((a,b)=>a+b.p[2],0)/4,r,c});}
+  quads.sort((a,b)=>b.depth-a.depth);
+  quads.forEach(q=>{
+    const g=el("g"),u=q.mean/hi;
+    g.appendChild(el("polygon",{
+      points:q.vs.map(v=>v.p[0].toFixed(1)+","+v.p[1].toFixed(1)).join(" "),
+      fill:surfFill(u,q.mean<=0),stroke:"rgba(15,82,87,.32)",
+      "stroke-width":.6,"stroke-linejoin":"round"}));
+    hook(g,tenures[q.r]+"–"+tenures[q.r+1]+" yrs at CIBIL "+bands[q.c].n+"–"+
+      bands[q.c+1].n+": about "+inrFull(q.mean));
+    svg.appendChild(g);});
+
+  /* the applicant, raised off the floor */
+  if(myBand>=0&&myTen>=0){
+    const v=at(myTen,myBand);
+    const b=project(gx(myBand),0,gz(myTen)), t=project(gx(myBand),gy(v),gz(myTen));
+    svg.appendChild(el("line",{x1:b[0],y1:b[1],x2:t[0],y2:t[1],
+      stroke:BRASS,"stroke-width":1.4,"stroke-dasharray":"3 2"}));
+    const dot=el("circle",{cx:t[0],cy:t[1],r:4,fill:BRASS,stroke:"#fff","stroke-width":1.4});
+    hook(dot,"This applicant — "+tenures[myTen]+" yrs at CIBIL "+bands[myBand].n+
+      ": "+inrFull(v));
+    svg.appendChild(dot);
+    const lb=el("text",{x:t[0],y:t[1]-8,"text-anchor":"middle","font-size":6.6,
+      fill:BRASS,"font-family":"IBM Plex Mono","font-weight":600});
+    lb.textContent=inr(v);svg.appendChild(lb);}
+
+  /* just the four extremes — a small panel cannot hold every tick */
+  const tag=(txt,x,y,z,anchor,col)=>{
+    const p=project(x,y,z);
+    const t=el("text",{x:p[0].toFixed(1),y:p[1].toFixed(1),
+      "text-anchor":anchor||"middle","font-size":5.9,
+      fill:col||FAINT,"font-family":"IBM Plex Mono"});
+    t.textContent=txt;svg.appendChild(t);};
+  tag(bands[0].n,       gx(0),       -0.10, gz(nz-1)+0.24);
+  tag(bands[nx-1].n,    gx(nx-1),    -0.10, gz(nz-1)+0.24);
+  tag(tenures[0]+"y",   gx(0)-0.34,  -0.02, gz(0),        "end");
+  tag(tenures[nz-1]+"y",gx(0)-0.34,  -0.02, gz(nz-1),     "end");
+  tag("CIBIL →",        0,           -0.10, gz(nz-1)+0.42, "middle", DIM);
+  tag("TENURE →",       gx(0)-0.62,  -0.02, 0,             "end",    DIM);
+}
+
+/* orbit interaction */
+(function orbitSetup(){
+  const svg=document.getElementById("surface");
+  const down=e=>{ if(ORBIT.mode!=="3d")return;
+    ORBIT.drag={x:(e.touches?e.touches[0].clientX:e.clientX),
+                y:(e.touches?e.touches[0].clientY:e.clientY),
+                yaw:ORBIT.yaw,pitch:ORBIT.pitch};
+    svg.classList.add("grabbing"); };
+  const move=e=>{ if(!ORBIT.drag)return;
+    const cx=(e.touches?e.touches[0].clientX:e.clientX);
+    const cy=(e.touches?e.touches[0].clientY:e.clientY);
+    ORBIT.yaw   = ORBIT.drag.yaw   + (cx-ORBIT.drag.x)*0.0075;
+    ORBIT.pitch = Math.max(0.06,Math.min(1.25, ORBIT.drag.pitch - (cy-ORBIT.drag.y)*0.006));
+    if(e.cancelable)e.preventDefault();
+    drawSurface(appraise(S)); };
+  const up=()=>{ ORBIT.drag=null; svg.classList.remove("grabbing"); };
+  svg.addEventListener("mousedown",down);
+  svg.addEventListener("touchstart",down,{passive:true});
+  addEventListener("mousemove",move);
+  addEventListener("touchmove",move,{passive:false});
+  addEventListener("mouseup",up);
+  addEventListener("touchend",up);
+  document.getElementById("surfTog").addEventListener("click",e=>{
+    const b=e.target.closest("button"); if(!b)return;
+    ORBIT.mode=b.dataset.v;
+    [...e.currentTarget.querySelectorAll("button")].forEach(x=>x.classList.toggle("on",x===b));
+    drawSurface(appraise(S));
+  });
+})();
 
 /* ══ 9. TORNADO  what moves the number ═══════════════════════ */
 function drawTornado(A){

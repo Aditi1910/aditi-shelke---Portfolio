@@ -171,21 +171,11 @@
       position: relative; z-index: 1;
     }
     .hero-main { perspective: 900px; }
-    .hero-eyebrow {
-      display: inline-flex; align-items: center; gap: 0.6rem; margin-bottom: 1.1rem;
-      background: rgba(255,255,255,0.72); border: 1px solid var(--line);
-      border-radius: 99px; padding: 0.4rem 0.95rem;
-      animation: up 0.8s ease both;
-    }
     .hero-dot {
       width: 8px; height: 8px; border-radius: 50%; background: var(--sage-d);
       animation: pulse 2s infinite; flex-shrink: 0;
     }
     @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.3)} }
-    .hero-eyebrow span {
-      font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase;
-      color: var(--muted); font-family: 'JetBrains Mono', monospace;
-    }
     .hero-name {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(3rem, 6.5vw, 6.5rem);
@@ -495,6 +485,23 @@
     }
     .contact-heading em { font-style: italic; color: var(--lav-d); }
     .contact-sub { font-size: 0.9rem; color: #55544d; margin-bottom: 3rem; line-height: 1.7; }
+    .contact-open {
+      display:inline-flex; align-items:center; gap:0.6rem;
+      background:rgba(255,255,255,0.72); border:1px solid var(--line);
+      border-radius:99px; padding:0.45rem 1.05rem; margin:0 auto 1.6rem;
+    }
+    .contact-open span {
+      font-size:0.7rem; letter-spacing:0.12em; text-transform:uppercase;
+      color:var(--muted); font-family:'JetBrains Mono',monospace;
+    }
+    .contact-open .role-cycle { display:inline-block; white-space:nowrap; font-weight:400; }
+    .contact-open .rc-text { color:var(--lav-d); transition:opacity .22s ease; }
+    .contact-open .hr-caret { vertical-align:-0.1em; height:0.85em; }
+    @media (max-width:600px){
+      .contact-open { align-items:flex-start; text-align:left; }
+      .contact-open .hero-dot { margin-top:4px; }
+      .contact-open span { font-size:0.62rem; letter-spacing:0.06em; }
+    }
     .contact-email {
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.4rem; font-style: italic; font-weight: 400;
@@ -531,7 +538,7 @@
     /* Hero text fades in via CSS animation with fill-mode:both, which holds it at opacity 0
        until the animation actually runs. In a background tab animations are frozen, so this
        class is force-applied on a timer to guarantee the hero can never stay invisible. */
-    body.anim-safe .hero-eyebrow, body.anim-safe .hero-name, body.anim-safe .hero-role,
+    body.anim-safe body.anim-safe .hero-name, body.anim-safe .hero-role,
     body.anim-safe .hero-tagline, body.anim-safe .hero-links {
       animation: none !important; opacity: 1 !important; transform: none !important;
     }
@@ -630,9 +637,6 @@
       .hero-tagline { font-size: 1.05rem; }
       nav { padding: 0.9rem 1.2rem; }
       /* keep the availability chip on one line at narrow widths */
-      .hero-eyebrow { align-items: flex-start; }
-      .hero-eyebrow .hero-dot { margin-top: 4px; }
-      .hero-eyebrow span { font-size: 0.64rem; letter-spacing: 0.07em; }
       /* equal-width stacked buttons instead of two ragged ones */
       .hero-links { gap: 0.7rem; }
       .hero-links a { flex: 1 1 100%; text-align: center; padding: 0.9rem 1rem; }
@@ -718,11 +722,6 @@
 
     <div class="hero-top">
       <div class="hero-main">
-        <div class="hero-eyebrow">
-          <div class="hero-dot"></div>
-          <span>Open to Dec 2026 roles · Oakland, CA</span>
-        </div>
-
         <h1 class="hero-name" id="hero-name-3d" style="transition:transform 0.2s ease;transform-style:preserve-3d;">
           Aditi Shelke
         </h1>
@@ -1261,6 +1260,10 @@
       <h2 class="contact-heading">
         Your data has a story.<br/>Let me <em>tell it.</em>
       </h2>
+      <div class="contact-open">
+        <div class="hero-dot"></div>
+        <span>Open to <b class="role-cycle" id="contactRole"><span class="rc-text">Business Analyst</span><span class="hr-caret" aria-hidden="true"></span></b> roles &middot; Dec 2026 &middot; Oakland, CA</span>
+      </div>
       <a href="mailto:adishelke2000@gmail.com" class="contact-email">adishelke2000@gmail.com</a>
       <div class="socials">
         <a href="https://www.linkedin.com/in/aditi-shelke-172021179/" target="_blank" rel="noopener noreferrer" class="social-btn">LinkedIn</a>
@@ -1754,6 +1757,11 @@
   }
 
   cycler(document.getElementById('heroRole'), HERO_ROLES, 2900);
+  /* the closing availability line runs the same list, offset so the two
+     are not flipping in lockstep on a short page */
+  setTimeout(function(){
+    cycler(document.getElementById('contactRole'), HERO_ROLES, 2900);
+  }, 1450);
 
 })();
 </script>

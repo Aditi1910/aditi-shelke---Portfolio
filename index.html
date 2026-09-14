@@ -189,7 +189,6 @@
     .hr-caret { display:inline-block; width:2px; height:0.95em; margin-left:3px;
       background:var(--lav-d); vertical-align:-0.12em; animation:caret 1.05s step-end infinite; }
     @keyframes caret { 0%,100%{opacity:1} 50%{opacity:0} }
-    .hero-role .hr-text { transition:opacity .22s ease; }
     @media (prefers-reduced-motion: reduce){
       .hr-caret{ animation:none; opacity:1; }
       .read-progress{ transition:none; }
@@ -725,7 +724,7 @@
         <h1 class="hero-name" id="hero-name-3d" style="transition:transform 0.2s ease;transform-style:preserve-3d;">
           Aditi Shelke
         </h1>
-        <p class="hero-role" id="heroRole"><span class="hr-text">Business Analyst</span><span class="hr-caret" aria-hidden="true"></span></p>
+        <p class="hero-role">Business Analyst</p>
 
         <p class="hero-tagline">
           "Since <b>ATS bots</b> are going to reject my resume anyway, here is my actual portfolio. No buzzwords, <b>just data</b>."
@@ -1728,12 +1727,8 @@
     update();
   }
 
-  /* ── 4. Role cycling ──────────────────────────────────────────
-     One cycler drives both the hero line and the closing line. The
-     hero takes a short list so it reads fast; the close carries the
-     full range, mirrored by the chip row below it so a reader sees
-     every role at once instead of waiting through a rotation.     */
-  var HERO_ROLES = ['Business Analyst','Data Analyst','Credit Risk Analyst',
+  /* ── 4. Role cycling on the closing availability line ───────── */
+  var ROLES = ['Business Analyst','Data Analyst','Credit Risk Analyst',
                     'Business Intelligence Analyst','Strategy Analyst','Data Storyteller'];
 
   function cycler(host, roles, period){
@@ -1756,12 +1751,7 @@
     return { run: run, halt: halt };
   }
 
-  cycler(document.getElementById('heroRole'), HERO_ROLES, 2900);
-  /* the closing availability line runs the same list, offset so the two
-     are not flipping in lockstep on a short page */
-  setTimeout(function(){
-    cycler(document.getElementById('contactRole'), HERO_ROLES, 2900);
-  }, 1450);
+  cycler(document.getElementById('contactRole'), ROLES, 2900);
 
 })();
 </script>

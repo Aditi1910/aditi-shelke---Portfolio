@@ -11,11 +11,6 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://aditi1910.github.io/aditi-shelke-portfolio/files/airline_dashboard.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://aditi1910.github.io/aditi-shelke-portfolio/files/attrition_dashboard.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -27,11 +22,6 @@
   </url>
   <url>
     <loc>https://aditi1910.github.io/aditi-shelke-portfolio/files/executive_dashboard.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://aditi1910.github.io/aditi-shelke-portfolio/files/global_development_dashboard.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -52,16 +42,6 @@
   </url>
   <url>
     <loc>https://aditi1910.github.io/aditi-shelke-portfolio/files/nivaaslink_mvp.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://aditi1910.github.io/aditi-shelke-portfolio/files/retail_dashboard.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://aditi1910.github.io/aditi-shelke-portfolio/files/retail_profitability_analysis.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

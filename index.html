@@ -193,6 +193,17 @@
       letter-spacing: -0.02em;
       animation: up 0.8s 0.1s ease both;
     }
+    .read-progress { position:fixed; top:0; left:0; height:2px; width:0;
+      background:linear-gradient(90deg,var(--lav-d),var(--sky-d));
+      z-index:150; pointer-events:none; transition:width .08s linear; }
+    .hr-caret { display:inline-block; width:2px; height:0.95em; margin-left:3px;
+      background:var(--lav-d); vertical-align:-0.12em; animation:caret 1.05s step-end infinite; }
+    @keyframes caret { 0%,100%{opacity:1} 50%{opacity:0} }
+    .hero-role .hr-text { transition:opacity .22s ease; }
+    @media (prefers-reduced-motion: reduce){
+      .hr-caret{ animation:none; opacity:1; }
+      .read-progress{ transition:none; }
+    }
     .hero-role {
       font-family: 'JetBrains Mono', monospace;
       font-size: clamp(0.85rem, 1.4vw, 1.05rem);
@@ -376,6 +387,26 @@
 
     /* ── PROJECTS ── */
     #projects { border-bottom: 1px solid var(--line); }
+    .proj-filter { display:flex; flex-wrap:wrap; gap:0.45rem; align-items:center;
+      margin: 1.4rem 0 0.2rem; }
+    .proj-filter button {
+      font-family:'JetBrains Mono',monospace; font-size:0.66rem; letter-spacing:0.04em;
+      padding:0.42rem 0.8rem; border:1px solid var(--line); background:var(--white);
+      color:var(--muted); border-radius:99px; cursor:pointer;
+      transition:background .18s, color .18s, border-color .18s, transform .18s; }
+    .proj-filter button:hover { color:var(--ink); border-color:var(--lav-d); transform:translateY(-1px); }
+    .proj-filter button i { font-style:normal; opacity:.55; margin-left:.3rem; font-size:0.6rem; }
+    .proj-filter button.on { background:var(--ink); color:var(--white); border-color:var(--ink); }
+    .proj-filter button.on i { opacity:.7; }
+    .proj-filter-count { font-family:'JetBrains Mono',monospace; font-size:0.62rem;
+      color:var(--muted); margin-left:auto; }
+    /* tiles animate out rather than vanishing, so the grid reflow reads */
+    .proj-tile.is-hidden { display:none; }
+    .proj-tile.is-entering { animation: tileIn .32s ease both; }
+    @keyframes tileIn { from{opacity:0;transform:translateY(10px) scale(.985)} to{opacity:1;transform:none} }
+    .proj-group.is-empty { display:none; }
+    @media (prefers-reduced-motion: reduce){ .proj-tile.is-entering{animation:none} }
+    @media (max-width:600px){ .proj-filter-count{ margin-left:0; width:100%; } }
     .proj-group-label {
       font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; letter-spacing: 0.16em;
       text-transform: uppercase; color: var(--lav-d); margin: 2.8rem 0 0.2rem;
@@ -644,6 +675,7 @@
   </noscript>
 </head>
 <body>
+  <div class="read-progress" id="readProgress" aria-hidden="true"></div>
   <a class="skip-link" href="#main">Skip to content</a>
 
   <!-- NAV -->
@@ -694,7 +726,7 @@
         <h1 class="hero-name" id="hero-name-3d" style="transition:transform 0.2s ease;transform-style:preserve-3d;">
           Aditi Shelke
         </h1>
-        <p class="hero-role">Business Analyst</p>
+        <p class="hero-role" id="heroRole"><span class="hr-text">Business Analyst</span><span class="hr-caret" aria-hidden="true"></span></p>
 
         <p class="hero-tagline">
           "Since <b>ATS bots</b> are going to reject my resume anyway, here is my actual portfolio. No buzzwords, <b>just data</b>."
@@ -1000,10 +1032,20 @@
       <h2 class="sec-title">Eleven dashboards.<br/>Seven business functions.</h2>
     </div>
 
+    <div class="proj-filter reveal" id="projFilter" role="group" aria-label="Filter projects by area">
+      <button type="button" data-f="all"         class="on">All <i>15</i></button>
+      <button type="button" data-f="interactive">Interactive <i>7</i></button>
+      <button type="button" data-f="finance">Finance &amp; risk <i>3</i></button>
+      <button type="button" data-f="growth">Sales &amp; marketing <i>4</i></button>
+      <button type="button" data-f="ops">Operations &amp; people <i>4</i></button>
+      <button type="button" data-f="strategy">Strategy <i>4</i></button>
+      <span class="proj-filter-count" id="projCount" aria-live="polite"></span>
+    </div>
+
     <div class="proj-group-label reveal">Dashboards <span>· one per business function · each fits a single screen · seven are fully interactive — filters and parameters recompute every figure, KPIs included</span></div>
     <div class="proj-tiles reveal">
 
-      <article class="proj-tile">
+      <article data-tags="finance interactive" class="proj-tile">
         <a class="proj-tile-cover" href="files/credit_risk_dashboard.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
           <img src="files/cover_credit_risk.jpg" width="1400" height="787" loading="lazy" decoding="async" alt=""/>
         </a>
@@ -1018,7 +1060,7 @@
         </div>
       </article>
 
-      <article class="proj-tile">
+      <article data-tags="finance interactive" class="proj-tile">
         <a class="proj-tile-cover" href="files/loan_appraisal_dashboard.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
           <img src="files/cover_appraisal.jpg" width="1400" height="787" loading="lazy" decoding="async" alt=""/>
         </a>
@@ -1033,7 +1075,7 @@
         </div>
       </article>
 
-      <article class="proj-tile">
+      <article data-tags="growth interactive" class="proj-tile">
         <a class="proj-tile-cover" href="files/marketing_dashboard.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
           <img src="files/cover_marketing.jpg" width="1400" height="787" loading="lazy" decoding="async" alt=""/>
         </a>
@@ -1048,7 +1090,7 @@
         </div>
       </article>
 
-      <article class="proj-tile">
+      <article data-tags="growth interactive" class="proj-tile">
         <a class="proj-tile-cover" href="files/sales_dashboard.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
           <img src="files/cover_sales.jpg" width="1400" height="787" loading="lazy" decoding="async" alt=""/>
         </a>
@@ -1063,7 +1105,7 @@
         </div>
       </article>
 
-      <article class="proj-tile">
+      <article data-tags="ops" class="proj-tile">
         <a class="proj-tile-cover" href="files/attrition_dashboard.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
           <img src="files/cover_attrition.jpg" width="1400" height="787" loading="lazy" decoding="async" alt=""/>
         </a>
@@ -1078,7 +1120,7 @@
         </div>
       </article>
 
-      <article class="proj-tile">
+      <article data-tags="ops interactive" class="proj-tile">
         <a class="proj-tile-cover" href="files/supplychain_dashboard.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
           <img src="files/cover_supplychain.jpg" width="1400" height="787" loading="lazy" decoding="async" alt=""/>
         </a>
@@ -1093,7 +1135,7 @@
         </div>
       </article>
 
-      <article class="proj-tile">
+      <article data-tags="ops interactive" class="proj-tile">
         <a class="proj-tile-cover" href="files/security_dashboard.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
           <img src="files/cover_security.jpg" width="1400" height="787" loading="lazy" decoding="async" alt=""/>
         </a>
@@ -1108,7 +1150,7 @@
         </div>
       </article>
 
-      <article class="proj-tile">
+      <article data-tags="strategy interactive" class="proj-tile">
         <a class="proj-tile-cover" href="files/executive_dashboard.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
           <img src="files/cover_executive.jpg" width="1400" height="787" loading="lazy" decoding="async" alt=""/>
         </a>
@@ -1128,7 +1170,7 @@
     <div class="proj-group-label reveal">More dashboards <span>· earlier work, same data-first approach</span></div>
     <div class="proj-tiles reveal">
 
-      <article class="proj-tile">
+      <article data-tags="finance" class="proj-tile">
         <a class="proj-tile-cover" href="files/retail_dashboard.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
           <img src="files/cover_retail_dash.jpg" width="1400" height="787" loading="lazy" decoding="async" alt=""/>
         </a>
@@ -1143,7 +1185,7 @@
         </div>
       </article>
 
-      <article class="proj-tile">
+      <article data-tags="growth" class="proj-tile">
         <a class="proj-tile-cover" href="files/airline_dashboard.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
           <img src="files/cover_airline_dash.jpg" width="1400" height="787" loading="lazy" decoding="async" alt=""/>
         </a>
@@ -1157,7 +1199,7 @@
         </div>
       </article>
 
-      <article class="proj-tile">
+      <article data-tags="strategy" class="proj-tile">
         <a class="proj-tile-cover" href="files/global_development_dashboard.html" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
           <img src="files/cover_convergence_dash.jpg" width="1400" height="787" loading="lazy" decoding="async" alt=""/>
         </a>
@@ -1176,7 +1218,7 @@
     <div class="proj-group-label reveal">Analysis &amp; Modelling <span>· statistical modeling, ML &amp; market analysis</span></div>
     <div class="proj-tiles reveal">
 
-      <article class="proj-tile plain t-sky">
+      <article data-tags="strategy" class="proj-tile plain t-sky">
         <div class="proj-tile-body">
           <div class="proj-tile-cat">Project · Market Analysis</div>
           <h3 class="proj-tile-title"><a href="files/Escape_Routes_Report.pdf">Escape Routes</a></h3>
@@ -1188,7 +1230,7 @@
         </div>
       </article>
 
-      <article class="proj-tile plain t-peach">
+      <article data-tags="growth" class="proj-tile plain t-peach">
         <div class="proj-tile-body">
           <div class="proj-tile-cat">Project · Prediction</div>
           <h3 class="proj-tile-title"><a href="files/Airline_Finalproject.pdf" target="_blank" rel="noopener noreferrer">Airline Customer Satisfaction</a></h3>
@@ -1200,7 +1242,7 @@
         </div>
       </article>
 
-      <article class="proj-tile plain t-blush">
+      <article data-tags="ops" class="proj-tile plain t-blush">
         <div class="proj-tile-body">
           <div class="proj-tile-cat">Project · Data Mining</div>
           <h3 class="proj-tile-title"><a href="files/AI_Skepticism_Proposal.pdf">AI Skepticism &amp; User Trust</a></h3>
@@ -1216,7 +1258,7 @@
     <div class="proj-group-label reveal">Business Proposals &amp; Strategy <span>· market, product &amp; business case</span></div>
     <div class="proj-tiles reveal">
 
-      <article class="proj-tile plain t-gold">
+      <article data-tags="strategy" class="proj-tile plain t-gold">
         <div class="proj-tile-body">
           <div class="proj-tile-cat">Business Proposal · Product</div>
           <h3 class="proj-tile-title"><a href="files/nivaaslink_case_study.html" target="_blank" rel="noopener noreferrer">NivaasLink</a></h3>
@@ -1619,6 +1661,143 @@
   var rt; addEventListener('resize', function(){
     clearTimeout(rt); rt=setTimeout(function(){ build(); resize(); frame(); }, 160);
   });
+})();
+</script>
+
+<script>
+/* ══ Dynamic behaviour ══════════════════════════════════════════ */
+(function dynamic(){
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── 1. Project filter ────────────────────────────────────────
+     Tiles carry data-tags. Counts are derived from the DOM, not
+     hardcoded, so adding or removing a project keeps them honest.
+     A group's label and grid are siblings, so an empty group hides
+     both rather than leaving a heading stranded over nothing.     */
+  var bar = document.getElementById('projFilter');
+  if (bar){
+    var tiles   = [].slice.call(document.querySelectorAll('.proj-tile[data-tags]'));
+    var grids   = [].slice.call(document.querySelectorAll('.proj-tiles'));
+    var countEl = document.getElementById('projCount');
+    var buttons = [].slice.call(bar.querySelectorAll('button'));
+
+    function matches(t, f){
+      return f === 'all' ||
+        (' ' + t.getAttribute('data-tags') + ' ').indexOf(' ' + f + ' ') > -1;
+    }
+    /* label each button with its live count; drop any that match nothing */
+    buttons.forEach(function(b){
+      var f = b.getAttribute('data-f');
+      var n = tiles.filter(function(t){ return matches(t, f); }).length;
+      var i = b.querySelector('i');
+      if (i) i.textContent = n;
+      if (n === 0 && f !== 'all') b.style.display = 'none';
+    });
+
+    function apply(f){
+      var shown = 0;
+      tiles.forEach(function(t){
+        var hit = matches(t, f);
+        t.classList.toggle('is-hidden', !hit);
+        if (hit){
+          shown++;
+          if (!reduce){
+            t.classList.remove('is-entering');
+            void t.offsetWidth;                 /* restart the animation */
+            t.classList.add('is-entering');
+          }
+        }
+      });
+      grids.forEach(function(g){
+        var any = g.querySelector('.proj-tile:not(.is-hidden)');
+        g.style.display = any ? '' : 'none';
+        var lbl = g.previousElementSibling;
+        while (lbl && !lbl.classList.contains('proj-group-label')) lbl = lbl.previousElementSibling;
+        if (lbl) lbl.style.display = any ? '' : 'none';
+      });
+      if (countEl) countEl.textContent = (f === 'all') ? '' : shown + ' of ' + tiles.length + ' shown';
+    }
+
+    bar.addEventListener('click', function(e){
+      var b = e.target.closest('button'); if (!b) return;
+      buttons.forEach(function(x){
+        var on = x === b;
+        x.classList.toggle('on', on);
+        x.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      apply(b.getAttribute('data-f'));
+    });
+    buttons.forEach(function(x){
+      x.setAttribute('aria-pressed', x.classList.contains('on') ? 'true' : 'false');
+    });
+  }
+
+  /* ── 2. Stats count up the first time they scroll into view ─── */
+  var stats = [].slice.call(document.querySelectorAll('.str-stat'));
+  if (stats.length && 'IntersectionObserver' in window && !reduce){
+    stats.forEach(function(el){
+      var txt = el.textContent;
+      var m = txt.match(/(\d+(?:\.\d+)?)/);
+      if (!m) return;                                   /* purely textual stat */
+      var target   = parseFloat(m[1]);
+      var decimals = (m[1].indexOf('.') > -1) ? m[1].split('.')[1].length : 0;
+      var fired = false;
+      var io = new IntersectionObserver(function(es){
+        if (!es[0].isIntersecting || fired) return;
+        fired = true; io.disconnect();
+        var t0 = null, DUR = 900;
+        function step(ts){
+          if (!t0) t0 = ts;
+          var k = Math.min(1, (ts - t0) / DUR);
+          var eased = 1 - Math.pow(1 - k, 3);
+          el.textContent = txt.replace(m[1], (target * eased).toFixed(decimals));
+          if (k < 1) requestAnimationFrame(step);
+          else el.textContent = txt;                    /* land on the exact original */
+        }
+        el.textContent = txt.replace(m[1], (0).toFixed(decimals));
+        requestAnimationFrame(step);
+      }, { threshold: 0.4 });
+      io.observe(el);
+    });
+  }
+
+  /* ── 3. Reading progress ─────────────────────────────────────── */
+  var prog = document.getElementById('readProgress');
+  if (prog){
+    var ticking = false;
+    function update(){
+      ticking = false;
+      var h = document.documentElement;
+      var max = h.scrollHeight - h.clientHeight;
+      prog.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
+    }
+    addEventListener('scroll', function(){
+      if (!ticking){ ticking = true; requestAnimationFrame(update); }
+    }, { passive: true });
+    addEventListener('resize', update);
+    update();
+  }
+
+  /* ── 4. Hero role cycles through what she actually does ─────── */
+  var role = document.getElementById('heroRole');
+  if (role && !reduce){
+    var txtEl = role.querySelector('.hr-text');
+    var ROLES = ['Business Analyst', 'Credit Risk Analyst', 'Data Storyteller'];
+    if (txtEl){
+      var i = 0, timer = null;
+      function cycle(){
+        i = (i + 1) % ROLES.length;
+        txtEl.style.opacity = 0;
+        setTimeout(function(){ txtEl.textContent = ROLES[i]; txtEl.style.opacity = 1; }, 240);
+      }
+      function run(){ if (!timer) timer = setInterval(cycle, 2900); }
+      function halt(){ clearInterval(timer); timer = null; }
+      run();
+      document.addEventListener('visibilitychange', function(){
+        if (document.hidden) halt(); else run();
+      });
+    }
+  }
 })();
 </script>
 </body>

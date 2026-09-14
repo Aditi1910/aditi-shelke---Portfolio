@@ -494,29 +494,6 @@
       color: var(--ink); margin-bottom: 1rem;
     }
     .contact-heading em { font-style: italic; color: var(--lav-d); }
-    /* the hero's cycling role, echoed at the close */
-    .role-cycle { display:inline-block; position:relative; white-space:nowrap; }
-    .role-cycle .rc-text { transition:opacity .22s ease; font-weight:500; color:var(--lav-d); }
-    .role-chips {
-      display:flex; flex-wrap:wrap; justify-content:center; gap:0.4rem;
-      max-width:44rem; margin:1.4rem auto 0.2rem;
-    }
-    .role-chips span {
-      font-family:'JetBrains Mono',monospace; font-size:0.62rem; letter-spacing:0.03em;
-      padding:0.32rem 0.7rem; border:1px solid var(--line); border-radius:99px;
-      color:var(--muted); background:var(--white);
-      transition:color .45s ease, border-color .45s ease, background .45s ease, transform .45s ease;
-    }
-    /* one lights at a time, so the full range stays readable while it moves */
-    .role-chips span.lit {
-      color:var(--lav-d); border-color:var(--lav-d);
-      background:var(--lav); transform:translateY(-2px);
-    }
-    @media (prefers-reduced-motion: reduce){
-      .role-chips span { transition:none; }
-      .role-chips span.lit { transform:none; }
-    }
-    @media (max-width:600px){ .role-chips span { font-size:0.58rem; padding:0.28rem 0.6rem; } }
     .contact-sub { font-size: 0.9rem; color: #55544d; margin-bottom: 3rem; line-height: 1.7; }
     .contact-email {
       font-family: 'Cormorant Garamond', serif;
@@ -879,12 +856,12 @@
         <span class="pill-item">Pandas</span><span class="pill-item">NumPy</span>
         <span class="pill-item">Plotly</span><span class="pill-item">Streamlit</span>
         <span class="pill-item">Google Sheets</span><span class="pill-item">dplyr</span>
-        <span class="pill-item">KPI Development</span><span class="pill-item">Statistical Analysis</span>
+        
         <span class="pill-item">Financial Modelling</span><span class="pill-item">Credit Risk Analysis</span>
-        <span class="pill-item">AI-Assisted Analytics</span><span class="pill-item">Workflow Automation</span>
+        <span class="pill-item">AI-Assisted Analytics</span>
         <span class="pill-item">Business Requirements</span><span class="pill-item">Cross-Functional Collaboration</span>
         <span class="pill-item">Data Wrangling</span><span class="pill-item">Machine Learning</span>
-        <span class="pill-item">Stakeholder Translation</span><span class="pill-item">Executive Reporting</span>
+        <span class="pill-item">Executive Reporting</span>
         <span class="pill-item">MIS Database Management</span>
       </div>
 
@@ -993,7 +970,7 @@
           <div class="tl-dot"></div>
           <div class="tl-date">Now · Graduating Dec 2026</div>
           <div class="tl-role">Ready for what's next.</div>
-          <div class="tl-desc">A finance and operations foundation, a full analytics toolkit, and the habit of asking what the numbers mean for the business. Open to business analyst, product analyst, and marketing analytics roles where sharp questions beat fancy tools.</div>
+          <div class="tl-desc">A finance and operations foundation, a full analytics toolkit, and the habit of asking what the numbers mean for the business — where sharp questions beat fancy tools.</div>
         </div>
 
       </div>
@@ -1284,13 +1261,6 @@
       <h2 class="contact-heading">
         Your data has a story.<br/>Let me <em>tell it.</em>
       </h2>
-      <p class="contact-sub">
-        Open to <span class="role-cycle" id="contactRole"><span class="rc-text">Business Analyst</span><span class="hr-caret" aria-hidden="true"></span></span> roles — full-time or contract.<br/>
-        MS Business Analytics · Northeastern University · Graduating Dec 2026
-      </p>
-      <div class="role-chips" id="roleChips" aria-label="Analyst roles I am open to">
-        <span>Business Analyst</span><span>Data Analyst</span><span>Credit Risk Analyst</span><span>Business Intelligence Analyst</span><span>Financial Analyst</span><span>Operations Analyst</span><span>Strategy Analyst</span><span>Product Analyst</span><span>Marketing Analyst</span><span>Revenue Analyst</span><span>Reporting Analyst</span><span>Data Storyteller</span>
-      </div>
       <a href="mailto:adishelke2000@gmail.com" class="contact-email">adishelke2000@gmail.com</a>
       <div class="socials">
         <a href="https://www.linkedin.com/in/aditi-shelke-172021179/" target="_blank" rel="noopener noreferrer" class="social-btn">LinkedIn</a>
@@ -1785,29 +1755,6 @@
 
   cycler(document.getElementById('heroRole'), HERO_ROLES, 2900);
 
-  /* the closing line reads its roles straight off the chips, so the
-     two can never drift apart */
-  var chipWrap = document.getElementById('roleChips');
-  var contactRole = document.getElementById('contactRole');
-  if (chipWrap){
-    var chips = [].slice.call(chipWrap.children);
-    var names = chips.map(function(c){ return c.textContent.trim(); });
-    if (contactRole){
-      contactRole.onRole = function(n){
-        chips.forEach(function(c, k){ c.classList.toggle('lit', k === n); });
-      };
-      chips[0].classList.add('lit');
-      cycler(contactRole, names, 2200);
-    }
-    /* hovering a chip pins it and previews it in the sentence */
-    chips.forEach(function(c, k){
-      c.addEventListener('mouseenter', function(){
-        chips.forEach(function(x){ x.classList.toggle('lit', x === c); });
-        var t = contactRole && contactRole.querySelector('.rc-text');
-        if (t) t.textContent = names[k];
-      });
-    });
-  }
 })();
 </script>
 </body>

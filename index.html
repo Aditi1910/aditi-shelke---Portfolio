@@ -1543,7 +1543,12 @@
     ctx.setTransform(dpr,0,0,dpr,0,0);
   }
 
-  var yaw = 0.4, pitch = 0.22, tgtYaw = 0, tgtPitch = 0;
+  /* Rotation is a slow autonomous drift plus a pointer-driven offset, held
+     apart so the cursor aims the cloud at an angle instead of merely speeding
+     the spin up. The offset eases rather than snapping, and relaxes to zero on
+     mouseleave, so the drift is what remains when nobody is pointing. */
+  var spin = 0.4, yawOff = 0, pitch = 0.22, tgtYaw = 0, tgtPitch = 0;
+  var yaw = spin;
   function frame(){
     ctx.clearRect(0,0,W,H);
     var cyw=Math.cos(yaw), syw=Math.sin(yaw);
@@ -1575,8 +1580,10 @@
 
   var running=false, raf=null;
   function loop(){
-    yaw   += 0.0016 + tgtYaw*0.0004;   /* constant drift, nudged by the pointer */
-    pitch += ((0.22 + tgtPitch) - pitch)*0.05;
+    spin   += 0.0016;                              /* keeps turning unattended */
+    yawOff += (tgtYaw - yawOff)*0.06;              /* ~0.5s to settle on a new aim */
+    yaw     = spin + yawOff;
+    pitch  += ((0.22 + tgtPitch) - pitch)*0.06;
     frame();
     raf = requestAnimationFrame(loop);
   }
@@ -1598,9 +1605,11 @@
     if (heroEl && matchMedia('(hover: hover) and (pointer: fine)').matches){
       heroEl.addEventListener('mousemove', function(e){
         var r = heroEl.getBoundingClientRect();
-        tgtYaw   = ((e.clientX-r.left)/r.width  - 0.5)*2.2;
-        tgtPitch = ((e.clientY-r.top )/r.height - 0.5)*-0.5;
-      });
+        /* +-0.85 rad of yaw is about a 50 degree sweep across the hero: enough
+           that crossing it clearly turns the cloud, short of spinning it. */
+        tgtYaw   = ((e.clientX-r.left)/r.width  - 0.5)*1.7;
+        tgtPitch = ((e.clientY-r.top )/r.height - 0.5)*-0.76;
+      }, { passive: true });
       heroEl.addEventListener('mouseleave', function(){ tgtYaw=0; tgtPitch=0; });
     }
   }

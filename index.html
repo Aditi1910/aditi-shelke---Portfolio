@@ -463,7 +463,13 @@
       padding: 5rem 5rem;
       background: linear-gradient(150deg, var(--lav) 0%, var(--sage) 50%, var(--sky) 100%);
       text-align: center;
+      position: relative; overflow: hidden;
     }
+    #contactPlot {
+      position:absolute; inset:0; width:100%; height:100%;
+      pointer-events:none; z-index:0;
+    }
+    #contact > .reveal { position:relative; z-index:1; }
     .contact-pre {
       font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase;
       color: var(--sage-d); margin-bottom: 1rem;
@@ -1249,6 +1255,7 @@
 
   <!-- CONTACT -->
   <section id="contact">
+    <canvas id="contactPlot" aria-hidden="true"></canvas>
     <div class="reveal">
       <div class="contact-pre">// 04 · Let's talk</div>
       <h2 class="contact-heading">
@@ -1615,6 +1622,155 @@
   }
   var rt; addEventListener('resize', function(){
     clearTimeout(rt); rt=setTimeout(function(){ build(); resize(); frame(); }, 160);
+  });
+})();
+
+/* ══ Closing section: a series plotting itself ══════════════════
+   The hero is a rotating 3D scatter, so this deliberately works the other
+   way: flat, linear and left-to-right, a line being drawn the way you'd
+   actually tell someone a trend. Draw, hold, fade, draw a different one. */
+(function contactPlot(){
+  var cv = document.getElementById('contactPlot');
+  if (!cv || !cv.getContext) return;
+  var ctx = cv.getContext('2d');
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function rng(a){ return function(){ a|=0; a=a+0x6D2B79F5|0;
+    var t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t;
+    return ((t^t>>>14)>>>0)/4294967296; }; }
+  var rnd = rng(20260915);
+
+  var INKS = ['83,64,168','26,111,168','61,107,74'];   /* lav-d, sky-d, sage-d */
+
+  /* A random walk with a slight drift, lightly smoothed, then normalised so
+     every series fills the band regardless of which way it happened to wander. */
+  function makeSeries(){
+    var n = 44, raw = [], v = 0, drift = (rnd()-0.38)*0.06, i;
+    for (i=0;i<n;i++){ v += drift + (rnd()-0.5)*0.24; raw.push(v); }
+    var s = [];
+    for (i=0;i<n;i++){
+      s.push((raw[Math.max(0,i-1)] + raw[i] + raw[Math.min(n-1,i+1)])/3);
+    }
+    var lo=Math.min.apply(null,s), hi=Math.max.apply(null,s), rg=(hi-lo)||1;
+    return s.map(function(y){ return (y-lo)/rg; });
+  }
+
+  /* Catmull-Rom resampling: with the curve already flattened to points, drawing
+     a partial line is just "the first k of them" — no bezier splitting. */
+  function resample(p, per){
+    var out=[], i, j, t, t2, t3, a, b, c, d;
+    for (i=0;i<p.length-1;i++){
+      a=p[Math.max(0,i-1)]; b=p[i]; c=p[i+1]; d=p[Math.min(p.length-1,i+2)];
+      for (j=0;j<per;j++){
+        t=j/per; t2=t*t; t3=t2*t;
+        out.push({
+          x:0.5*(2*b.x + (-a.x+c.x)*t + (2*a.x-5*b.x+4*c.x-d.x)*t2 + (-a.x+3*b.x-3*c.x+d.x)*t3),
+          y:0.5*(2*b.y + (-a.y+c.y)*t + (2*a.y-5*b.y+4*c.y-d.y)*t2 + (-a.y+3*b.y-3*c.y+d.y)*t3)
+        });
+      }
+    }
+    out.push(p[p.length-1]);
+    return out;
+  }
+
+  var W=0, H=0, dpr=1, curve=null, ink=INKS[0], ci=0, base=0;
+  function resize(){
+    var r = cv.getBoundingClientRect();
+    dpr = Math.min(devicePixelRatio||1, 2);
+    W = Math.max(1, r.width); H = Math.max(1, r.height);
+    cv.width = Math.round(W*dpr); cv.height = Math.round(H*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+
+  function layout(){
+    var vals = makeSeries();
+    /* Full bleed horizontally. The ceiling is measured off the heading rather
+       than set as a fraction of the section: the heading is proportionally far
+       taller on a narrow screen, and a fixed fraction that clears it on desktop
+       puts the line straight through "Let me tell it." on a phone. */
+    var sec = cv.parentNode.getBoundingClientRect();
+    var h = document.querySelector('.contact-heading');
+    var floor = h ? (h.getBoundingClientRect().bottom - sec.top) + 14 : H*0.45;
+    var top = Math.min(Math.max(floor, H*0.40), H*0.62);
+    /* The fill is anchored past the bottom edge so it bleeds off the section
+       rather than ending on a visible horizontal rule part-way down. */
+    base = H*1.04;
+    var band = Math.max(36, H*0.92 - top);
+    var pts = vals.map(function(v,i){
+      return { x: -W*0.04 + (W*1.08)*(i/(vals.length-1)), y: top + (1-v)*band };
+    });
+    curve = resample(pts, 10);
+  }
+
+  function paint(k, alpha){
+    ctx.clearRect(0,0,W,H);
+    if (!curve || k < 2) return;
+    var i;
+    ctx.beginPath();
+    ctx.moveTo(curve[0].x, curve[0].y);
+    for (i=1;i<k;i++) ctx.lineTo(curve[i].x, curve[i].y);
+
+    /* Area under the drawn part, so it reads as a chart rather than a squiggle. */
+    ctx.save();
+    ctx.lineTo(curve[k-1].x, base);
+    ctx.lineTo(curve[0].x, base);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba('+ink+','+(0.07*alpha)+')';
+    ctx.fill();
+    ctx.restore();
+
+    ctx.beginPath();
+    ctx.moveTo(curve[0].x, curve[0].y);
+    for (i=1;i<k;i++) ctx.lineTo(curve[i].x, curve[i].y);
+    ctx.strokeStyle = 'rgba('+ink+','+(0.30*alpha)+')';
+    ctx.lineWidth = 1.6; ctx.lineJoin='round'; ctx.lineCap='round';
+    ctx.stroke();
+
+    /* The pen: a dot at the leading edge while the line is still being drawn. */
+    if (k < curve.length){
+      var p = curve[k-1];
+      ctx.beginPath(); ctx.arc(p.x, p.y, 3.2, 0, 6.283);
+      ctx.fillStyle = 'rgba('+ink+','+(0.55*alpha)+')'; ctx.fill();
+    }
+  }
+
+  var DRAW=3400, HOLD=1500, FADE=800, t0=0, raf=null, running=false;
+  function step(now){
+    if (!t0) t0 = now;
+    var e = now - t0;
+    if (e < DRAW){
+      var p = e/DRAW;
+      p = p<0.5 ? 2*p*p : 1-Math.pow(-2*p+2,2)/2;      /* ease in-out */
+      paint(Math.max(2, Math.round(p*curve.length)), 1);
+    } else if (e < DRAW+HOLD){
+      paint(curve.length, 1);
+    } else if (e < DRAW+HOLD+FADE){
+      paint(curve.length, 1-(e-DRAW-HOLD)/FADE);
+    } else {
+      t0 = now; ci = (ci+1)%INKS.length; ink = INKS[ci]; layout();
+    }
+    raf = requestAnimationFrame(step);
+  }
+  function start(){ if (running||reduce) return; running=true; raf=requestAnimationFrame(step); }
+  function stop(){ running=false; if (raf) cancelAnimationFrame(raf); raf=null; t0=0; }
+
+  resize(); layout();
+  if (reduce){
+    paint(curve.length, 1);            /* one finished series, held still */
+  } else {
+    if ('IntersectionObserver' in window){
+      new IntersectionObserver(function(es){
+        es[0].isIntersecting ? start() : stop();
+      },{threshold:0.05}).observe(cv);
+    } else { start(); }
+    document.addEventListener('visibilitychange', function(){
+      document.hidden ? stop() : start();
+    });
+  }
+  var rt2; addEventListener('resize', function(){
+    clearTimeout(rt2); rt2=setTimeout(function(){
+      resize(); layout(); if (reduce) paint(curve.length,1);
+    }, 160);
   });
 })();
 </script>

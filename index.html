@@ -484,10 +484,14 @@
     }
     .contact-heading em { font-style: italic; color: var(--lav-d); }
     .contact-sub { font-size: 0.9rem; color: #55544d; margin-bottom: 3rem; line-height: 1.7; }
+    /* The pill is inline-flex and the email below it is inline-block, so on a
+       wide screen they fit on one line and the email lands beside the
+       availability line instead of under it. The wrapper forces the break. */
+    .contact-open-row { display:block; margin-bottom:1.6rem; }
     .contact-open {
       display:inline-flex; align-items:center; gap:0.6rem;
       background:rgba(255,255,255,0.72); border:1px solid var(--line);
-      border-radius:99px; padding:0.45rem 1.05rem; margin:0 auto 1.6rem;
+      border-radius:99px; padding:0.45rem 1.05rem;
     }
     .contact-open span {
       font-size:0.7rem; letter-spacing:0.12em; text-transform:uppercase;
@@ -1259,9 +1263,11 @@
       <h2 class="contact-heading">
         Your data has a story.<br/>Let me <em>tell it.</em>
       </h2>
-      <div class="contact-open">
-        <div class="hero-dot"></div>
-        <span>Open to <b class="role-cycle" id="contactRole"><span class="rc-text">Business Analyst</span><span class="hr-caret" aria-hidden="true"></span></b> roles &middot; Dec 2026 &middot; Oakland, CA</span>
+      <div class="contact-open-row">
+        <div class="contact-open">
+          <div class="hero-dot"></div>
+          <span>Open to <b class="role-cycle" id="contactRole"><span class="rc-text">Business Analyst</span><span class="hr-caret" aria-hidden="true"></span></b> roles &middot; Dec 2026 &middot; Oakland, CA</span>
+        </div>
       </div>
       <a href="mailto:adishelke2000@gmail.com" class="contact-email">adishelke2000@gmail.com</a>
       <div class="socials">

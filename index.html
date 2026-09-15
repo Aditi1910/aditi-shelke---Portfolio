@@ -491,10 +491,7 @@
       color:var(--muted); font-family:'JetBrains Mono',monospace;
     }
     .contact-open .role-cycle { display:inline-block; white-space:nowrap; font-weight:400; }
-    .contact-open .rc-text {
-      color:var(--lav-d); transition:opacity .22s ease;
-      display:inline-block; text-align:left;
-    }
+    .contact-open .rc-text { color:var(--lav-d); transition:opacity .22s ease; }
     .contact-open .hr-caret { vertical-align:-0.1em; height:0.85em; }
     @media (max-width:600px){
       .contact-open { align-items:flex-start; text-align:left; }
@@ -1734,30 +1731,6 @@
                'Growth Analyst','Supply Chain Analyst','Reporting Analyst',
                'Business Systems Analyst','Analytics Consultant','Data Storyteller'];
 
-  /* The pill shrink-wraps its text, so swapping "Data Analyst" for "Business
-     Intelligence Analyst" makes the whole badge pulse wider and narrower. Hold
-     the slot at the width of the longest title so only the word changes. Below
-     600px the line already wraps left-aligned, where a reserved slot would just
-     push the pill past the viewport, so the width is released there. */
-  function lockWidth(host, roles){
-    var txt = host && host.querySelector('.rc-text');
-    if (!txt) return;
-    if (innerWidth <= 600){ txt.style.minWidth = ''; return; }
-    var cs = getComputedStyle(txt);
-    var probe = document.createElement('span');
-    probe.style.cssText = 'position:absolute;left:-9999px;top:0;visibility:hidden;white-space:nowrap';
-    ['fontFamily','fontSize','fontWeight','fontStyle','letterSpacing','textTransform']
-      .forEach(function(p){ probe.style[p] = cs[p]; });
-    document.body.appendChild(probe);
-    var max = 0;
-    roles.forEach(function(r){
-      probe.textContent = r;
-      max = Math.max(max, probe.getBoundingClientRect().width);
-    });
-    document.body.removeChild(probe);
-    txt.style.minWidth = Math.ceil(max) + 'px';
-  }
-
   function cycler(host, roles, period){
     if (!host || reduce) return null;
     var txt = host.querySelector('.rc-text, .hr-text');
@@ -1778,17 +1751,11 @@
     return { run: run, halt: halt };
   }
 
-  var contactRole = document.getElementById('contactRole');
-  if (contactRole){
-    /* Measuring before the webfont lands reserves a fallback-font width. */
-    var lock = function(){ lockWidth(contactRole, ROLES); };
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(lock);
-    else lock();
-    var lockT;
-    addEventListener('resize', function(){ clearTimeout(lockT); lockT = setTimeout(lock, 150); });
-    /* Seventeen titles: at the old 2.9s a full pass ran close to a minute. */
-    cycler(contactRole, ROLES, 2200);
-  }
+  /* Seventeen titles: at the old 2.9s a full pass ran close to a minute. The
+     word is swapped while it sits at opacity 0, so the line re-flows to the new
+     length unseen rather than holding a reserved slot and trailing dead space
+     after the short titles. */
+  cycler(document.getElementById('contactRole'), ROLES, 2200);
 
 })();
 </script>

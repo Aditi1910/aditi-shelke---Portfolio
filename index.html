@@ -193,13 +193,6 @@
       .hr-caret{ animation:none; opacity:1; }
       .read-progress{ transition:none; }
     }
-    .hero-role {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: clamp(0.85rem, 1.4vw, 1.05rem);
-      letter-spacing: 0.16em; text-transform: uppercase;
-      color: var(--lav-d); margin-top: 0.7rem;
-      animation: up 0.8s 0.15s ease both;
-    }
     .hero-tagline {
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(1.15rem, 2vw, 1.6rem);
@@ -498,7 +491,10 @@
       color:var(--muted); font-family:'JetBrains Mono',monospace;
     }
     .contact-open .role-cycle { display:inline-block; white-space:nowrap; font-weight:400; }
-    .contact-open .rc-text { color:var(--lav-d); transition:opacity .22s ease; }
+    .contact-open .rc-text {
+      color:var(--lav-d); transition:opacity .22s ease;
+      display:inline-block; text-align:left;
+    }
     .contact-open .hr-caret { vertical-align:-0.1em; height:0.85em; }
     @media (max-width:600px){
       .contact-open { align-items:flex-start; text-align:left; }
@@ -541,7 +537,7 @@
     /* Hero text fades in via CSS animation with fill-mode:both, which holds it at opacity 0
        until the animation actually runs. In a background tab animations are frozen, so this
        class is force-applied on a timer to guarantee the hero can never stay invisible. */
-    body.anim-safe body.anim-safe .hero-name, body.anim-safe .hero-role,
+    body.anim-safe .hero-name,
     body.anim-safe .hero-tagline, body.anim-safe .hero-links {
       animation: none !important; opacity: 1 !important; transform: none !important;
     }
@@ -728,8 +724,6 @@
         <h1 class="hero-name" id="hero-name-3d" style="transition:transform 0.2s ease;transform-style:preserve-3d;">
           Aditi Shelke
         </h1>
-        <p class="hero-role">Business Analyst</p>
-
         <p class="hero-tagline">
           "Since <b>ATS bots</b> are going to reject my resume anyway, here is my actual portfolio. No buzzwords, <b>just data</b>."
         </p>
@@ -1734,8 +1728,35 @@
   }
 
   /* ── 4. Role cycling on the closing availability line ───────── */
-  var ROLES = ['Business Analyst','Data Analyst','Credit Risk Analyst',
-                    'Business Intelligence Analyst','Strategy Analyst','Data Storyteller'];
+  var ROLES = ['Business Analyst','Data Analyst','Product Analyst','Project Analyst',
+               'Business Intelligence Analyst','Financial Analyst','Credit Risk Analyst',
+               'Risk Analyst','Marketing Analyst','Operations Analyst','Strategy Analyst',
+               'Growth Analyst','Supply Chain Analyst','Reporting Analyst',
+               'Business Systems Analyst','Analytics Consultant','Data Storyteller'];
+
+  /* The pill shrink-wraps its text, so swapping "Data Analyst" for "Business
+     Intelligence Analyst" makes the whole badge pulse wider and narrower. Hold
+     the slot at the width of the longest title so only the word changes. Below
+     600px the line already wraps left-aligned, where a reserved slot would just
+     push the pill past the viewport, so the width is released there. */
+  function lockWidth(host, roles){
+    var txt = host && host.querySelector('.rc-text');
+    if (!txt) return;
+    if (innerWidth <= 600){ txt.style.minWidth = ''; return; }
+    var cs = getComputedStyle(txt);
+    var probe = document.createElement('span');
+    probe.style.cssText = 'position:absolute;left:-9999px;top:0;visibility:hidden;white-space:nowrap';
+    ['fontFamily','fontSize','fontWeight','fontStyle','letterSpacing','textTransform']
+      .forEach(function(p){ probe.style[p] = cs[p]; });
+    document.body.appendChild(probe);
+    var max = 0;
+    roles.forEach(function(r){
+      probe.textContent = r;
+      max = Math.max(max, probe.getBoundingClientRect().width);
+    });
+    document.body.removeChild(probe);
+    txt.style.minWidth = Math.ceil(max) + 'px';
+  }
 
   function cycler(host, roles, period){
     if (!host || reduce) return null;
@@ -1757,7 +1778,17 @@
     return { run: run, halt: halt };
   }
 
-  cycler(document.getElementById('contactRole'), ROLES, 2900);
+  var contactRole = document.getElementById('contactRole');
+  if (contactRole){
+    /* Measuring before the webfont lands reserves a fallback-font width. */
+    var lock = function(){ lockWidth(contactRole, ROLES); };
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(lock);
+    else lock();
+    var lockT;
+    addEventListener('resize', function(){ clearTimeout(lockT); lockT = setTimeout(lock, 150); });
+    /* Seventeen titles: at the old 2.9s a full pass ran close to a minute. */
+    cycler(contactRole, ROLES, 2200);
+  }
 
 })();
 </script>

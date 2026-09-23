@@ -3,6 +3,19 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <!-- Runs before any style is applied. If the theme were set after paint the
+       page would flash the wrong colour on every load. -->
+  <script>
+    (function(){
+      try{
+        var saved = localStorage.getItem('theme');
+        var dark  = saved ? saved === 'dark'
+                          : matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+      }catch(e){}
+    })();
+  </script>
+  <meta name="theme-color" content="#faf9f6" id="metaThemeColor"/>
   <title>Aditi Shelke · Business Analytics</title>
   <meta name="description" content="Business analyst turning finance, operations, and product data into decisions. Real projects, dashboards, and a startup product case study."/>
   <meta property="og:title" content="Aditi Shelke · Business Analytics Portfolio"/>
@@ -63,6 +76,90 @@
       --blush-d: #9e2060;
       --gold:    #faf3d8;
       --gold-d:  #7a6010;
+
+      /* Translucent card surfaces. Four levels because the light theme already
+         used four distinct alphas and collapsing them would shift its look. */
+      --glass-1: rgba(255,255,255,0.50);
+      --glass-2: rgba(255,255,255,0.60);
+      --glass-3: rgba(255,255,255,0.70);
+      --glass-4: rgba(255,255,255,0.95);
+      --muted-2: #55544d;
+      --nav-bg:  rgba(250,249,246,0.94);
+      --hero-grad: linear-gradient(155deg, #f1eefb 0%, #faf9f6 44%, #eaf2fc 100%);
+
+      /* Canvas palettes, as "r,g,b" so the scripts can wrap them in rgba(). */
+      --viz-1: 83,64,168;
+      --viz-2: 26,111,168;
+      --viz-3: 61,107,74;
+      --viz-4: 158,32,96;
+      --text-2:      #35342f;
+      --blob-3:      #d7cef7;
+      --about-grad:  linear-gradient(135deg, #fdfcf9 0%, #f2eef8 100%);
+      --skills-grad: linear-gradient(135deg, #f0f8f0 0%, #fdfcfa 50%, #f4f0fa 100%);
+      color-scheme: light;
+    }
+
+    /* Dark theme. The pastels become dark tints of the same hue and the deep
+       accents are lightened, because a colour tuned for contrast against cream
+       is unreadable against near-black. Verified against WCAG AA. */
+    html[data-theme="dark"] {
+      --bg:      #131210;
+      --white:   #1d1c18;
+      --ink:     #f2efe8;
+      --muted:   #a5a196;
+      --line:    #302e28;
+      --sage:    #16251a;
+      --sage-d:  #7cc590;
+      --lav:     #1d1930;
+      --lav-d:   #ab9df7;
+      --peach:   #2b1d15;
+      --peach-d: #f0a173;
+      --sky:     #13222c;
+      --sky-d:   #6ec2f2;
+      --blush:   #2a1521;
+      --blush-d: #f28cbd;
+      --gold:    #272110;
+      --gold-d:  #dcc05c;
+
+      --glass-1: rgba(255,255,255,0.035);
+      --glass-2: rgba(255,255,255,0.045);
+      --glass-3: rgba(255,255,255,0.060);
+      --glass-4: rgba(255,255,255,0.100);
+      --muted-2: #b3afa4;
+      --nav-bg:  rgba(19,18,16,0.94);
+      --hero-grad: linear-gradient(155deg, #1a1630 0%, #131210 44%, #10202c 100%);
+
+      --viz-1: 171,157,247;
+      --viz-2: 110,194,242;
+      --viz-3: 124,197,144;
+      --viz-4: 242,140,189;
+      --text-2:      #ddd8ce;
+      --blob-3:      #2a2350;
+      --about-grad:  linear-gradient(135deg, #171613 0%, #1b1726 100%);
+      --skills-grad: linear-gradient(135deg, #131f15 0%, #151412 50%, #1a1626 100%);
+      color-scheme: dark;
+    }
+    .theme-toggle {
+      width: 36px; height: 36px; flex: 0 0 36px;
+      display: inline-flex; align-items: center; justify-content: center;
+      border: 1px solid var(--line); border-radius: 50%;
+      background: var(--glass-2); color: var(--ink); cursor: pointer;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s;
+    }
+    .theme-toggle:hover { border-color: var(--lav-d); transform: translateY(-1px); }
+    .theme-toggle:focus-visible { outline: 2px solid var(--lav-d); outline-offset: 2px; }
+    .theme-toggle svg { width: 17px; height: 17px; fill: none;
+      stroke: currentColor; stroke-width: 1.7; }
+    .theme-toggle .icon-moon { display: none; }
+    html[data-theme="dark"] .theme-toggle .icon-sun  { display: none; }
+    html[data-theme="dark"] .theme-toggle .icon-moon { display: block; }
+    /* The swap itself is instant; only the colours ease, so the page does not
+       appear to melt between themes. */
+    body, .site-header, .proj-tile, .rec-card, section {
+      transition: background-color 0.28s ease, color 0.28s ease, border-color 0.28s ease;
+    }
+    @media (prefers-reduced-motion: reduce){
+      body, .site-header, .proj-tile, .rec-card, section { transition: none; }
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -80,7 +177,7 @@
     /* ── NAV ── */
     .site-header {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: rgba(250,249,246,0.94);
+      background: var(--nav-bg);
       backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--line);
     }
@@ -152,13 +249,13 @@
       padding: 0 5rem;
       position: relative; overflow: hidden;
       border-bottom: 1px solid var(--line);
-      background: linear-gradient(155deg, #f1eefb 0%, #faf9f6 44%, #eaf2fc 100%);
+      background: var(--hero-grad);
     }
     .blob { position: absolute; border-radius: 50%; filter: blur(90px); pointer-events: none;
       transition: transform 0.5s cubic-bezier(0.2,0.8,0.2,1); }
     .b1 { width: 620px; height: 620px; background: var(--lav);   top: -150px; right: -100px; opacity: 0.6; }
     .b2 { width: 420px; height: 420px; background: var(--sky);   bottom: 5%;  left: -80px;  opacity: 0.55; }
-    .b3 { width: 360px; height: 360px; background: #d7cef7;      bottom: 18%; right: 8%;    opacity: 0.5; }
+    .b3 { width: 360px; height: 360px; background: var(--blob-3);      bottom: 18%; right: 8%;    opacity: 0.5; }
 
     /* Rotating 3D point cloud behind the hero — a data cloud, not a mesh.
        Sits under .hero-top (z-index 1) and never takes the pointer. */
@@ -197,7 +294,7 @@
       font-family: 'Cormorant Garamond', serif;
       font-size: clamp(1.15rem, 2vw, 1.6rem);
       font-weight: 400; font-style: italic;
-      color: #35342f; margin-top: 1rem; max-width: 620px; line-height: 1.6;
+      color: var(--text-2); margin-top: 1rem; max-width: 620px; line-height: 1.6;
       animation: up 0.8s 0.2s ease both;
     }
     .hero-tagline b { font-weight: 600; font-style: normal; color: var(--lav-d); }
@@ -213,7 +310,7 @@
     .btn-primary:hover { background: var(--lav-d); transform: translateY(-3px); box-shadow: 0 10px 24px rgba(83,64,168,0.28); }
     .btn-outline {
       font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase;
-      border: 1px solid var(--line); color: var(--muted); background: rgba(255,255,255,0.5);
+      border: 1px solid var(--line); color: var(--muted); background: var(--glass-1);
       padding: 0.9rem 2.2rem; text-decoration: none;
       display: inline-block;
       transition: border-color 0.2s, color 0.2s, transform 0.25s ease;
@@ -253,7 +350,7 @@
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.5rem; font-weight: 600; line-height: 1.05;
     }
-    .str-detail { font-size: 0.73rem; color: #55544d; line-height: 1.5; margin-top: auto; }
+    .str-detail { font-size: 0.73rem; color: var(--muted-2); line-height: 1.5; margin-top: auto; }
     .s-lav   { background: var(--lav);   border: 1px solid rgba(83,64,168,0.15); }
     .s-lav .str-cat, .s-lav .str-stat { color: var(--lav-d); }
     .s-sky   { background: var(--sky);   border: 1px solid rgba(26,111,168,0.15); }
@@ -272,10 +369,10 @@
     /* ── ABOUT ── */
     #about {
       border-bottom: 1px solid var(--line);
-      background: linear-gradient(135deg, #fdfcf9 0%, #f2eef8 100%);
+      background: var(--about-grad);
     }
     .about-top { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
-    .about-body { font-size: 0.95rem; line-height: 1.7; color: #3a3830; margin-top: 1rem; }
+    .about-body { font-size: 0.95rem; line-height: 1.7; color: var(--text-2); margin-top: 1rem; }
     .about-body strong { color: var(--ink); font-weight: 500; }
     .about-body p + p { margin-top: 0.8rem; }
     .about-lead { font-size: 0.92rem; color: var(--ink); line-height: 1.55; margin-top: 0.7rem; }
@@ -283,7 +380,7 @@
     .exp-stack { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.9rem; }
     .exp-card {
       padding: 1.2rem 1.5rem; border-radius: 12px;
-      border: 1px solid var(--line); background: rgba(255,255,255,0.7);
+      border: 1px solid var(--line); background: var(--glass-3);
       transition: border-color 0.2s, transform 0.2s;
     }
     .exp-card:hover { border-color: var(--lav-d); transform: translateY(-2px); }
@@ -323,7 +420,7 @@
       display: grid; grid-template-columns: 1.35fr 0.65fr; gap: 4rem;
       align-items: start;
       border-bottom: 1px solid var(--line);
-      background: linear-gradient(135deg, #f0f8f0 0%, #fdfcfa 50%, #f4f0fa 100%);
+      background: var(--skills-grad);
     }
     .journey-side { position: sticky; top: 92px; }
     .tl { margin-top: 2rem; position: relative; padding-left: 1.5rem; }
@@ -346,9 +443,9 @@
     .edu-item {
       display: flex; gap: 0.7rem; padding: 1rem 1.2rem;
       border: 1px solid var(--line); border-radius: 10px;
-      background: rgba(255,255,255,0.6); transition: border-color 0.2s, background 0.2s;
+      background: var(--glass-2); transition: border-color 0.2s, background 0.2s;
     }
-    .edu-item:hover { border-color: var(--lav-d); background: rgba(255,255,255,0.95); }
+    .edu-item:hover { border-color: var(--lav-d); background: var(--glass-4); }
     .edu-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
     .edu-item:nth-child(1) .edu-dot { background: var(--lav-d); }
     .edu-item:nth-child(2) .edu-dot { background: var(--sage-d); }
@@ -357,7 +454,7 @@
     .edu-uni { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; }
     .edu-year { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--muted); margin-top: 0.3rem; }
 
-    .live-box { margin-top: 2rem; padding: 1.6rem; background: rgba(255,255,255,0.7);
+    .live-box { margin-top: 2rem; padding: 1.6rem; background: var(--glass-3);
       border: 1px solid var(--line); border-radius: 12px; }
     .live-links { display: flex; flex-direction: column; gap: 0.8rem; }
     .live-link {
@@ -482,14 +579,14 @@
       color: var(--ink); margin-bottom: 1rem;
     }
     .contact-heading em { font-style: italic; color: var(--lav-d); }
-    .contact-sub { font-size: 0.9rem; color: #55544d; margin-bottom: 3rem; line-height: 1.7; }
+    .contact-sub { font-size: 0.9rem; color: var(--muted-2); margin-bottom: 3rem; line-height: 1.7; }
     /* The pill is inline-flex and the email below it is inline-block, so on a
        wide screen they fit on one line and the email lands beside the
        availability line instead of under it. The wrapper forces the break. */
     .contact-open-row { display:block; margin-bottom:1.6rem; }
     .contact-open {
       display:inline-flex; align-items:center; gap:0.6rem;
-      background:rgba(255,255,255,0.72); border:1px solid var(--line);
+      background:var(--glass-3); border:1px solid var(--line);
       border-radius:99px; padding:0.45rem 1.05rem;
     }
     .contact-open span {
@@ -518,7 +615,7 @@
       font-size: 0.74rem; letter-spacing: 0.1em; text-transform: uppercase;
       border-radius: 99px; padding: 0.7rem 1.6rem;
       text-decoration: none; border: 1px solid rgba(0,0,0,0.12);
-      background: rgba(255,255,255,0.6); color: var(--ink);
+      background: var(--glass-2); color: var(--ink);
       transition: background 0.2s, transform 0.2s; display: inline-block;
     }
     .social-btn:hover { background: var(--white); transform: translateY(-2px); }
@@ -587,7 +684,7 @@
     .rec-eyebrow { font-family:'JetBrains Mono',monospace; font-size:0.66rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--lav-d); }
     .rec-title { font-family:'Cormorant Garamond',serif; font-size:2rem; font-weight:300; line-height:1.1; margin:0.4rem 0 0.3rem; }
     .rec-sub { font-size:0.85rem; color:var(--muted); line-height:1.55; }
-    .rec-looking { display:flex; flex-wrap:wrap; gap:0.4rem 1.2rem; margin:1.2rem 0; padding:0.9rem 1.1rem; background:var(--bg); border-radius:12px; font-size:0.8rem; color:#55544d; }
+    .rec-looking { display:flex; flex-wrap:wrap; gap:0.4rem 1.2rem; margin:1.2rem 0; padding:0.9rem 1.1rem; background:var(--bg); border-radius:12px; font-size:0.8rem; color:var(--muted-2); }
     .rec-looking b { color:var(--ink); font-weight:500; }
     .rec-metrics { display:grid; grid-template-columns:1fr 1fr; gap:0.7rem; margin:1.1rem 0; }
     .rec-metric { padding:0.9rem 1rem; border-radius:12px; }
@@ -660,7 +757,7 @@
   
     /* Keyboard users land here first; visible only on focus. */
     .skip-link{position:absolute;left:-9999px;top:0;z-index:200;
-      background:#1a1917;color:#faf9f6;padding:.7rem 1.1rem;border-radius:0 0 8px 0;
+      background:var(--ink);color:var(--bg);padding:.7rem 1.1rem;border-radius:0 0 8px 0;
       font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.08em;
       text-transform:uppercase;text-decoration:none}
     .skip-link:focus{left:0}
@@ -695,6 +792,17 @@
       <li><a href="#contact">Contact</a></li>
     </ul>
     <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" type="button"
+              aria-label="Switch to dark theme" title="Switch theme">
+        <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.2"/>
+          <g stroke-linecap="round"><path d="M12 2.4v2.6M12 19v2.6M2.4 12h2.6M19 12h2.6
+            M5.2 5.2l1.9 1.9M16.9 16.9l1.9 1.9M18.8 5.2l-1.9 1.9M7.1 16.9l-1.9 1.9"/></g>
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20.4 14.5A8.5 8.5 0 0 1 9.5 3.6a8.5 8.5 0 1 0 10.9 10.9z"/>
+        </svg>
+      </button>
       <a href="#contact" class="nav-cta">Hire Me</a>
       <button class="nav-burger" id="navBurger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
         <span></span><span></span><span></span>
@@ -1510,6 +1618,42 @@
    Deliberately a scatter rather than a mesh — it is the shape of the
    work. Pauses when off-screen or backgrounded; static if the visitor
    asked for reduced motion.                                        */
+/* ══ Theme ═══════════════════════════════════════════════════════
+   The initial value is already set by the inline script in <head>. This only
+   handles switching, and fires an event so the canvases can re-read their
+   palettes — they cache colours rather than sampling CSS every frame. */
+(function theme(){
+  var root = document.documentElement;
+  var btn  = document.getElementById('themeToggle');
+  var meta = document.getElementById('metaThemeColor');
+
+  function apply(mode, remember){
+    root.setAttribute('data-theme', mode);
+    if (remember){ try{ localStorage.setItem('theme', mode); }catch(e){} }
+    if (btn) btn.setAttribute('aria-label',
+      mode === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+    if (meta) meta.setAttribute('content',
+      getComputedStyle(root).getPropertyValue('--bg').trim() || '#faf9f6');
+    dispatchEvent(new CustomEvent('themechange', { detail:{ mode: mode } }));
+  }
+
+  apply(root.getAttribute('data-theme') || 'light', false);
+
+  if (btn) btn.addEventListener('click', function(){
+    apply(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark', true);
+  });
+
+  /* Follow the system only while the visitor has not chosen for themselves. */
+  var mq = matchMedia('(prefers-color-scheme: dark)');
+  var onSystem = function(e){
+    var chosen = null;
+    try{ chosen = localStorage.getItem('theme'); }catch(err){}
+    if (!chosen) apply(e.matches ? 'dark' : 'light', false);
+  };
+  if (mq.addEventListener) mq.addEventListener('change', onSystem);
+  else if (mq.addListener) mq.addListener(onSystem);
+})();
+
 (function heroCloud(){
   var cv = document.getElementById('heroCloud');
   if (!cv || !cv.getContext) return;
@@ -1524,7 +1668,17 @@
   function gauss(){ var u=0,v=0; while(!u)u=rnd(); while(!v)v=rnd();
     return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v); }
 
-  var COLORS = ['83,64,168','26,111,168','61,107,74','158,32,96'];
+  /* Read from CSS so the cloud follows the theme; sampled on change rather
+     than per frame, since getComputedStyle forces a style recalculation. */
+  function vizPalette(n){
+    var cs = getComputedStyle(document.documentElement), out = [];
+    for (var i=1;i<=n;i++){
+      var v = cs.getPropertyValue('--viz-'+i).trim();
+      if (v) out.push(v);
+    }
+    return out.length ? out : ['83,64,168','26,111,168','61,107,74','158,32,96'];
+  }
+  var COLORS = vizPalette(4);
   var pts = [], N = 0;
   function build(){
     N = innerWidth < 700 ? 130 : 300;
@@ -1535,8 +1689,10 @@
       var x = t*0.62 + gauss()*0.30;
       var y = t*0.40 + gauss()*0.34;
       var z = t*0.55 + gauss()*0.32;
+      /* Store the index, not the colour: the palette is swapped on a theme
+         change and the points must not have to be rebuilt to follow it. */
       pts.push({x:x,y:y,z:z,
-        c:COLORS[(rnd()*COLORS.length)|0],
+        ci:(rnd()*COLORS.length)|0,
         r:0.7+rnd()*1.5});
     }
   }
@@ -1571,7 +1727,7 @@
       var Zc = p.y*spt + Z*cpt + DIST;
       if (Zc < 0.25) continue;
       var k = scale/Zc;
-      out.push({sx:cx+X*k, sy:cy-Y*k, d:Zc, r:p.r, c:p.c});
+      out.push({sx:cx+X*k, sy:cy-Y*k, d:Zc, r:p.r, c:COLORS[p.ci % COLORS.length]});
     }
     out.sort(function(a,b){ return b.d-a.d; });      /* far first */
     for (var j=0;j<out.length;j++){
@@ -1623,6 +1779,7 @@
   var rt; addEventListener('resize', function(){
     clearTimeout(rt); rt=setTimeout(function(){ build(); resize(); frame(); }, 160);
   });
+  addEventListener('themechange', function(){ COLORS = vizPalette(4); frame(); });
 })();
 
 /* ══ Closing section: a series plotting itself ══════════════════
@@ -1640,7 +1797,14 @@
     return ((t^t>>>14)>>>0)/4294967296; }; }
   var rnd = rng(20260915);
 
-  var INKS = ['83,64,168','26,111,168','61,107,74'];   /* lav-d, sky-d, sage-d */
+  function inkPalette(){
+    var cs = getComputedStyle(document.documentElement), out = [];
+    ['--viz-1','--viz-2','--viz-3'].forEach(function(k){
+      var v = cs.getPropertyValue(k).trim(); if (v) out.push(v);
+    });
+    return out.length ? out : ['83,64,168','26,111,168','61,107,74'];
+  }
+  var INKS = inkPalette();
 
   /* A random walk with a slight drift, lightly smoothed, then normalised so
      every series fills the band regardless of which way it happened to wander. */
@@ -1771,6 +1935,10 @@
     clearTimeout(rt2); rt2=setTimeout(function(){
       resize(); layout(); if (reduce) paint(curve.length,1);
     }, 160);
+  });
+  addEventListener('themechange', function(){
+    INKS = inkPalette(); ink = INKS[ci % INKS.length];
+    if (reduce) paint(curve.length, 1);
   });
 })();
 </script>

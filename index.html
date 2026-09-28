@@ -251,11 +251,22 @@
       border-bottom: 1px solid var(--line);
       background: var(--hero-grad);
     }
-    .blob { position: absolute; border-radius: 50%; filter: blur(90px); pointer-events: none;
+    /* These were blurred circles. filter: blur() promotes an element to its own
+       compositing layer, and these layers are both clipped by the hero's
+       overflow:hidden and moved by the pointer parallax. Safari draws a moving,
+       clipped blur layer over a dark gradient with a visible rectangular seam.
+       A radial gradient produces the same soft falloff, paints in the parent's
+       layer, and costs nothing — three 90px blurs on 600px boxes was also the
+       most expensive thing on the page. Sizes are up ~40% because a blur spreads
+       well beyond its box and a gradient does not. */
+    .blob { position: absolute; pointer-events: none;
       transition: transform 0.5s cubic-bezier(0.2,0.8,0.2,1); }
-    .b1 { width: 620px; height: 620px; background: var(--lav);   top: -150px; right: -100px; opacity: 0.6; }
-    .b2 { width: 420px; height: 420px; background: var(--sky);   bottom: 5%;  left: -80px;  opacity: 0.55; }
-    .b3 { width: 360px; height: 360px; background: var(--blob-3);      bottom: 18%; right: 8%;    opacity: 0.5; }
+    .b1 { width: 880px; height: 880px; top: -280px; right: -220px; opacity: 0.6;
+      background: radial-gradient(closest-side circle, var(--lav) 0%, transparent 100%); }
+    .b2 { width: 600px; height: 600px; bottom: -40px; left: -170px; opacity: 0.55;
+      background: radial-gradient(closest-side circle, var(--sky) 0%, transparent 100%); }
+    .b3 { width: 520px; height: 520px; bottom: 12%; right: 4%; opacity: 0.5;
+      background: radial-gradient(closest-side circle, var(--blob-3) 0%, transparent 100%); }
 
     /* Rotating 3D point cloud behind the hero — a data cloud, not a mesh.
        Sits under .hero-top (z-index 1) and never takes the pointer. */

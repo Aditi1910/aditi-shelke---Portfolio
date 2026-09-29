@@ -301,14 +301,6 @@
       .hr-caret{ animation:none; opacity:1; }
       .read-progress{ transition:none; }
     }
-    .hero-tagline {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1.15rem, 2vw, 1.6rem);
-      font-weight: 400; font-style: italic;
-      color: var(--text-2); margin-top: 1rem; max-width: 620px; line-height: 1.6;
-      animation: up 0.8s 0.2s ease both;
-    }
-    .hero-tagline b { font-weight: 600; font-style: normal; color: var(--lav-d); }
     .hero-links { display: flex; gap: 1.2rem; margin-top: 2rem; flex-wrap: wrap;
       animation: up 0.8s 0.28s ease both; }
     .btn-primary {
@@ -649,8 +641,7 @@
     /* Hero text fades in via CSS animation with fill-mode:both, which holds it at opacity 0
        until the animation actually runs. In a background tab animations are frozen, so this
        class is force-applied on a timer to guarantee the hero can never stay invisible. */
-    body.anim-safe .hero-name,
-    body.anim-safe .hero-tagline, body.anim-safe .hero-links {
+    body.anim-safe .hero-name, body.anim-safe .hero-links {
       animation: none !important; opacity: 1 !important; transform: none !important;
     }
 
@@ -745,7 +736,6 @@
       section { padding: 3rem 1.2rem; }
       #strengths { padding: 2.5rem 1.2rem; }
       #contact { padding: 3.5rem 1.2rem; }
-      .hero-tagline { font-size: 1.05rem; }
       nav { padding: 0.9rem 1.2rem; }
       /* keep the availability chip on one line at narrow widths */
       /* equal-width stacked buttons instead of two ragged ones */
@@ -846,10 +836,6 @@
         <h1 class="hero-name" id="hero-name-3d" style="transition:transform 0.2s ease;transform-style:preserve-3d;">
           Aditi Shelke
         </h1>
-        <p class="hero-tagline">
-          "Since <b>ATS bots</b> are going to reject my resume anyway, here is my actual portfolio. No buzzwords, <b>just data</b>."
-        </p>
-
         <div class="hero-links">
           <a href="#projects" class="btn-primary">See My Work</a>
           <a href="files/Aditi_Shelke_Resume.pdf" download="Aditi_Shelke_Resume.pdf" class="btn-outline">Resume ↓</a>

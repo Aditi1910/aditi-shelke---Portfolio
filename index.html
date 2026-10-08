@@ -282,42 +282,25 @@
     .hero-main { perspective: 900px; }
 
     /* ── HERO AVATAR ──
-       The clip is a small figure on a 240-grey plate with large margins, so the
-       frame crops to the figure (measured, not eyeballed: source 1280x720, the
-       figure occupies x324-734, y70-684) and blends the plate away.
+       The clip is a small figure on a flat plate with large margins. Rather than
+       blending the plate into the page — which only works on a light background
+       and broke in dark mode — each frame is keyed to real transparency on a
+       canvas, so the character sits on whatever is behind it.
 
-       The plate is not uniform: it samples 234-237 across the frame, so the
-       brightness lift is set against the darkest reading (255/234). Anything
-       less leaves the plate below 255, multiply then darkens the page beneath
-       it, and the result is a faint rectangle around the video. Lifted past
-       white, multiply is a no-op on the backdrop and only the figure paints. */
+       The key is distance from the plate colour, not brightness. The plate is a
+       tight neutral band (234-237, R=G=B) while the white trainers measure
+       (250,246,244): brighter AND warmer. A brightness threshold deletes the
+       shoes; a colour-distance threshold keeps them. */
     .hero-avatar { justify-self: end; display: flex; flex-direction: column;
       align-items: center; gap: 0.9rem; }
-    .avatar-frame {
-      position: relative; width: 300px; aspect-ratio: 460 / 650;
-      overflow: hidden; border-radius: 20px;
-      /* .hero-top sets position:relative + z-index, which makes it a stacking
-         context — so a blend here composites against that, not against the
-         hero gradient two levels up, and the plate just stays white. Instead
-         the frame carries its own copy of the gradient (sampled from the page
-         behind it: 233-240 / 231-243 / 248-251) and the video multiplies onto
-         that. Re-sample these two stops if --hero-grad ever changes. */
-      background: linear-gradient(160deg, #ece9f8 0%, #eff2fb 100%);
+    .avatar-frame { position: relative; width: 300px; aspect-ratio: 460 / 650; }
+    /* The source element stays in the layout at 1px rather than display:none,
+       because a display:none video is not guaranteed to keep decoding. */
+    .avatar-src {
+      position: absolute; width: 1px; height: 1px; opacity: 0;
+      pointer-events: none; left: 0; top: 0;
     }
-    .avatar-vid {
-      position: absolute; width: 278.26%; left: -65.22%; top: -7.69%;
-      filter: brightness(1.095);
-      mix-blend-mode: multiply;
-    }
-    /* Multiply needs something light to multiply against. In dark mode the hero
-       is near-black, which would swallow the figure, so the frame supplies its
-       own light plate and reads as a deliberate portrait panel. */
-    html[data-theme="dark"] .avatar-frame {
-      /* In dark mode there is no gradient to disappear into, so the panel is
-         simply lit and reads as a deliberate portrait frame. */
-      background: linear-gradient(170deg, #f4f2ec 0%, #e8e5f3 100%);
-      box-shadow: 0 18px 50px rgba(0,0,0,.45);
-    }
+    .avatar-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
     .avatar-sound {
       display: inline-flex; align-items: center; gap: .45rem;
       padding: .42rem .85rem; border-radius: 99px; cursor: pointer;
@@ -901,10 +884,12 @@
 
       <div class="hero-avatar" id="heroAvatar">
         <div class="avatar-frame">
-          <video id="avatarVid" class="avatar-vid"
+          <video id="avatarVid" class="avatar-src"
                  src="files/aditi_avatar.mp4"
-                 autoplay muted loop playsinline preload="metadata"
-                 aria-label="Animated introduction"></video>
+                 autoplay muted loop playsinline preload="auto"
+                 aria-hidden="true"></video>
+          <canvas id="avatarCanvas" class="avatar-canvas"
+                  role="img" aria-label="Animated introduction"></canvas>
         </div>
         <button class="avatar-sound" id="avatarSound" type="button"
                 aria-pressed="false" aria-label="Turn sound on">
@@ -1591,6 +1576,69 @@
        toggle is the whole point rather than a nicety. */
     var vid = document.getElementById('avatarVid');
     var snd = document.getElementById('avatarSound');
+
+    /* ── Avatar background key ──
+       Draws the cropped frame to a canvas and clears the plate to transparent.
+       Measured values: plate 234-237 and neutral; the white trainers are
+       (250,246,244) — max channel distance 14 from the plate, so a cut-off of
+       12 keeps them while the plate (distance <= 3) goes. The band between is a
+       ramp, which is what keeps the figure's antialiased edge from jaggies. */
+    var cvs = document.getElementById('avatarCanvas');
+    if (vid && cvs && cvs.getContext) {
+      var cx = cvs.getContext('2d', { willReadFrequently: true });
+      var SX = 300, SY = 50, SW = 460, SH = 650;     /* measured crop window */
+      var PLATE = 236, SOFT = 8, HARD = 14;
+      /* The plate is not flat — it carries a soft vignette, so one PLATE value
+         mis-keys the corners and leaves a light haze. Anything neutral and in
+         the shadow's luminance range is treated as background too; the cut-off
+         at 243 is what spares the specular white of the trainers, measured at
+         247 against a shadow that tops out around 238. */
+      var NEUTRAL = 7, SHADOW_LO = 170, SHADOW_HI = 243;
+      var W = 300, H = Math.round(W * SH / SW);
+      cvs.width = W; cvs.height = H;
+
+      function keyFrame(){
+        if (vid.readyState >= 2) {
+          cx.clearRect(0, 0, W, H);
+          cx.drawImage(vid, SX, SY, SW, SH, 0, 0, W, H);
+          var img = cx.getImageData(0, 0, W, H), d = img.data;
+          for (var i = 0; i < d.length; i += 4) {
+            var dr = d[i] - PLATE, dg = d[i+1] - PLATE, db = d[i+2] - PLATE;
+            if (dr < 0) dr = -dr; if (dg < 0) dg = -dg; if (db < 0) db = -db;
+            var dist = dr > dg ? (dr > db ? dr : db) : (dg > db ? dg : db);
+            var r = d[i], g = d[i+1], b = d[i+2];
+            var mx = r > g ? (r > b ? r : b) : (g > b ? g : b);
+            var mn = r < g ? (r < b ? r : b) : (g < b ? g : b);
+            var lum = 0.2126*r + 0.7152*g + 0.0722*b;
+            if (dist <= SOFT) d[i+3] = 0;
+            else if (mx - mn <= NEUTRAL && lum >= SHADOW_LO && lum < SHADOW_HI) d[i+3] = 0;
+            else if (dist < HARD) d[i+3] = ((dist - SOFT) * 255 / (HARD - SOFT))|0;
+          }
+          cx.putImageData(img, 0, 0);
+        }
+      }
+
+      var araf = null;
+      function keyLoop(){ keyFrame(); araf = requestAnimationFrame(keyLoop); }
+      function keyStart(){ if (!araf) keyLoop(); }
+      function keyStop(){ if (araf) cancelAnimationFrame(araf); araf = null; }
+
+      vid.addEventListener('loadeddata', function(){
+        if (reduce) { vid.pause(); keyFrame(); } else { keyStart(); }
+      });
+      /* Keying every frame is real work, so it only runs while the hero is on
+         screen and the tab is in front. */
+      document.addEventListener('visibilitychange', function(){
+        if (document.hidden) keyStop(); else if (!reduce) keyStart();
+      });
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function(es){
+          if (reduce) return;
+          es[0].isIntersecting ? keyStart() : keyStop();
+        }, { threshold: 0.02 }).observe(cvs);
+      }
+    }
+
     if (vid && snd) {
       if (reduce) { vid.removeAttribute('autoplay'); vid.pause(); }
       snd.addEventListener('click', function(){
@@ -1812,8 +1860,8 @@
     ctx.clearRect(0,0,W,H);
     var cyw=Math.cos(yaw), syw=Math.sin(yaw);
     var cpt=Math.cos(pitch), spt=Math.sin(pitch);
-    var scale = Math.min(W,H)*0.58, DIST = 3.2;
-    var cx = W*0.68, cy = H*0.46;        /* offset right, clear of the text */
+    var scale = Math.min(W,H)*0.72, DIST = 3.2;
+    var cx = W*0.70, cy = H*0.46;        /* carries across into the avatar */
     var out = [];
     for (var i=0;i<pts.length;i++){
       var p=pts[i];

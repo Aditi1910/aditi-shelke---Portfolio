@@ -274,11 +274,68 @@
       z-index:0; pointer-events:none; opacity:.62; }
     @media (max-width:700px){ #heroCloud{ opacity:.42; } }
     .hero-top {
-      display: flex; flex-direction: column; justify-content: center;
-      padding-top: 5rem; max-width: 900px;
+      display: grid; grid-template-columns: minmax(0,1fr) auto;
+      align-items: center; gap: 3rem; align-content: center;
+      padding-top: 5rem; max-width: 1240px; width: 100%;
       position: relative; z-index: 1;
     }
     .hero-main { perspective: 900px; }
+
+    /* ── HERO AVATAR ──
+       The clip is a small figure on a 240-grey plate with large margins, so the
+       frame crops to the figure (measured, not eyeballed: source 1280x720, the
+       figure occupies x324-734, y70-684) and blends the plate away.
+
+       The plate is not uniform: it samples 234-237 across the frame, so the
+       brightness lift is set against the darkest reading (255/234). Anything
+       less leaves the plate below 255, multiply then darkens the page beneath
+       it, and the result is a faint rectangle around the video. Lifted past
+       white, multiply is a no-op on the backdrop and only the figure paints. */
+    .hero-avatar { justify-self: end; display: flex; flex-direction: column;
+      align-items: center; gap: 0.9rem; }
+    .avatar-frame {
+      position: relative; width: 300px; aspect-ratio: 460 / 650;
+      overflow: hidden; border-radius: 20px;
+      /* .hero-top sets position:relative + z-index, which makes it a stacking
+         context — so a blend here composites against that, not against the
+         hero gradient two levels up, and the plate just stays white. Instead
+         the frame carries its own copy of the gradient (sampled from the page
+         behind it: 233-240 / 231-243 / 248-251) and the video multiplies onto
+         that. Re-sample these two stops if --hero-grad ever changes. */
+      background: linear-gradient(160deg, #ece9f8 0%, #eff2fb 100%);
+    }
+    .avatar-vid {
+      position: absolute; width: 278.26%; left: -65.22%; top: -7.69%;
+      filter: brightness(1.095);
+      mix-blend-mode: multiply;
+    }
+    /* Multiply needs something light to multiply against. In dark mode the hero
+       is near-black, which would swallow the figure, so the frame supplies its
+       own light plate and reads as a deliberate portrait panel. */
+    html[data-theme="dark"] .avatar-frame {
+      /* In dark mode there is no gradient to disappear into, so the panel is
+         simply lit and reads as a deliberate portrait frame. */
+      background: linear-gradient(170deg, #f4f2ec 0%, #e8e5f3 100%);
+      box-shadow: 0 18px 50px rgba(0,0,0,.45);
+    }
+    .avatar-sound {
+      display: inline-flex; align-items: center; gap: .45rem;
+      padding: .42rem .85rem; border-radius: 99px; cursor: pointer;
+      border: 1px solid var(--line); background: var(--glass-2); color: var(--muted);
+      font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
+      letter-spacing: .12em; text-transform: uppercase;
+      transition: color .2s, border-color .2s, transform .2s;
+    }
+    .avatar-sound:hover { color: var(--ink); border-color: var(--lav-d);
+      transform: translateY(-1px); }
+    .avatar-sound[aria-pressed="true"] { color: var(--lav-d); border-color: var(--lav-d); }
+    .avatar-sound:focus-visible { outline: 2px solid var(--lav-d); outline-offset: 2px; }
+    @media (max-width: 1080px) {
+      .hero-avatar { justify-self: start; }
+      .avatar-frame { width: 220px; }
+    }
+    @media (max-width: 600px) { .hero-avatar { display: none; } }
+    }
     .hero-dot {
       width: 8px; height: 8px; border-radius: 50%; background: var(--sage-d);
       animation: pulse 2s infinite; flex-shrink: 0;
@@ -840,6 +897,20 @@
           <a href="#projects" class="btn-primary">See My Work</a>
           <a href="files/Aditi_Shelke_Resume.pdf" download="Aditi_Shelke_Resume.pdf" class="btn-outline">Resume ↓</a>
         </div>
+      </div>
+
+      <div class="hero-avatar" id="heroAvatar">
+        <div class="avatar-frame">
+          <video id="avatarVid" class="avatar-vid"
+                 src="files/aditi_avatar.mp4"
+                 autoplay muted loop playsinline preload="metadata"
+                 aria-label="Animated introduction"></video>
+        </div>
+        <button class="avatar-sound" id="avatarSound" type="button"
+                aria-pressed="false" aria-label="Turn sound on">
+          <span class="avatar-sound-ico" aria-hidden="true">♪</span>
+          <span class="avatar-sound-txt">Sound on</span>
+        </button>
       </div>
 
     </div>
@@ -1511,6 +1582,24 @@
       hero.addEventListener('mouseleave', function(){
         if (name3d) name3d.style.transform = 'rotateY(0) rotateX(0)';
         blobs.forEach(function(b){ b.style.transform = 'translate(0,0)'; });
+      });
+    }
+
+    /* ── Hero avatar sound ──
+       The clip autoplays muted because browsers block audible autoplay outright;
+       a muted "speaking" video is pointless without a way to hear it, so the
+       toggle is the whole point rather than a nicety. */
+    var vid = document.getElementById('avatarVid');
+    var snd = document.getElementById('avatarSound');
+    if (vid && snd) {
+      if (reduce) { vid.removeAttribute('autoplay'); vid.pause(); }
+      snd.addEventListener('click', function(){
+        vid.muted = !vid.muted;
+        if (!vid.muted) { vid.currentTime = 0; vid.play().catch(function(){}); }
+        snd.setAttribute('aria-pressed', String(!vid.muted));
+        snd.setAttribute('aria-label', vid.muted ? 'Turn sound on' : 'Turn sound off');
+        snd.querySelector('.avatar-sound-txt').textContent =
+          vid.muted ? 'Sound on' : 'Sound off';
       });
     }
 

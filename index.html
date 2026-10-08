@@ -270,9 +270,17 @@
 
     /* Rotating 3D point cloud behind the hero — a data cloud, not a mesh.
        Sits under .hero-top (z-index 1) and never takes the pointer. */
-    #heroCloud { position:absolute; inset:0; width:100%; height:100%;
-      z-index:0; pointer-events:none; opacity:.62; }
-    @media (max-width:700px){ #heroCloud{ opacity:.42; } }
+    #heroCloud, #heroCloudFront {
+      position:absolute; inset:0; width:100%; height:100%;
+      pointer-events:none; opacity:.62;
+    }
+    #heroCloud { z-index:0; }
+    /* The near half of the cloud draws above .hero-top (z-index 1) so points
+       genuinely pass in front of the avatar. That is what the depth sort was
+       already describing, and it doubles as cover for the keyed edge around
+       her hair, which a flat colour key can never make perfectly clean. */
+    #heroCloudFront { z-index:2; }
+    @media (max-width:700px){ #heroCloud, #heroCloudFront { opacity:.42; } }
     .hero-top {
       display: grid; grid-template-columns: minmax(0,1fr) auto;
       align-items: center; gap: 3rem; align-content: center;
@@ -793,7 +801,7 @@
         transition-duration:0.001ms !important; scroll-behavior:auto !important;
       }
       #hero-name-3d, .blob { transform:none !important; }
-      #heroCloud { opacity:.34 !important; }
+      #heroCloud, #heroCloudFront { opacity:.34 !important; }
       .reveal { opacity: 1 !important; transform: none !important; }
     }
   
@@ -870,6 +878,7 @@
     <div class="blob b2"></div>
     <div class="blob b3"></div>
     <canvas id="heroCloud" aria-hidden="true"></canvas>
+    <canvas id="heroCloudFront" aria-hidden="true"></canvas>
 
     <div class="hero-top">
       <div class="hero-main">
@@ -1800,8 +1809,10 @@
 
 (function heroCloud(){
   var cv = document.getElementById('heroCloud');
+  var cvF = document.getElementById('heroCloudFront');
   if (!cv || !cv.getContext) return;
   var ctx = cv.getContext('2d');
+  var ctxF = cvF && cvF.getContext ? cvF.getContext('2d') : null;
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* seeded so the cloud is the same shape on every visit */
@@ -1848,6 +1859,10 @@
     W = Math.max(1, r.width); H = Math.max(1, r.height);
     cv.width = Math.round(W*dpr); cv.height = Math.round(H*dpr);
     ctx.setTransform(dpr,0,0,dpr,0,0);
+    if (ctxF){
+      cvF.width = cv.width; cvF.height = cv.height;
+      ctxF.setTransform(dpr,0,0,dpr,0,0);
+    }
   }
 
   /* Rotation is a slow autonomous drift plus a pointer-driven offset, held
@@ -1856,12 +1871,21 @@
      mouseleave, so the drift is what remains when nobody is pointing. */
   var spin = 0.4, yawOff = 0, pitch = 0.22, tgtYaw = 0, tgtPitch = 0;
   var yaw = spin;
+  /* Where the avatar sits in the cloud's depth range. Points closer than this
+     paint on the front canvas, the rest behind. */
+  var AVATAR_Z = 3.15;
   function frame(){
     ctx.clearRect(0,0,W,H);
+    if (ctxF) ctxF.clearRect(0,0,W,H);
     var cyw=Math.cos(yaw), syw=Math.sin(yaw);
     var cpt=Math.cos(pitch), spt=Math.sin(pitch);
-    var scale = Math.min(W,H)*0.72, DIST = 3.2;
-    var cx = W*0.70, cy = H*0.46;        /* carries across into the avatar */
+    var scale = Math.min(W,H)*0.92, DIST = 3.2;
+    /* Stretched on x only. Reaching the avatar by moving the centre would park
+       the cloud on the right; widening it uniformly would also make it tall
+       enough to collide with the name. Stretching horizontally keeps it
+       centred and still carries it across her. */
+    var XSTRETCH = 1.55;
+    var cx = W*0.58, cy = H*0.46;
     var out = [];
     for (var i=0;i<pts.length;i++){
       var p=pts[i];
@@ -1871,18 +1895,20 @@
       var Zc = p.y*spt + Z*cpt + DIST;
       if (Zc < 0.25) continue;
       var k = scale/Zc;
-      out.push({sx:cx+X*k, sy:cy-Y*k, d:Zc, r:p.r, c:COLORS[p.ci % COLORS.length]});
+      out.push({sx:cx+X*k*XSTRETCH, sy:cy-Y*k, d:Zc, r:p.r, c:COLORS[p.ci % COLORS.length]});
     }
     out.sort(function(a,b){ return b.d-a.d; });      /* far first */
     for (var j=0;j<out.length;j++){
       var o=out[j];
       var depth = Math.max(0, Math.min(1, (4.6-o.d)/2.8));
       var rad = o.r*(0.45+depth*1.25);
-      ctx.globalAlpha = 0.10 + depth*0.42;
-      ctx.fillStyle = 'rgb('+o.c+')';
-      ctx.beginPath(); ctx.arc(o.sx,o.sy,rad,0,6.283); ctx.fill();
+      var g = (ctxF && o.d < AVATAR_Z) ? ctxF : ctx;
+      g.globalAlpha = 0.10 + depth*0.42;
+      g.fillStyle = 'rgb('+o.c+')';
+      g.beginPath(); g.arc(o.sx,o.sy,rad,0,6.283); g.fill();
     }
     ctx.globalAlpha = 1;
+    if (ctxF) ctxF.globalAlpha = 1;
   }
 
   var running=false, raf=null;

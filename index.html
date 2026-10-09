@@ -127,7 +127,20 @@
       --glass-4: rgba(255,255,255,0.100);
       --muted-2: #b3afa4;
       --nav-bg:  rgba(19,18,16,0.94);
-      --hero-grad: linear-gradient(155deg, #1a1630 0%, #131210 44%, #10202c 100%);
+      /* Layered rather than a single sweep. The avatar is keyed out, so with a
+         flat backdrop she reads as pasted onto the page. The warm pool sits
+         where she stands and the floor glow under her feet replaces the ground
+         shadow the key removed — together they light her from the page instead
+         of leaving her floating. Warm, because her own lighting is warm; a cool
+         wash behind her made the cut-out edge more obvious, not less. */
+      --hero-grad:
+        radial-gradient(ellipse 34% 26% at 88% 78%,
+          rgba(228,198,156,0.10) 0%, rgba(228,198,156,0) 70%),
+        radial-gradient(ellipse 40% 56% at 88% 46%,
+          rgba(232,205,168,0.11) 0%, rgba(232,205,168,0.04) 45%, rgba(232,205,168,0) 74%),
+        radial-gradient(ellipse 66% 58% at 16% 26%,
+          rgba(124,104,206,0.16) 0%, rgba(124,104,206,0) 66%),
+        linear-gradient(155deg, #1a1631 0%, #141210 46%, #18191f 100%);
 
       --viz-1: 171,157,247;
       --viz-2: 110,194,242;
